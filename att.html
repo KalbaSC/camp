@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>تسجيل حضور المخيم الصيفي</title>
-  <script src="https://cdn.jsdelivr.net/npm/html5-qrcode"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; background: #fff8dc; }
     input, button { margin: 5px 0; padding: 10px; width: 100%; font-size: 16px; }
@@ -44,19 +44,18 @@
 
   function registerChild() {
     let name = document.getElementById("childName").value.trim();
-    if (!name) return alert("الرجاء إدخال اسم الطفل");
+    if (!name) return alert("Please enter the child’s name");
 
     let id = generateID(name);
     children[id] = { name: name };
     localStorage.setItem("camp_children", JSON.stringify(children));
 
-    // توليد رمز QR
     document.getElementById("qrCode").innerHTML = "";
     QRCode.toCanvas(document.createElement("canvas"), id, function (error, canvas) {
       if (error) console.error(error);
       document.getElementById("qrCode").appendChild(canvas);
       let label = document.createElement("div");
-      label.innerText = `🔖 اسم: ${name} - كود: ${id}`;
+      label.innerText = `🔖 Name: ${name} - ID: ${id}`;
       document.getElementById("qrCode").appendChild(label);
     });
   }
@@ -78,33 +77,31 @@
     for (let id in log) {
       content += `✅ ${children[id]?.name || id} - ${log[id]}<br>`;
     }
-    document.getElementById("logBox").innerHTML = content || "لا يوجد حضور حتى الآن.";
+    document.getElementById("logBox").innerHTML = content || "No check-ins yet.";
   }
 
-  // إعداد الماسح
-  let scanner = new Html5Qrcode("reader");
-  scanner.start(
-    { facingMode: "environment" },
-    { fps: 10, qrbox: 200 },
-    (decodedText) => {
-      if (children[decodedText]) {
-        document.getElementById("scanResult").innerText = `✅ تم تسجيل حضور ${children[decodedText].name}`;
-        logAttendance(decodedText);
-      } else {
-        document.getElementById("scanResult").innerText = "❌ رمز غير معروف";
-      }
-    },
-    (error) => {}
-  ).catch(err => {
-    document.getElementById("reader").innerText = "تعذر تشغيل الكاميرا: " + err;
-  });
+  // Wait for DOM and libraries to load
+  window.onload = () => {
+    let scanner = new Html5Qrcode("reader");
+    scanner.start(
+      { facingMode: "environment" },
+      { fps: 10, qrbox: 200 },
+      (decodedText) => {
+        if (children[decodedText]) {
+          document.getElementById("scanResult").innerText = `✅ Checked in: ${children[decodedText].name}`;
+          logAttendance(decodedText);
+        } else {
+          document.getElementById("scanResult").innerText = "❌ Unknown QR code";
+        }
+      },
+      (error) => {}
+    ).catch(err => {
+      document.getElementById("reader").innerText = "Camera error: " + err;
+    });
 
-  updateLog();
+    updateLog();
+  };
 </script>
-  <!-- QR Scanner Script (correct version) -->
-<script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
-</body>
-</html>
 
 </body>
 </html>
