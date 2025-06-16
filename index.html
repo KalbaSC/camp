@@ -6,14 +6,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
+    @font-face {
+      font-family: 'NotoKufiArabic';
+      src: url('NotoKufiArabic.ttf') format('truetype');
+    }
     body {
-      font-family: 'Cairo', sans-serif;
+      font-family: 'NotoKufiArabic', 'Cairo', sans-serif;
       background: url('black_and_yellow_grunge_background.jpg') no-repeat center center fixed;
       background-size: cover;
       color: white;
       margin: 0;
       padding: 0;
+    }
+    header, footer {
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      border-top: 3px solid #f4e733;
+      border-bottom: 3px solid #f4e733;
+    }
+    header img {
+      height: 60px;
+      vertical-align: middle;
+      margin: 0 10px;
+    }
+    .header-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .header-info {
+      text-align: center;
+    }
+    .header-info .title {
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .header-info .subtitle {
+      font-size: 14px;
+      color: #f4e733;
     }
     .container {
       max-width: 600px;
@@ -78,9 +114,29 @@
     #qrcode {
       margin-top: 10px;
     }
+    .social-icons {
+      margin-top: 15px;
+      text-align: center;
+    }
+    .social-icons a {
+      color: white;
+      margin: 0 8px;
+      font-size: 20px;
+    }
   </style>
 </head>
 <body>
+<header>
+  <div class="header-content">
+    <img src="Picture3.png" alt="شعار الشارقة">
+    <img src="logo.png" alt="شعار نادي كلباء">
+    <div class="header-info">
+      <div class="title">نادي كلباء الرياضي الثقافي</div>
+      <div class="subtitle">KALBA SPORTS & CULTURAL CLUB</div>
+    </div>
+  </div>
+</header>
+
 <div class="container">
   <h2>التسجيل في المخيم الصيفي</h2>
   <form id="campForm">
@@ -109,6 +165,17 @@
     </div>
   </div>
 </div>
+
+<footer>
+  <p>© 2025 نادي كلباء الرياضي الثقافي - جميع الحقوق محفوظة</p>
+  <div class="social-icons">
+    <a href="https://facebook.com/Kalbasc1" target="_blank"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://instagram.com/kalbasc" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://x.com/Kalba_sc" target="_blank"><i class="fab fa-twitter"></i></a>
+    <a href="https://youtube.com/@kalbasc" target="_blank"><i class="fab fa-youtube"></i></a>
+    <a href="https://tiktok.com/@kalbasc" target="_blank"><i class="fab fa-tiktok"></i></a>
+  </div>
+</footer>
 
 <script>
   document.getElementById('campForm').addEventListener('submit', function(e) {
