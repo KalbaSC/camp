@@ -14,7 +14,7 @@
     }
     body {
       font-family: 'NotoKufiArabic', 'Cairo', sans-serif;
-      background: url('black_and_yellow_grunge_background.jpg') no-repeat center center fixed;
+      background-color: black;
       background-size: cover;
       color: white;
       margin: 0;
@@ -93,19 +93,22 @@
       padding: 15px;
       border-radius: 12px;
       display: flex;
-      align-items: center;
-      gap: 20px;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
       border: 2px solid #f4e733;
     }
     .card img {
-      width: 100px;
-      height: 100px;
+      width: 120px;
+      height: 120px;
       object-fit: cover;
       border-radius: 8px;
       border: 2px solid #ccc;
     }
     .info {
       flex: 1;
+      padding-right: 10px;
+      min-width: 200px;
     }
     .info p {
       margin: 5px 0;
@@ -122,6 +125,18 @@
       color: white;
       margin: 0 8px;
       font-size: 20px;
+    }
+    .download-btn {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      background: #f4e733;
+      color: black;
+      padding: 10px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -151,18 +166,23 @@
     <button type="submit">تسجيل وإنشاء البطاقة</button>
   </form>
 
-  <div class="card" id="card" style="display:none">
-    <img id="cardPhoto">
-    <div class="info">
-      <p id="cardName"></p>
-      <p id="cardAge"></p>
-      <p id="cardParent"></p>
-      <p id="cardPhone"></p>
-      <p id="cardEmail"></p>
-      <p id="cardAlt"></p>
-      <p id="cardID"></p>
-      <div id="qrcode"></div>
+<div class="card" id="card" style="display:none">
+  <img id="cardPhoto">
+  <div class="info">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="Picture3.png" alt="شعار الشارقة" style="height: 40px;">
+      <img src="logo.png" alt="شعار نادي كلباء" style="height: 40px;">
     </div>
+    <p style="font-weight: bold; margin-top: 5px;">نادي كلباء الرياضي الثقافي<br><span style="color: #f4e733; font-size: 14px;">KALBA SPORTS & CULTURAL CLUB</span></p>
+    <p id="cardName"></p>
+    <p id="cardAge"></p>
+    <p id="cardParent"></p>
+    <p id="cardPhone"></p>
+    <p id="cardEmail"></p>
+    <p id="cardAlt"></p>
+    <p id="cardID"></p>
+    <div id="qrcode"></div>
+    <button class="download-btn" onclick="downloadCard()">تحميل البطاقة</button>
   </div>
 </div>
 
@@ -212,6 +232,15 @@
     };
     reader.readAsDataURL(photoFile);
   });
+
+  function downloadCard() {
+    html2canvas(document.getElementById('card')).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'بطاقة_التسجيل.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  }
 </script>
 </body>
 </html>
