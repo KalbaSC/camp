@@ -13,12 +13,11 @@
       src: url('NotoKufiArabic.ttf') format('truetype');
     }
     body {
-      font-family: 'NotoKufiArabic', 'Cairo', sans-serif;
-      background-color: black;
-      background-size: cover;
-      color: white;
       margin: 0;
       padding: 0;
+      font-family: 'NotoKufiArabic', 'Cairo', sans-serif;
+      background: url('black_and_yellow_grunge_background.jpg') no-repeat center center fixed;
+      background-size: cover;
     }
     header, footer {
       background-color: #111;
@@ -87,8 +86,8 @@
       cursor: pointer;
     }
     .card {
-      background: white;
-      color: black;
+      background: #000;
+      color: white;
       margin-top: 20px;
       padding: 15px;
       border-radius: 12px;
@@ -129,7 +128,7 @@
     .download-btn {
       display: block;
       width: 100%;
-      margin-top: 10px;
+      margin: 20px auto;
       background: #f4e733;
       color: black;
       padding: 10px;
@@ -137,6 +136,25 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      max-width: 600px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .card-header img {
+      height: 40px;
+    }
+    .card-header .club-text {
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .card-header .club-text span {
+      color: #f4e733;
+      font-size: 12px;
     }
   </style>
 </head>
@@ -166,24 +184,26 @@
     <button type="submit">تسجيل وإنشاء البطاقة</button>
   </form>
 
-<div class="card" id="card" style="display:none">
-  <img id="cardPhoto">
-  <div class="info">
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <img src="Picture3.png" alt="شعار الشارقة" style="height: 40px;">
-      <img src="logo.png" alt="شعار نادي كلباء" style="height: 40px;">
+  <div class="card" id="card" style="display:none">
+    <img id="cardPhoto">
+    <div class="info">
+      <div class="card-header">
+        <img src="Picture3.png" alt="شعار الشارقة">
+        <img src="logo.png" alt="شعار نادي كلباء">
+        <div class="club-text">نادي كلباء الرياضي الثقافي<br><span>KALBA SPORTS & CULTURAL CLUB</span></div>
+      </div>
+      <p id="cardName"></p>
+      <p id="cardAge"></p>
+      <p id="cardParent"></p>
+      <p id="cardPhone"></p>
+      <p id="cardEmail"></p>
+      <p id="cardAlt"></p>
+      <p id="cardID"></p>
+      <div id="qrcode"></div>
     </div>
-    <p style="font-weight: bold; margin-top: 5px;">نادي كلباء الرياضي الثقافي<br><span style="color: #f4e733; font-size: 14px;">KALBA SPORTS & CULTURAL CLUB</span></p>
-    <p id="cardName"></p>
-    <p id="cardAge"></p>
-    <p id="cardParent"></p>
-    <p id="cardPhone"></p>
-    <p id="cardEmail"></p>
-    <p id="cardAlt"></p>
-    <p id="cardID"></p>
-    <div id="qrcode"></div>
-    <button class="download-btn" onclick="downloadCard()">تحميل البطاقة</button>
   </div>
+
+  <button class="download-btn" id="downloadBtn" style="display:none" onclick="downloadCard()">تحميل البطاقة</button>
 </div>
 
 <footer>
@@ -213,6 +233,7 @@
     reader.onload = function() {
       const photoURL = reader.result;
       document.getElementById('card').style.display = 'flex';
+      document.getElementById('downloadBtn').style.display = 'block';
       document.getElementById('cardPhoto').src = photoURL;
       document.getElementById('cardName').innerText = 'الاسم: ' + name;
       document.getElementById('cardAge').innerText = 'العمر: ' + age;
