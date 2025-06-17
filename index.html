@@ -209,9 +209,9 @@
 
 <div class="card" id="card" style="display:none; flex-direction: column; align-items: center;">
   <div class="header-right" style="background:#000; max-width:100%; padding:10px 20px; gap:15px; border-bottom: 1px solid #f4e733;">
-    <img src="Picture3.png" alt="شعار الشارقة" class="logo" style="height:50px; background:transparent; border:none; box-shadow:none;">
+    <img src="Picture3.png" alt="شعار الشارقة" class="logo" style="height:20px; background:transparent; border:none; box-shadow:none;">
     <div class="divider" style="height: 40px;"></div>
-    <img src="logo.png" alt="شعار نادي كلباء" class="logo" style="height:50px; background:transparent; border:none; box-shadow:none;">
+    <img src="logo.png" alt="شعار نادي كلباء" class="logo" style="height:20px; background:transparent; border:none; box-shadow:none;">
     <div class="header-info">
       <div class="arabic-name">نادي كلباء الرياضي الثقافي</div>
       <div class="english-name">KALBA SPORTS & CULTURAL CLUB</div>
@@ -230,8 +230,8 @@
   </div>
 
   <div style="margin-top: 15px; display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; color: white; font-size: 14px;">
-    <div style="display: flex; align-items: center; gap: 5px;"><i class="fas fa-phone"></i><span>+971092777873</span></div>
-    <div style="display: flex; align-items: center; gap: 5px;"><i class="fas fa-envelope"></i><span>info@ksc.shj.ae</span></div>
+    <div style="display: flex; align-items: left; gap: 5px;"><i class="fas fa-phone"></i><span>+971092777873</span></div>
+    <div style="display: flex; align-items: left; gap: 5px;"><i class="fas fa-envelope"></i><span>info@ksc.shj.ae</span></div>
   </div>
 </div>
 
@@ -313,6 +313,14 @@
     reader.readAsDataURL(photoFile);
   });
   
+   function downloadCard() {
+    html2canvas(document.getElementById('card')).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'بطاقة_التسجيل.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  }
  
 </script>
 
