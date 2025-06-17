@@ -194,51 +194,54 @@
   }
 
   @media (max-width: 768px) {
-    .header-right {
-      padding: 10px;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .header-info .arabic-name {
-      font-size: 16px;
-    }
-
-    .header-info .english-name {
-      font-size: 12px;
-    }
-
-    img.logo {
-      height: 50px !important;
-    }
-
-    .container {
-      width: 94%;
-      padding: 15px;
-    }
-
-    input {
-      font-size: 14px;
-    }
-
-    .card-body {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .card-body img#cardPhoto {
-      width: 100px;
-      height: 100px;
-    }
-
-    .card .info p {
-      text-align: center;
-      font-size: 14px;
-    }
+  .header-right {
+    padding: 10px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
   }
+
+  .header-info .arabic-name {
+    font-size: 16px;
+  }
+
+  .header-info .english-name {
+    font-size: 12px;
+  }
+
+  img.logo {
+    height: 50px !important;
+  }
+
+  .container {
+    width: 94%;
+    padding: 15px;
+  }
+
+  input {
+    font-size: 14px;
+  }
+
+  /* keep side-by-side layout on mobile */
+  .card-body {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    text-align: right;
+  }
+
+  .card .info p {
+    font-size: 14px;
+  }
+
+  .card-body img#cardPhoto {
+    width: 90px;
+    height: 90px;
+  }
+}
+
 </style>
 
 </head>
