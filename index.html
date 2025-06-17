@@ -10,273 +10,237 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
- <style>
-  @font-face {
-    font-family: 'NotoKufiArabic';
-    src: url('NotoKufiArabic.ttf') format('truetype');
-  }
+ 
+  <style>
+    @font-face {
+      font-family: 'NotoKufiArabic';
+      src: url('NotoKufiArabic.ttf') format('truetype');
+    }
+    html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'NotoKufiArabic', 'Cairo', sans-serif;
+      background: url('black_and_yellow_grunge_background.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
 
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    font-family: 'NotoKufiArabic', 'Cairo', sans-serif;
-    background: url('black_and_yellow_grunge_background.jpg') no-repeat center center fixed;
-    background-size: cover;
-  }
+    .header-container {
+      width: 100%;
+      background: #111;
+      border-bottom: 3px solid #f4e733;
+    }
+    .header-right {
+      width: 100%;
+      max-width: 1170px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px 42px;
+      background-color: #111;
+      color: white;
+      box-sizing: border-box;
+    }
+    .header-right img.logo {
+      height: 70px;
+    }
+    .divider {
+      width: 1.5px;
+      height: 65px;
+      background-color: #f4e733;
+    }
+    .header-info {
+      text-align: center;
+    }
+    .arabic-name {
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .english-name {
+      font-size: 14px;
+      color: #f4e733;
+    }
 
-  .header-container {
-    width: 100%;
-    background: #111;
-    border-bottom: 3px solid #f4e733;
-  }
+.container {
+  max-width: 600px;
+  background: #111;
+  border: 3px solid #f4e733;
+  padding: 20px 30px; 
+  margin: 40px auto;
+  border-radius: 15px;
+  color: white;
+  box-sizing: border-box; 
+}
 
-  .header-right {
-    max-width: 1170px;
-    margin: auto;
-    display: flex;
+    label {
+      display: block;
+      margin-top: 10px;
+      color: white;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 5px;
+    }
+  h2 {
+      text-align: center;
+      color: #f4e733;
+    }
+    button {
+      margin-top: 15px;
+      background: #f4e733;
+      color: black;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .card {
+      background: #000;
+      color: white;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      border: 2px solid #f4e733;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+    }
+
+    .info {
+      flex: 1;
+      padding-right: 10px;
+      min-width: 200px;
+    }
+
+    .info p {
+      margin: 5px 0;
+      font-size: 16px;
+      color: #f4e733;
+    }
+
+    #qrcode {
+      margin-top: 10px;
+    }
+
+    .download-btn {
+      display: none;
+      width: 100%;
+      margin: 20px auto;
+      background: #f4e733;
+      color: black;
+      padding: 10px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      max-width: 600px;
+    }
+
+    footer {
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      border-top: 3px solid #f4e733;
+      font-size: 14px;
+    }
+
+    .social-icons a {
+      color: white;
+      margin: 0 8px;
+      font-size: 20px;
+    }
+
+    @media (max-width: 768px) {
+     .header-right {
+         padding: 10px 16px;
+         flex-direction: row;
+         justify-content: space-between;
+         align-items: center;
+      }
+      .header-info {
+         display: none;
+      }
+      .header-right .divider {
+         height: 45px;
+         width: 1.5px;
+      }
+      .header-right {
+         flex: 1;
+         justify-content: center;
+      }
+      img.logo {
+         height: 50px !important;
+         max-height: 50px !important;
+      }
+.container {
+  width: 90%;
+  margin: 20px auto;
+  padding: 20px 20px; 
+  box-sizing: border-box;
+}
+
+  .card {
+    width: 95%;
+    padding: 10px;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 20px;
-    padding: 20px 42px;
-    background-color: #111;
-    color: white;
   }
 
-  .header-right img.logo {
-    height: 70px;
+  .card img,
+  #cardPhoto {
+    width: 100px !important;
+    height: 100px !important;
   }
 
-  .divider {
-    width: 1.5px;
-    height: 65px;
-    background-color: #f4e733;
-  }
-
-  .header-info {
+  .info {
     text-align: center;
+    padding: 0;
   }
 
-  .arabic-name {
-    font-weight: bold;
-    font-size: 20px;
-  }
-
-  .english-name {
+  .info p {
     font-size: 14px;
-    color: #f4e733;
-  }
-
-  .container {
-    max-width: 600px;
-    background: #111;
-    border: 3px solid #f4e733;
-    padding: 20px 30px;
-    margin: 40px auto;
-    border-radius: 15px;
-    color: white;
-  }
-
-  label {
-    display: block;
-    margin-top: 10px;
-    color: white;
-  }
-
-  input {
-    width: 100%;
-    padding: 8px;
-    border-radius: 8px;
-    border: none;
-    margin-top: 5px;
-    box-sizing: border-box;
   }
 
   h2 {
-    text-align: center;
-    color: #f4e733;
-  }
-
-  button {
-    margin-top: 15px;
-    background: #f4e733;
-    color: black;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-
-  .card {
-    background: #000;
-    color: white;
-    border: 2px solid #f4e733;
-    border-radius: 15px;
-    max-width: 600px;
-    margin: 30px auto;
-    overflow: hidden;
-  }
-
-  .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    background: #000;
-    padding: 8px;
-    border-bottom: 2px solid #f4e733;
-    flex-wrap: nowrap;
-    overflow: hidden;
-  } 
-   
-.card-header img.logo {
-  height: 50px;
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-}
-  .card-body {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
-    flex-wrap: wrap;
-  }
-
-  .card-body img#cardPhoto {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 3px solid #f4e733;
-    object-fit: cover;
-  }
-
-  .card .info {
-    flex: 1;
-    min-width: 200px;
-  }
-
-  .card .info p {
-    color: #f4e733;
-    font-size: 16px;
-    margin: 6px 0;
-    text-align: right;
-  }
-
-  #qrcode {
-    width: 140px;
-    height: 140px;
-  }
-
-  .download-btn {
-    display: none;
-    width: 100%;
-    margin: 20px auto;
-    background: #f4e733;
-    color: black;
-    padding: 10px;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    max-width: 600px;
-  }
-
-  footer {
-    background-color: #111;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    border-top: 3px solid #f4e733;
-    font-size: 14px;
-  }
-
-  .social-icons a {
-    color: white;
-    margin: 0 8px;
-    font-size: 20px;
-  }
-
-  @media (max-width: 768px) {
-  .header-right {
-    padding: 10px;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .header-info .arabic-name {
-    font-size: 16px;
-  }
-
-  .header-info .english-name {
-    font-size: 12px;
-  }
-
-  img.logo {
-    height: 50px !important;
-  }
-
-  .container {
-    width: 94%;
-    padding: 15px;
-  }
-
-  input {
-    font-size: 14px;
-  }
-    
-.card-header {
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-  gap: 8px;
-}
-
-.card-header img.logo {
-  height: 40px;
-}
-    .card-header .arabic-name {
-  font-size: 14px;
-}
-
-.card-header .english-name {
-  font-size: 10px;
-}
-
-  .card-body {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 15px;
-    text-align: right;
-  }
-
-  .card .info p {
-    font-size: 14px;
-  }
-
-  .card-body img#cardPhoto {
-    width: 90px;
-    height: 90px;
-  }
-      footer {
-    padding: 15px 10px;
-  }
-
-  .social-icons a {
     font-size: 18px;
   }
+
+input {
+  max-width: 100%;
+  box-sizing: border-box;
 }
-
-</style>
-
+  button {
+    font-size: 14px;
+  }
+    }
+  </style>
 </head>
 <body>
 
@@ -307,40 +271,42 @@
   </form>
 </div>
 
-<div class="card" id="card" style="display:none;">
-  <div class="card-header">
-    <img src="Picture3.png" alt="شعار الشارقة" class="logo" />
-    <div class="divider"></div>
-    <img src="logo.png" alt="شعار نادي كلباء" class="logo" />
+<div class="card" id="card" style="display:none; flex-direction: column; align-items: center;">
+  <div class="header-right" style="background:#000; max-width:100%; padding:10px 20px; gap:15px; border-bottom: 1px solid #f4e733;">
+    <img src="Picture3.png" alt="شعار الشارقة" class="logo" style="height:50px; background:transparent; border:none; box-shadow:none; width:auto;">
+    <div class="divider" style="height: 40px;"></div>
+    <img src="logo.png" alt="شعار نادي كلباء" class="logo" style="height:50px; background:transparent; border:none; box-shadow:none; width:auto;">
     <div class="header-info">
       <div class="arabic-name">نادي كلباء الرياضي الثقافي</div>
       <div class="english-name">KALBA SPORTS & CULTURAL CLUB</div>
     </div>
   </div>
 
-  <div class="card-body">
-    <img id="cardPhoto" />
-    <div class="info">
-      <p id="cardName"></p>
-      <p id="cardAge"></p>
-      <p id="cardParent"></p>
-      <p id="cardPhone"></p>
-    </div>
-    <div id="qrcode"></div>
+<div style="display: flex; flex-direction: row; gap: 20px; justify-content: space-between; align-items: center; flex-wrap: wrap; width: 100%; margin-top: 15px;">
+  <img id="cardPhoto" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #f4e733;">
+
+  <div class="info" style="min-width: 200px; flex: 1;">
+    <p id="cardName"></p>
+    <p id="cardAge"></p>
+    <p id="cardParent"></p>
+    <p id="cardPhone"></p>
   </div>
 
-  <div style="margin-top: 15px; display: flex; justify-content: center; gap: 30px;">
-    <div style="display: flex; align-items: center; gap: 5px;" dir="ltr">
-      <i class="fas fa-phone"></i> 
-      <span>+971092777873</span>
-    </div>
-    <div style="display: flex; align-items: center; gap: 5px;" dir="ltr">
-      <i class="fas fa-envelope"></i> 
-      <span>info@ksc.shj.ae</span>
-    </div>
-  </div>
+  <div id="qrcode" style="width: 140px; height: 140px;"></div>
 </div>
 
+  <div style="margin-top: 15px; display: flex; justify-content: center; gap: 30px;">
+  <div style="display: flex; align-items: center; gap: 5px;" dir="ltr">
+    <i class="fas fa-phone"></i> 
+    <span>+971092777873</span>
+  </div>
+  <div style="display: flex; align-items: center; gap: 5px;" dir="ltr">
+    <i class="fas fa-envelope"></i> 
+    <span>info@ksc.shj.ae</span>
+  </div>
+</div>
+  
+</div>
 <button class="download-btn" id="downloadBtn" style="display:none" onclick="downloadCard()">تحميل البطاقة</button>
 
 <script>
