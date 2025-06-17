@@ -8,55 +8,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    @font-face {
-      font-family: 'NotoKufiArabic';
-      src: url('NotoKufiArabic.ttf') format('truetype');
-    }
     body {
       margin: 0;
       padding: 0;
       font-family: 'NotoKufiArabic', 'Cairo', sans-serif;
-      background: url('black_and_yellow_grunge_background.jpg') no-repeat center center fixed;
-      background-size: cover;
-    }
-    header, footer {
-      background-color: #111;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      border-top: 3px solid #f4e733;
-      border-bottom: 3px solid #f4e733;
-    }
-    header img {
-      height: 60px;
-      vertical-align: middle;
-      margin: 0 10px;
-    }
-    .header-content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .header-info {
-      text-align: center;
-    }
-    .header-info .title {
-      font-weight: bold;
-      font-size: 20px;
-    }
-    .header-info .subtitle {
-      font-size: 14px;
-      color: #f4e733;
+      background-color: black;
     }
     .container {
       max-width: 600px;
-      background: #111;
-      border: 3px solid #f4e733;
-      padding: 20px;
       margin: 40px auto;
+      background: #111;
+      padding: 20px;
+      border: 3px solid #f4e733;
       border-radius: 15px;
+      color: white;
     }
     h2 {
       text-align: center;
@@ -65,7 +30,6 @@
     label {
       display: block;
       margin-top: 10px;
-      color: white;
     }
     input {
       width: 100%;
@@ -86,89 +50,56 @@
       cursor: pointer;
     }
     .card {
-      background: #000;
+      display: none;
+      background: black;
       color: white;
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 12px;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      max-width: 700px;
+      margin: 30px auto;
       border: 2px solid #f4e733;
+      border-radius: 12px;
+      padding: 15px;
     }
-    .card img {
+    .card img#cardPhoto {
       width: 120px;
       height: 120px;
-      object-fit: cover;
-      border-radius: 8px;
+      border-radius: 12px;
       border: 2px solid #ccc;
-    }
-    .info {
-      flex: 1;
-      padding-right: 10px;
-      min-width: 200px;
+      margin: 10px;
     }
     .info p {
-      margin: 5px 0;
+      color: #f4e733;
       font-size: 16px;
-    }
-    #qrcode {
-      margin-top: 10px;
-    }
-    .social-icons {
-      margin-top: 15px;
-      text-align: center;
-    }
-    .social-icons a {
-      color: white;
-      margin: 0 8px;
-      font-size: 20px;
+      margin: 4px 0;
     }
     .download-btn {
-      display: block;
-      width: 100%;
-      margin: 20px auto;
+      display: none;
       background: #f4e733;
       color: black;
       padding: 10px;
+      margin: 20px auto;
+      width: 100%;
+      max-width: 600px;
+      border-radius: 8px;
       font-weight: bold;
       border: none;
-      border-radius: 8px;
       cursor: pointer;
-      max-width: 600px;
     }
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .card-header img {
-      height: 40px;
-    }
-    .card-header .club-text {
-      font-weight: bold;
+    footer {
+      text-align: center;
+      color: white;
+      padding: 20px;
+      border-top: 3px solid #f4e733;
+      background: #111;
       font-size: 14px;
-      line-height: 1.4;
     }
-    .card-header .club-text span {
-      color: #f4e733;
-      font-size: 12px;
+    .social-icons a {
+      color: white;
+      margin: 0 10px;
+      font-size: 18px;
     }
   </style>
 </head>
 <body>
-<header>
-  <div class="header-content">
-    <img src="Picture3.png" alt="شعار الشارقة">
-    <img src="logo.png" alt="شعار نادي كلباء">
-    <div class="header-info">
-      <div class="title">نادي كلباء الرياضي الثقافي</div>
-      <div class="subtitle">KALBA SPORTS & CULTURAL CLUB</div>
-    </div>
-  </div>
-</header>
 
 <div class="container">
   <h2>التسجيل في المخيم الصيفي</h2>
@@ -177,34 +108,31 @@
     <label>العمر: <input type="number" id="age" required></label>
     <label>اسم ولي الأمر: <input type="text" id="parent" required></label>
     <label>رقم الهاتف: <input type="tel" id="phone" required></label>
-    <label>البريد الإلكتروني: <input type="email" id="email"></label>
-    <label>رقم بديل: <input type="tel" id="altPhone"></label>
-    <label>رقم الهوية: <input type="text" id="idnum" required></label>
-    <label>الصورة الشخصية: <input type="file" id="photo" accept="image/*" required></label>
+    <label>البريد الإلكتروني: <input type="email" id="email" required></label>
+    <label>رقم بديل: <input type="tel" id="altPhone" required></label>
+    <label>رقم الهوية (ملف): <input type="file" id="idnum" accept=\"image/*,.pdf\" required></label>
+    <label>الصورة الشخصية: <input type="file" id="photo" accept=\"image/*\" required></label>
     <button type="submit">تسجيل وإنشاء البطاقة</button>
   </form>
+</div>
 
-  <div class="card" id="card" style="display:none">
-    <img id="cardPhoto">
-    <div class="info">
-      <div class="card-header">
-        <img src="Picture3.png" alt="شعار الشارقة">
-        <img src="logo.png" alt="شعار نادي كلباء">
-        <div class="club-text">نادي كلباء الرياضي الثقافي<br><span>KALBA SPORTS & CULTURAL CLUB</span></div>
-      </div>
+<div class="card" id="card">
+  <div style="text-align:center; margin-bottom:10px;">
+    <img src="header-banner.png" alt="نادي كلباء الرياضي الثقافي" style="width: 100%; max-height: 90px; object-fit: contain;">
+  </div>
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+    <div class="info" style="flex: 1; min-width: 240px; padding: 10px;">
       <p id="cardName"></p>
       <p id="cardAge"></p>
       <p id="cardParent"></p>
       <p id="cardPhone"></p>
-      <p id="cardEmail"></p>
-      <p id="cardAlt"></p>
-      <p id="cardID"></p>
-      <div id="qrcode"></div>
     </div>
+    <img id="cardPhoto">
   </div>
-
-  <button class="download-btn" id="downloadBtn" style="display:none" onclick="downloadCard()">تحميل البطاقة</button>
+  <div id="qrcode" style="margin-top: 10px;"></div>
 </div>
+
+<button class="download-btn" id="downloadBtn" onclick="downloadCard()">تحميل البطاقة</button>
 
 <footer>
   <p>© 2025 نادي كلباء الرياضي الثقافي - جميع الحقوق محفوظة</p>
@@ -220,30 +148,32 @@
 <script>
   document.getElementById('campForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    const name = document.getElementById('name').value;
-    const age = document.getElementById('age').value;
-    const parent = document.getElementById('parent').value;
-    const phone = document.getElementById('phone').value;
-    const email = document.getElementById('email').value;
-    const altPhone = document.getElementById('altPhone').value;
-    const idnum = document.getElementById('idnum').value;
+    const name = document.getElementById('name').value.trim();
+    const age = document.getElementById('age').value.trim();
+    const parent = document.getElementById('parent').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const altPhone = document.getElementById('altPhone').value.trim();
+    const idfile = document.getElementById('idnum').files[0];
     const photoFile = document.getElementById('photo').files[0];
+
+    if (!name || !age || !parent || !phone || !email || !altPhone || !idfile || !photoFile) {
+      alert('يرجى تعبئة جميع الحقول المطلوبة وتحميل الصور.');
+      return;
+    }
 
     const reader = new FileReader();
     reader.onload = function() {
       const photoURL = reader.result;
-      document.getElementById('card').style.display = 'flex';
+      document.getElementById('card').style.display = 'block';
       document.getElementById('downloadBtn').style.display = 'block';
       document.getElementById('cardPhoto').src = photoURL;
-      document.getElementById('cardName').innerText = 'الاسم: ' + name;
+      document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name;
       document.getElementById('cardAge').innerText = 'العمر: ' + age;
-      document.getElementById('cardParent').innerText = 'ولي الأمر: ' + parent;
-      document.getElementById('cardPhone').innerText = 'الهاتف: ' + phone;
-      document.getElementById('cardEmail').innerText = 'البريد: ' + email;
-      document.getElementById('cardAlt').innerText = 'بديل: ' + altPhone;
-      document.getElementById('cardID').innerText = 'الهوية: ' + idnum;
+      document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
+      document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
 
-      const qrData = { name, age, parent, phone, email, altPhone, idnum };
+      const qrData = { name, age, parent, phone, email, altPhone };
       document.getElementById('qrcode').innerHTML = '';
       new QRCode(document.getElementById('qrcode'), {
         text: JSON.stringify(qrData),
@@ -263,5 +193,6 @@
     });
   }
 </script>
+
 </body>
 </html>
