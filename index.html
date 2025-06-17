@@ -126,10 +126,18 @@
     justify-content: center;
     gap: 15px;
     background: #000;
-    padding: 15px;
+    padding: 8px;
     border-bottom: 2px solid #f4e733;
-  }
-
+    flex-wrap: nowrap;
+    overflow: hidden;
+  } 
+   
+.card-header img.logo {
+  height: 50px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
   .card-body {
     display: flex;
     justify-content: space-between;
@@ -222,8 +230,26 @@
   input {
     font-size: 14px;
   }
+    
+.card-header {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 8px;
+}
 
-  /* keep side-by-side layout on mobile */
+.card-header img.logo {
+  height: 40px;
+}
+    .card-header .arabic-name {
+  font-size: 14px;
+}
+
+.card-header .english-name {
+  font-size: 10px;
+}
+
   .card-body {
     flex-direction: row;
     align-items: center;
