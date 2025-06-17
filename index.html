@@ -8,29 +8,72 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
+    @font-face {
+      font-family: 'NotoKufiArabic';
+      src: url('NotoKufiArabic.ttf') format('truetype');
+    }
     body {
       margin: 0;
       padding: 0;
       font-family: 'NotoKufiArabic', 'Cairo', sans-serif;
-      background-color: black;
+      background: url('black_and_yellow_grunge_background.jpg') no-repeat center center fixed;
+      background-size: cover;
     }
+
+    .header-container {
+      width: 100%;
+      background: #111;
+      border-bottom: 3px solid #f4e733;
+    }
+    .header-right {
+      width: 100%;
+      max-width: 1170px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px 42px;
+      background-color: #111;
+      color: white;
+      box-sizing: border-box;
+    }
+    .header-right img.logo {
+      height: 70px;
+    }
+    .divider {
+      width: 1.5px;
+      height: 65px;
+      background-color: #f4e733;
+    }
+    .header-info {
+      text-align: center;
+    }
+    .arabic-name {
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .english-name {
+      font-size: 14px;
+      color: #f4e733;
+    }
+
     .container {
       max-width: 600px;
-      margin: 40px auto;
       background: #111;
-      padding: 20px;
       border: 3px solid #f4e733;
+      padding: 20px;
+      margin: 40px auto;
       border-radius: 15px;
       color: white;
     }
-    h2 {
-      text-align: center;
-      color: #f4e733;
-    }
+
     label {
       display: block;
       margin-top: 10px;
+      color: white;
     }
+
     input {
       width: 100%;
       padding: 8px;
@@ -38,6 +81,7 @@
       border: none;
       margin-top: 5px;
     }
+
     button {
       margin-top: 15px;
       background: #f4e733;
@@ -49,57 +93,104 @@
       border-radius: 8px;
       cursor: pointer;
     }
+
     .card {
-      display: none;
-      background: black;
+      background: #000;
       color: white;
-      max-width: 700px;
-      margin: 30px auto;
-      border: 2px solid #f4e733;
-      border-radius: 12px;
+      margin-top: 20px;
       padding: 15px;
+      border-radius: 12px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      border: 2px solid #f4e733;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .card img#cardPhoto {
+
+    .card img {
       width: 120px;
       height: 120px;
-      border-radius: 12px;
+      object-fit: cover;
+      border-radius: 8px;
       border: 2px solid #ccc;
-      margin: 10px;
     }
+
+    .info {
+      flex: 1;
+      padding-right: 10px;
+      min-width: 200px;
+    }
+
     .info p {
-      color: #f4e733;
+      margin: 5px 0;
       font-size: 16px;
-      margin: 4px 0;
+      color: #f4e733;
     }
+
+    #qrcode {
+      margin-top: 10px;
+    }
+
     .download-btn {
       display: none;
+      width: 100%;
+      margin: 20px auto;
       background: #f4e733;
       color: black;
       padding: 10px;
-      margin: 20px auto;
-      width: 100%;
-      max-width: 600px;
-      border-radius: 8px;
       font-weight: bold;
       border: none;
+      border-radius: 8px;
       cursor: pointer;
+      max-width: 600px;
     }
+
     footer {
-      text-align: center;
+      background-color: #111;
       color: white;
+      text-align: center;
       padding: 20px;
       border-top: 3px solid #f4e733;
-      background: #111;
       font-size: 14px;
     }
+
     .social-icons a {
       color: white;
-      margin: 0 10px;
-      font-size: 18px;
+      margin: 0 8px;
+      font-size: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .header-right {
+        flex-direction: column;
+        padding: 10px;
+      }
+      .header-info {
+        display: none;
+      }
+      img.logo {
+        height: 50px !important;
+        max-height: 50px !important;
+      }
     }
   </style>
 </head>
 <body>
+
+<header class="header-container">
+  <div class="header-right">
+    <img src="Picture3.png" alt="شعار الشارقة" class="logo">
+    <div class="divider"></div>
+    <img src="logo.png" alt="شعار نادي كلباء" class="logo">
+    <div class="header-info">
+      <div class="arabic-name">نادي كلباء الرياضي الثقافي</div>
+      <div class="english-name">KALBA SPORTS & CULTURAL CLUB</div>
+    </div>
+  </div>
+</header>
 
 <div class="container">
   <h2>التسجيل في المخيم الصيفي</h2>
@@ -110,26 +201,29 @@
     <label>رقم الهاتف: <input type="tel" id="phone" required></label>
     <label>البريد الإلكتروني: <input type="email" id="email" required></label>
     <label>رقم بديل: <input type="tel" id="altPhone" required></label>
-    <label>رقم الهوية (ملف): <input type="file" id="idnum" accept=\"image/*,.pdf\" required></label>
-    <label>الصورة الشخصية: <input type="file" id="photo" accept=\"image/*\" required></label>
+    <label> الهوية: <input type="file" id="idnum" accept="image/*,.pdf" required></label>
+    <label>الصورة الشخصية: <input type="file" id="photo" accept="image/*" required></label>
     <button type="submit">تسجيل وإنشاء البطاقة</button>
   </form>
 </div>
 
-<div class="card" id="card">
-  <div style="text-align:center; margin-bottom:10px;">
-    <img src="header-banner.png" alt="نادي كلباء الرياضي الثقافي" style="width: 100%; max-height: 90px; object-fit: contain;">
-  </div>
-  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-    <div class="info" style="flex: 1; min-width: 240px; padding: 10px;">
-      <p id="cardName"></p>
-      <p id="cardAge"></p>
-      <p id="cardParent"></p>
-      <p id="cardPhone"></p>
+<div class="card" id="card" style="display:none">
+  <img id="cardPhoto">
+  <div class="info">
+    <div class="card-header">
+      <img src="Picture3.png" alt="شعار الشارقة" style="height: 40px;">
+      <img src="logo.png" alt="شعار نادي كلباء" style="height: 40px;">
+      <div class="club-text">نادي كلباء الرياضي الثقافي<br><span style="color:#f4e733;">KALBA SPORTS & CULTURAL CLUB</span></div>
     </div>
-    <img id="cardPhoto">
+    <p id="cardName"></p>
+    <p id="cardAge"></p>
+    <p id="cardParent"></p>
+    <p id="cardPhone"></p>
+    <p id="cardEmail"></p>
+    <p id="cardAlt"></p>
+    <p id="cardID"></p>
+    <div id="qrcode"></div>
   </div>
-  <div id="qrcode" style="margin-top: 10px;"></div>
 </div>
 
 <button class="download-btn" id="downloadBtn" onclick="downloadCard()">تحميل البطاقة</button>
@@ -148,38 +242,67 @@
 <script>
   document.getElementById('campForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    const name = document.getElementById('name').value.trim();
-    const age = document.getElementById('age').value.trim();
-    const parent = document.getElementById('parent').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const altPhone = document.getElementById('altPhone').value.trim();
-    const idfile = document.getElementById('idnum').files[0];
+    const name = document.getElementById('name').value;
+    const age = document.getElementById('age').value;
+    const parent = document.getElementById('parent').value;
+    const phone = document.getElementById('phone').value;
+    const email = document.getElementById('email').value;
+    const altPhone = document.getElementById('altPhone').value;
+    const idnum = document.getElementById('idnum').files[0];
     const photoFile = document.getElementById('photo').files[0];
 
-    if (!name || !age || !parent || !phone || !email || !altPhone || !idfile || !photoFile) {
-      alert('يرجى تعبئة جميع الحقول المطلوبة وتحميل الصور.');
+    if (!name || !age || !parent || !phone || !email || !altPhone || !idnum || !photoFile) {
+      alert("يرجى تعبئة جميع الحقول وتحميل الملفات المطلوبة.");
       return;
     }
 
     const reader = new FileReader();
     reader.onload = function() {
       const photoURL = reader.result;
-      document.getElementById('card').style.display = 'block';
+      document.getElementById('card').style.display = 'flex';
       document.getElementById('downloadBtn').style.display = 'block';
       document.getElementById('cardPhoto').src = photoURL;
-      document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name;
+      document.getElementById('cardName').innerText = 'الاسم: ' + name;
       document.getElementById('cardAge').innerText = 'العمر: ' + age;
-      document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
-      document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
+      document.getElementById('cardParent').innerText = 'ولي الأمر: ' + parent;
+      document.getElementById('cardPhone').innerText = 'الهاتف: ' + phone;
+      document.getElementById('cardEmail').innerText = 'البريد: ' + email;
+      document.getElementById('cardAlt').innerText = 'بديل: ' + altPhone;
+      document.getElementById('cardID').innerText = 'الهوية: ' + idnum.name;
 
-      const qrData = { name, age, parent, phone, email, altPhone };
+      const qrData = { name, age, parent, phone, email, altPhone, id: idnum.name };
       document.getElementById('qrcode').innerHTML = '';
       new QRCode(document.getElementById('qrcode'), {
         text: JSON.stringify(qrData),
         width: 100,
         height: 100
       });
+
+      // Add photo to center of QR
+      setTimeout(() => {
+        const qr = document.getElementById("qrcode").querySelector("img");
+        const photo = new Image();
+        photo.src = photoURL;
+        photo.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = qr.width;
+          canvas.height = qr.height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(qr, 0, 0);
+
+          const size = qr.width * 0.3;
+          const x = (qr.width - size) / 2;
+          const y = (qr.height - size) / 2;
+
+          ctx.beginPath();
+          ctx.arc(qr.width / 2, qr.height / 2, size / 2, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.clip();
+          ctx.drawImage(photo, x, y, size, size);
+
+          qr.src = canvas.toDataURL();
+        };
+      }, 300);
     };
     reader.readAsDataURL(photoFile);
   });
