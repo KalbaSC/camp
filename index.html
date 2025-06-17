@@ -221,25 +221,32 @@
         font-size: 14px;
       }
 
-      .card {
-        flex-wrap: wrap;
-        justify-content: center;
-        text-align: center;
-        padding: 15px 10px;
-      }
+  .card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    text-align: right;
+    gap: 10px;
+    padding: 10px;
+  }
 
-      .card img,
-      #cardPhoto {
-        margin: 10px auto;
-      }
+  .info {
+    text-align: right;
+    padding: 0 10px;
+  }
 
-      .info {
-        padding: 0;
-      }
+  #cardPhoto {
+    width: 100px !important;
+    height: 100px !important;
+    flex-shrink: 0;
+  }
 
-      #qrcode {
-        margin: 10px auto 0;
-      }
+  #qrcode {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+  }
 
   footer {
     padding: 15px 10px;
