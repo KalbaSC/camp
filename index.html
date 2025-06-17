@@ -208,20 +208,32 @@
 </div>
 
 <div class="card" id="card" style="display:none; flex-direction: column; align-items: center;">
-  <img src="header-banner.png" alt="شعار النادي" style="max-width: 100%; margin-bottom: 15px; border-radius: 8px;">
-  <div style="display: flex; flex-direction: row; gap: 20px; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-    <div id="qrcode" style="width: 140px; height: 140px;"></div>
-    <div class="info" style="min-width: 240px; flex: 1;">
+  <div class="header-right" style="background:#000; max-width:100%; padding:10px 20px; gap:15px; border-bottom: 1px solid #f4e733;">
+    <img src="Picture3.png" alt="شعار الشارقة" class="logo" style="height:50px">
+    <div class="divider" style="height: 40px;"></div>
+    <img src="logo.png" alt="شعار نادي كلباء" class="logo" style="height:50px">
+    <div class="header-info">
+      <div class="arabic-name">نادي كلباء الرياضي الثقافي</div>
+      <div class="english-name">KALBA SPORTS & CULTURAL CLUB</div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: row; gap: 20px; justify-content: space-between; align-items: center; flex-wrap: wrap; width: 100%; margin-top: 15px;">
+    <img id="cardPhoto" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #f4e733;">
+
+    <div class="info" style="min-width: 200px; flex: 1;">
       <p id="cardName"></p>
       <p id="cardAge"></p>
       <p id="cardParent"></p>
       <p id="cardPhone"></p>
     </div>
-    <img id="cardPhoto" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #f4e733;">
+
+    <div id="qrcode" style="width: 140px; height: 140px;"></div>
   </div>
-  <div style="margin-top: 15px; display: flex; justify-content: center; gap: 30px;">
-    <div style="display: flex; align-items: center; gap: 5px;"><i class="fas fa-envelope"></i> email: info@ksc.shj.ae</div>
-    <div style="display: flex; align-items: center; gap: 5px;"><i class="fas fa-phone"></i> tel: +971092777873</div>
+
+  <div style="margin-top: 15px; display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; color: white; font-size: 14px;">
+    <div style="display: flex; align-items: center; gap: 5px;"><i class="fas fa-phone"></i><span>tel: +971092777873</span></div>
+    <div style="display: flex; align-items: center; gap: 5px;"><i class="fas fa-envelope"></i><span>email: info@ksc.shj.ae</span></div>
   </div>
 </div>
 
@@ -268,35 +280,35 @@
 
       const qrData = { name, age, parent, phone, email, altPhone, id: idnum.name };
       document.getElementById('qrcode').innerHTML = '';
-      new QRCode(document.getElementById('qrcode'), {
+      const qr = new QRCode(document.getElementById('qrcode'), {
         text: JSON.stringify(qrData),
         width: 140,
         height: 140
       });
 
-      // Add photo to center of QR
+      // wait for QR image to appear then edit it
       setTimeout(() => {
-        const qr = document.getElementById("qrcode").querySelector("img");
+        const qrImg = document.getElementById("qrcode").querySelector("img");
         const photo = new Image();
         photo.src = photoURL;
         photo.onload = () => {
           const canvas = document.createElement("canvas");
-          canvas.width = qr.width;
-          canvas.height = qr.height;
+          canvas.width = qrImg.width;
+          canvas.height = qrImg.height;
           const ctx = canvas.getContext("2d");
-          ctx.drawImage(qr, 0, 0);
+          ctx.drawImage(qrImg, 0, 0);
 
-          const size = qr.width * 0.3;
-          const x = (qr.width - size) / 2;
-          const y = (qr.height - size) / 2;
+          const size = qrImg.width * 0.3;
+          const x = (qrImg.width - size) / 2;
+          const y = (qrImg.height - size) / 2;
 
           ctx.beginPath();
-          ctx.arc(qr.width / 2, qr.height / 2, size / 2, 0, Math.PI * 2);
+          ctx.arc(qrImg.width / 2, qrImg.height / 2, size / 2, 0, Math.PI * 2);
           ctx.closePath();
           ctx.clip();
           ctx.drawImage(photo, x, y, size, size);
 
-          qr.src = canvas.toDataURL();
+          qrImg.src = canvas.toDataURL();
         };
       }, 300);
     };
