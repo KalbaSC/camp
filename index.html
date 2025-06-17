@@ -207,26 +207,25 @@
   </form>
 </div>
 
-<div class="card" id="card" style="display:none">
-  <img id="cardPhoto">
-  <div class="info">
-    <div class="card-header">
-      <img src="Picture3.png" alt="شعار الشارقة" style="height: 40px;">
-      <img src="logo.png" alt="شعار نادي كلباء" style="height: 40px;">
-      <div class="club-text">نادي كلباء الرياضي الثقافي<br><span style="color:#f4e733;">KALBA SPORTS & CULTURAL CLUB</span></div>
+<div class="card" id="card" style="display:none; flex-direction: column; align-items: center;">
+  <img src="header-banner.png" alt="شعار النادي" style="max-width: 100%; margin-bottom: 15px; border-radius: 8px;">
+  <div style="display: flex; flex-direction: row; gap: 20px; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+    <div id="qrcode" style="width: 140px; height: 140px;"></div>
+    <div class="info" style="min-width: 240px; flex: 1;">
+      <p id="cardName"></p>
+      <p id="cardAge"></p>
+      <p id="cardParent"></p>
+      <p id="cardPhone"></p>
     </div>
-    <p id="cardName"></p>
-    <p id="cardAge"></p>
-    <p id="cardParent"></p>
-    <p id="cardPhone"></p>
-    <p id="cardEmail"></p>
-    <p id="cardAlt"></p>
-    <p id="cardID"></p>
-    <div id="qrcode"></div>
+    <img id="cardPhoto" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #f4e733;">
+  </div>
+  <div style="margin-top: 15px; display: flex; justify-content: center; gap: 30px;">
+    <div style="display: flex; align-items: center; gap: 5px;"><i class="fas fa-envelope"></i> email: info@ksc.shj.ae</div>
+    <div style="display: flex; align-items: center; gap: 5px;"><i class="fas fa-phone"></i> tel: +971092777873</div>
   </div>
 </div>
 
-<button class="download-btn" id="downloadBtn" onclick="downloadCard()">تحميل البطاقة</button>
+<button class="download-btn" id="downloadBtn" style="display:none" onclick="downloadCard()">تحميل البطاقة</button>
 
 <footer>
   <p>© 2025 نادي كلباء الرياضي الثقافي - جميع الحقوق محفوظة</p>
@@ -262,20 +261,17 @@
       document.getElementById('card').style.display = 'flex';
       document.getElementById('downloadBtn').style.display = 'block';
       document.getElementById('cardPhoto').src = photoURL;
-      document.getElementById('cardName').innerText = 'الاسم: ' + name;
+      document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name;
       document.getElementById('cardAge').innerText = 'العمر: ' + age;
-      document.getElementById('cardParent').innerText = 'ولي الأمر: ' + parent;
-      document.getElementById('cardPhone').innerText = 'الهاتف: ' + phone;
-      document.getElementById('cardEmail').innerText = 'البريد: ' + email;
-      document.getElementById('cardAlt').innerText = 'بديل: ' + altPhone;
-      document.getElementById('cardID').innerText = 'الهوية: ' + idnum.name;
+      document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
+      document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
 
       const qrData = { name, age, parent, phone, email, altPhone, id: idnum.name };
       document.getElementById('qrcode').innerHTML = '';
       new QRCode(document.getElementById('qrcode'), {
         text: JSON.stringify(qrData),
-        width: 100,
-        height: 100
+        width: 140,
+        height: 140
       });
 
       // Add photo to center of QR
