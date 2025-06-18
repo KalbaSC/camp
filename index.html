@@ -376,19 +376,18 @@ const cardElement = document.getElementById('card');
 cardElement.style.display = 'flex'; // MUST show before rendering
 
 // generate QR
+const qrText = `KalbaSC-${name}-${phone}`;
+
 const qrcodeContainer = document.getElementById("qrcode");
-qrcodeContainer.innerHTML = ''; // Clear previous
+qrcodeContainer.innerHTML = '';
 
-// Delay QR generation slightly to ensure visibility
-setTimeout(() => {
-  new QRCode(qrcodeContainer, {
-    text: JSON.stringify(qrData),
-    width: 140,
-    height: 140,
-    correctLevel: QRCode.CorrectLevel.H
-  });
+new QRCode(qrcodeContainer, {
+  text: qrText,
+  width: 140,
+  height: 140,
+  correctLevel: QRCode.CorrectLevel.H
+});
 }, 100);
-
 
   };
 
