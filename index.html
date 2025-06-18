@@ -428,6 +428,18 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
     <a href="https://tiktok.com/@kalbasc" target="_blank"><i class="fab fa-tiktok"></i></a>
   </div>
 </footer>
-  
+  <script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const qrcodeContainer = document.getElementById("qrcode");
+    qrcodeContainer.innerHTML = '';
+    new QRCode(qrcodeContainer, {
+      text: "QR Test",
+      width: 140,
+      height: 140,
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  });
+</script>
+
 </body>
 </html>
