@@ -149,7 +149,7 @@
     }
 
     .download-btn {
-      display: none;
+      display: flex;
       width: 100%;
       margin: 20px auto;
       background: #f4e733;
@@ -360,7 +360,7 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
   const reader = new FileReader();
   reader.onload = function() {
     const photoURL = reader.result;
-
+    
     document.getElementById('card').style.display = 'flex';
     document.getElementById('downloadBtn').style.display = 'block';
     document.getElementById('cardPhoto').src = photoURL;
@@ -369,16 +369,26 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
     document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
     document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
 
-    const qrData = { name, age, parent, phone, email, altPhone, id: idnum.name };
-    const qrcodeContainer = document.getElementById("qrcode");
-    qrcodeContainer.innerHTML = '';
+const qrData = { name, age, parent, phone, email, altPhone, id: idnum.name };
 
-    const qr = new QRCode(qrcodeContainer, {
-      text: JSON.stringify(qrData),
-      width: 140,
-      height: 140,
-      correctLevel: QRCode.CorrectLevel.H
-    });
+// SHOW card before generating QR
+const cardElement = document.getElementById('card');
+cardElement.style.display = 'flex'; // MUST show before rendering
+
+// generate QR
+const qrcodeContainer = document.getElementById("qrcode");
+qrcodeContainer.innerHTML = ''; // Clear previous
+
+// Delay QR generation slightly to ensure visibility
+setTimeout(() => {
+  new QRCode(qrcodeContainer, {
+    text: JSON.stringify(qrData),
+    width: 140,
+    height: 140,
+    correctLevel: QRCode.CorrectLevel.H
+  });
+}, 100);
+
 
   };
 
