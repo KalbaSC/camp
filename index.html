@@ -380,28 +380,6 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
       correctLevel: QRCode.CorrectLevel.H
     });
 
-    // Draw image in center of QR after it's generated
-    setTimeout(() => {
-      const canvas = qrcodeContainer.querySelector("canvas");
-      if (!canvas) return;
-
-      const ctx = canvas.getContext("2d");
-      const size = canvas.width * 0.3;
-      const x = (canvas.width - size) / 2;
-      const y = (canvas.height - size) / 2;
-
-      const photo = new Image();
-      photo.src = photoURL;
-      photo.onload = () => {
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(canvas.width / 2, canvas.height / 2, size / 2, 0, Math.PI * 2);
-        ctx.closePath();
-        ctx.clip();
-        ctx.drawImage(photo, x, y, size, size);
-        ctx.restore();
-      };
-    }, 300);
   };
 
   reader.readAsDataURL(photoFile);
@@ -428,18 +406,6 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
     <a href="https://tiktok.com/@kalbasc" target="_blank"><i class="fab fa-tiktok"></i></a>
   </div>
 </footer>
-  <script>
-  window.addEventListener("DOMContentLoaded", () => {
-    const qrcodeContainer = document.getElementById("qrcode");
-    qrcodeContainer.innerHTML = '';
-    new QRCode(qrcodeContainer, {
-      text: "QR Test",
-      width: 140,
-      height: 140,
-      correctLevel: QRCode.CorrectLevel.H
-    });
-  });
-</script>
 
 </body>
 </html>
