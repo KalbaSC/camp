@@ -360,34 +360,46 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
   const reader = new FileReader();
   reader.onload = function() {
     const photoURL = reader.result;
-    
-    document.getElementById('card').style.display = 'flex';
-    document.getElementById('downloadBtn').style.display = 'block';
-    document.getElementById('cardPhoto').src = photoURL;
-    document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name;
-    document.getElementById('cardAge').innerText = 'العمر: ' + age;
-    document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
-    document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
+    const uniqueId = Date.now(); // short, safe ID
 
-const qrData = { name, age, parent, phone, email, altPhone, id: idnum.name };
+// Show card
+document.getElementById('card').style.display = 'flex';
+document.getElementById('downloadBtn').style.display = 'block';
+document.getElementById('cardPhoto').src = photoURL;
+document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name;
+document.getElementById('cardAge').innerText = 'العمر: ' + age;
+document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
+document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
 
-// SHOW card before generating QR
-const cardElement = document.getElementById('card');
-cardElement.style.display = 'flex'; // MUST show before rendering
-
-// generate QR
-const qrText = `KalbaSC-${name}-${phone}`;
-
+// Generate short QR
 const qrcodeContainer = document.getElementById("qrcode");
 qrcodeContainer.innerHTML = '';
 
 new QRCode(qrcodeContainer, {
-  text: qrText,
+  text: `KSCC-${uniqueId}`,
   width: 140,
   height: 140,
   correctLevel: QRCode.CorrectLevel.H
 });
-};
+
+// Send to Google Sheets
+fetch('https://script.google.com/macros/s/AKfycbzP99q_XY1K10ONrKd_yCNOT5zAJGi_GUmYuVFbMloB4JztNb6jPhf7FISPQx-GwVJK/exec', {
+  method: 'POST',
+  body: JSON.stringify({
+    id: uniqueId,
+    name,
+    age,
+    parent,
+    phone,
+    email,
+    altPhone
+  }),
+  headers: {
+    'Content-Type': 'application/json'
+      }
+    });
+  };
+  
   reader.readAsDataURL(photoFile);
 });
   
