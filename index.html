@@ -340,69 +340,72 @@ footer p {
 <button class="download-btn" id="downloadBtn" style="display:none" onclick="downloadCard()">تحميل البطاقة</button>
 
 <script>
-  document.getElementById('campForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const name = document.getElementById('name').value;
-    const age = document.getElementById('age').value;
-    const parent = document.getElementById('parent').value;
-    const phone = document.getElementById('phone').value;
-    const email = document.getElementById('email').value;
-    const altPhone = document.getElementById('altPhone').value;
-    const idnum = document.getElementById('idnum').files[0];
-    const photoFile = document.getElementById('photo').files[0];
+document.getElementById('campForm').addEventListener('submit', function(e) {
+  e.preventDefault();
 
-    if (!name || !age || !parent || !phone || !email || !altPhone || !idnum || !photoFile) {
-      alert("يرجى تعبئة جميع الحقول وتحميل الملفات المطلوبة.");
-      return;
-    }
+  const name = document.getElementById('name').value;
+  const age = document.getElementById('age').value;
+  const parent = document.getElementById('parent').value;
+  const phone = document.getElementById('phone').value;
+  const email = document.getElementById('email').value;
+  const altPhone = document.getElementById('altPhone').value;
+  const idnum = document.getElementById('idnum').files[0];
+  const photoFile = document.getElementById('photo').files[0];
 
-    const reader = new FileReader();
-    reader.onload = function() {
-      const photoURL = reader.result;
-      document.getElementById('card').style.display = 'flex';
-      document.getElementById('downloadBtn').style.display = 'block';
-      document.getElementById('cardPhoto').src = photoURL;
-      document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name;
-      document.getElementById('cardAge').innerText = 'العمر: ' + age;
-      document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
-      document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
+  if (!name || !age || !parent || !phone || !email || !altPhone || !idnum || !photoFile) {
+    alert("يرجى تعبئة جميع الحقول وتحميل الملفات المطلوبة.");
+    return;
+  }
 
-      const qrData = { name, age, parent, phone, email, altPhone, id: idnum.name };
-      document.getElementById('qrcode').innerHTML = '';
-      const qr = new QRCode(document.getElementById('qrcode'), {
-        text: JSON.stringify(qrData),
-        width: 140,
-        height: 140
-      });
+  const reader = new FileReader();
+  reader.onload = function() {
+    const photoURL = reader.result;
 
-      // wait for QR image to appear then edit it
-      setTimeout(() => {
-        const qrImg = document.getElementById("qrcode").querySelector("img");
-        const photo = new Image();
-        photo.src = photoURL;
-        photo.onload = () => {
-          const canvas = document.createElement("canvas");
-          canvas.width = qrImg.width;
-          canvas.height = qrImg.height;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(qrImg, 0, 0);
+    document.getElementById('card').style.display = 'flex';
+    document.getElementById('downloadBtn').style.display = 'block';
+    document.getElementById('cardPhoto').src = photoURL;
+    document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name;
+    document.getElementById('cardAge').innerText = 'العمر: ' + age;
+    document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
+    document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
 
-          const size = qrImg.width * 0.3;
-          const x = (qrImg.width - size) / 2;
-          const y = (qrImg.height - size) / 2;
+    const qrData = { name, age, parent, phone, email, altPhone, id: idnum.name };
+    const qrcodeContainer = document.getElementById("qrcode");
+    qrcodeContainer.innerHTML = '';
 
-          ctx.beginPath();
-          ctx.arc(qrImg.width / 2, qrImg.height / 2, size / 2, 0, Math.PI * 2);
-          ctx.closePath();
-          ctx.clip();
-          ctx.drawImage(photo, x, y, size, size);
+    const qr = new QRCode(qrcodeContainer, {
+      text: JSON.stringify(qrData),
+      width: 140,
+      height: 140,
+      correctLevel: QRCode.CorrectLevel.H
+    });
 
-          qrImg.src = canvas.toDataURL();
-        };
-      }, 300);
-    };
-    reader.readAsDataURL(photoFile);
-  });
+    // Draw image in center of QR after it's generated
+    setTimeout(() => {
+      const canvas = qrcodeContainer.querySelector("canvas");
+      if (!canvas) return;
+
+      const ctx = canvas.getContext("2d");
+      const size = canvas.width * 0.3;
+      const x = (canvas.width - size) / 2;
+      const y = (canvas.height - size) / 2;
+
+      const photo = new Image();
+      photo.src = photoURL;
+      photo.onload = () => {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(canvas.width / 2, canvas.height / 2, size / 2, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(photo, x, y, size, size);
+        ctx.restore();
+      };
+    }, 300);
+  };
+
+  reader.readAsDataURL(photoFile);
+});
   
    function downloadCard() {
     html2canvas(document.getElementById('card')).then(canvas => {
