@@ -2,34 +2,41 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>مسح الحضور - نادي كلباء</title>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000000">
+  <title>تسجيل المخيم الصيفي - نادي كلباء</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+ 
   <style>
     @font-face {
       font-family: 'NotoKufiArabic';
       src: url('NotoKufiArabic.ttf') format('truetype');
     }
-
     html, body {
-      height: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+    body {
       margin: 0;
       padding: 0;
       font-family: 'NotoKufiArabic', 'Cairo', sans-serif;
       background: url('black_and_yellow_grunge_background.jpg') no-repeat center center fixed;
       background-size: cover;
-      color: white;
-      display: flex;
-      flex-direction: column;
     }
 
     .header-container {
+      width: 100%;
       background: #111;
       border-bottom: 3px solid #f4e733;
     }
-
     .header-right {
+      width: 100%;
       max-width: 1170px;
       margin: auto;
       display: flex;
@@ -37,61 +44,122 @@
       justify-content: center;
       gap: 20px;
       padding: 20px 42px;
+      background-color: #111;
+      color: white;
+      box-sizing: border-box;
     }
-
-    .logo {
+    .header-right img.logo {
       height: 70px;
     }
-
     .divider {
       width: 1.5px;
       height: 65px;
       background-color: #f4e733;
     }
-
     .header-info {
       text-align: center;
     }
-
     .arabic-name {
       font-weight: bold;
       font-size: 20px;
     }
-
     .english-name {
       font-size: 14px;
       color: #f4e733;
     }
 
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding-bottom: 40px;
+.container {
+  max-width: 600px;
+  background: #111;
+  border: 3px solid #f4e733;
+  padding: 20px 30px; 
+  margin: 40px auto;
+  border-radius: 15px;
+  color: white;
+  box-sizing: border-box; 
+}
+
+    label {
+      display: block;
+      margin-top: 10px;
+      color: white;
     }
 
-    h2 {
-      color: #f4e733;
+    input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 5px;
+    }
+  h2 {
       text-align: center;
-      margin: 30px 0 10px;
-      font-size: 22px;
-    }
-
-    #reader {
-      width: 320px;
-      border: 3px solid #f4e733;
-      border-radius: 15px;
-      overflow: hidden;
-      background-color: #000;
-    }
-
-    #status {
-      text-align: center;
-      font-size: 18px;
       color: #f4e733;
+    }
+    button {
       margin-top: 15px;
+      background: #f4e733;
+      color: black;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .card {
+      background: #000;
+      color: white;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      border: 2px solid #f4e733;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 2px solid #ccc;
+    }
+
+    .info {
+      flex: 1;
+      padding-right: 10px;
+      min-width: 200px;
+    }
+
+    .info p {
+      margin: 5px 0;
+      font-size: 16px;
+      color: #f4e733;
+    }
+
+    #qrcode {
+      margin-top: 10px;
+    }
+
+    .download-btn {
+      display: flex;
+      width: 100%;
+      margin: 20px auto;
+      background: #f4e733;
+      color: black;
+      padding: 10px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      max-width: 600px;
     }
 
     footer {
@@ -100,6 +168,7 @@
       text-align: center;
       padding: 20px;
       border-top: 3px solid #f4e733;
+      font-size: 14px;
     }
 
     .social-icons a {
@@ -109,31 +178,97 @@
     }
 
     @media (max-width: 768px) {
-      .header-right {
-        flex-direction: row;
-        padding: 10px;
-        gap: 10px;
-      }
+ .header-right {
+    padding: 10px 10px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
 
-      .logo {
-        height: 50px;
-      }
+  .header-info {
+    display: block;
+    text-align: center;
+  }
 
-      .arabic-name {
-        font-size: 16px;
-      }
+  .header-info .arabic-name {
+    font-size: 16px;
+  }
 
-      .english-name {
-        font-size: 12px;
-      }
+  .header-info .english-name {
+    font-size: 12px;
+  }
 
-      #reader {
-        width: 90%;
-      }
+  .header-right .divider {
+    height: 45px;
+    width: 1.5px;
+    background-color: #f4e733;
+  }
 
-      #status {
-        font-size: 16px;
-      }
+  img.logo {
+    height: 50px !important;
+    max-height: 50px !important;
+  }
+
+.container {
+  width: 90%;
+  margin: 20px auto;
+  padding: 20px 20px; 
+  box-sizing: border-box;
+}
+
+  .card {
+    width: 95%;
+    padding: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card img,
+  #cardPhoto {
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  .info {
+    text-align: center;
+    padding: 0;
+  }
+
+  .info p {
+    font-size: 14px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+input {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+  button {
+    font-size: 14px;
+  }
+      footer {
+  text-align: center;
+  padding: 15px 10px;
+}
+
+footer p {
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+  .social-icons a {
+    font-size: 18px;
+  }
     }
   </style>
 </head>
@@ -151,12 +286,135 @@
   </div>
 </header>
 
-<main>
-  <h2>مسح رمز الاستجابة السريعة للحضور</h2>
-  <div id="reader"></div>
-  <div id="status">يرجى توجيه الكاميرا نحو رمز QR الخاص باللاعب</div>
-</main>
+<div class="container">
+  <h2>التسجيل في المخيم الصيفي</h2>
+  <form id="campForm">
+    <label>اسم الطفل: <input type="text" id="name" required></label>
+    <label>العمر: <input type="number" id="age" required></label>
+    <label>اسم ولي الأمر: <input type="text" id="parent" required></label>
+    <label>رقم الهاتف: <input type="tel" id="phone" required></label>
+    <label>البريد الإلكتروني: <input type="email" id="email" required></label>
+    <label>رقم بديل: <input type="tel" id="altPhone" required></label>
+    <label> الهوية: <input type="file" id="idnum" accept="image/*,.pdf" required></label>
+    <label>الصورة الشخصية: <input type="file" id="photo" accept="image/*" required></label>
+    <button type="submit">تسجيل وإنشاء البطاقة</button>
+  </form>
+</div>
 
+<div class="card" id="card" style="display:none; flex-direction: column; align-items: center;">
+  <div class="header-right" style="background:#000; max-width:100%; padding:10px 20px; gap:15px; border-bottom: 1px solid #f4e733;">
+    <img src="Picture3.png" alt="شعار الشارقة" class="logo" style="height:50px; background:transparent; border:none; box-shadow:none; width:auto;">
+    <div class="divider" style="height: 40px;"></div>
+    <img src="logo.png" alt="شعار نادي كلباء" class="logo" style="height:50px; background:transparent; border:none; box-shadow:none; width:auto;">
+    <div class="header-info">
+      <div class="arabic-name">نادي كلباء الرياضي الثقافي</div>
+      <div class="english-name">KALBA SPORTS & CULTURAL CLUB</div>
+    </div>
+  </div>
+
+<div style="display: flex; flex-direction: row; gap: 20px; justify-content: space-between; align-items: center; flex-wrap: wrap; width: 100%; margin-top: 15px;">
+  <img id="cardPhoto" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #f4e733;">
+
+  <div class="info" style="min-width: 200px; flex: 1;">
+    <p id="cardName"></p>
+    <p id="cardAge"></p>
+    <p id="cardParent"></p>
+    <p id="cardPhone"></p>
+  </div>
+
+  <div id="qrcode" style="width: 140px; height: 140px;"></div>
+</div>
+
+  <div style="margin-top: 15px; display: flex; justify-content: center; gap: 30px;">
+  <div style="display: flex; align-items: center; gap: 5px;" dir="ltr">
+    <i class="fas fa-phone"></i> 
+    <span>+971092777873</span>
+  </div>
+  <div style="display: flex; align-items: center; gap: 5px;" dir="ltr">
+    <i class="fas fa-envelope"></i> 
+    <span>info@ksc.shj.ae</span>
+  </div>
+</div>
+  
+</div>
+<button class="download-btn" id="downloadBtn" style="display:none" onclick="downloadCard()">تحميل البطاقة</button>
+
+<script>
+document.getElementById('campForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value;
+  const age = document.getElementById('age').value;
+  const parent = document.getElementById('parent').value;
+  const phone = document.getElementById('phone').value;
+  const email = document.getElementById('email').value;
+  const altPhone = document.getElementById('altPhone').value;
+  const idnum = document.getElementById('idnum').files[0];
+  const photoFile = document.getElementById('photo').files[0];
+
+  if (!name || !age || !parent || !phone || !email || !altPhone || !idnum || !photoFile) {
+    alert("يرجى تعبئة جميع الحقول وتحميل الملفات المطلوبة.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function() {
+    const photoURL = reader.result;
+    const uniqueId = Date.now(); // short, safe ID
+
+// Show card
+document.getElementById('card').style.display = 'flex';
+document.getElementById('downloadBtn').style.display = 'block';
+document.getElementById('cardPhoto').src = photoURL;
+document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name;
+document.getElementById('cardAge').innerText = 'العمر: ' + age;
+document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
+document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
+
+// Generate short QR
+const qrcodeContainer = document.getElementById("qrcode");
+qrcodeContainer.innerHTML = '';
+
+new QRCode(qrcodeContainer, {
+  text: `KalbaSC-${uniqueId}|${encodeURIComponent(name)}`,
+  width: 140,
+  height: 140,
+  correctLevel: QRCode.CorrectLevel.H
+});
+
+// Send to Google Sheets
+fetch('https://script.google.com/macros/s/AKfycbzq7eWfMQ7YKaUEgq1IOrwlHY4043qhPyM6be1yZGergFNLkK8_-l_0qFFtMBRNFwZwzA/exec', {
+  method: 'POST',
+  mode: 'no-cors',
+  body: JSON.stringify({
+    id: uniqueId,
+    name,
+    age,
+    parent,
+    phone,
+    email,
+    altPhone
+  }),
+  headers: {
+    'Content-Type': 'application/json'
+      }
+    });
+  };
+  
+  reader.readAsDataURL(photoFile);
+});
+  
+   function downloadCard() {
+    html2canvas(document.getElementById('card')).then(canvas => {
+      const link = document.createElement('a');
+      link.download = 'بطاقة_التسجيل.png';
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  }
+ 
+</script>
+  
 <footer>
   <p>© 2025 نادي كلباء الرياضي الثقافي - جميع الحقوق محفوظة</p>
   <div class="social-icons">
@@ -167,38 +425,6 @@
     <a href="https://tiktok.com/@kalbasc" target="_blank"><i class="fab fa-tiktok"></i></a>
   </div>
 </footer>
-
-<script>
-  const statusDiv = document.getElementById("status");
-
-  function markAttendance(code) {
-    statusDiv.innerText = `جارٍ تسجيل الحضور...`;
-
-    const formData = new FormData();
-    formData.append("id", code);
-    formData.append("date", new Date().toISOString());
-
-    fetch("https://script.google.com/macros/s/AKfycbxAKdx4ltDExyywLsWxn8VB3fmnnz_s_LL3lc5XZei0A72-gSKolXxiKZKJXW8fGfw/exec", {
-      method: "POST",
-      mode: "no-cors",
-      body: formData
-    });
-
-    statusDiv.innerText = `✅ تم تسجيل الحضور للرمز: ${code}`;
-  }
-
-  const html5QrCode = new Html5Qrcode("reader");
-  html5QrCode.start(
-    { facingMode: "environment" },
-    { fps: 10, qrbox: 250 },
-    qrCodeMessage => {
-      html5QrCode.stop();
-      markAttendance(qrCodeMessage);
-      setTimeout(() => location.reload(), 4000);
-    },
-    error => {}
-  );
-</script>
 
 </body>
 </html>
