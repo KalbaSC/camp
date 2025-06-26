@@ -405,6 +405,7 @@ html2canvas(document.getElementById('card')).then(canvas => {
 
   fetch('https://script.google.com/macros/s/AKfycbz625-5ojcTbRM9J8xkqEN0EMbPQcBazkTCIDRDYuzERd1CDcK8uWyZZkBXRxncyGyE/exec', {
     method: 'POST',
+    mode: 'no-cors',
     body: JSON.stringify({
       cardImage: imageData
     }),
