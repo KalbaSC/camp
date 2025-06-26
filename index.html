@@ -399,26 +399,26 @@ fetch('https://script.google.com/macros/s/AKfycbzq7eWfMQ7YKaUEgq1IOrwlHY4043qhPy
     'Content-Type': 'application/json'
       }
     });
+    
+      html2canvas(document.getElementById('card')).then(canvas => {
+    const imageData = canvas.toDataURL('image/png');
+
+    fetch('https://script.google.com/macros/s/AKfycbz625-5ojcTbRM9J8xkqEN0EMbPQcBazkTCIDRDYuzERd1CDcK8uWyZZkBXRxncyGyE/exec', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: email,
+        name: name,
+        parent: parent,
+        cardImage: imageData
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+        }
+      });
+    });
   };
-  
+
   reader.readAsDataURL(photoFile);
-});
-
-  html2canvas(document.getElementById('card')).then(canvas => {
-  const imageData = canvas.toDataURL('image/png');
-
-  fetch('https://script.google.com/macros/s/AKfycbz625-5ojcTbRM9J8xkqEN0EMbPQcBazkTCIDRDYuzERd1CDcK8uWyZZkBXRxncyGyE/exec', {
-    method: 'POST',
-    body: JSON.stringify({
-      email: email,
-      name: name,
-      parent: parent,
-      cardImage: imageData
-    }),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
 });
 
    function downloadCard() {
