@@ -402,20 +402,14 @@ fetch('https://script.google.com/macros/s/AKfycbzq7eWfMQ7YKaUEgq1IOrwlHY4043qhPy
     
 html2canvas(document.getElementById('card')).then(canvas => {
   const imageData = canvas.toDataURL('image/png');
+  
+  document.getElementById('cardImageField').value = imageData;
+  document.getElementById('cardNameField').value = name;
+  document.getElementById('cardEmailField').value = email;
+  document.getElementById('cardParentField').value = parent;
 
-  fetch('https://script.google.com/macros/s/AKfycbz625-5ojcTbRM9J8xkqEN0EMbPQcBazkTCIDRDYuzERd1CDcK8uWyZZkBXRxncyGyE/exec', {
-    method: 'POST',
-    mode: 'no-cors',
-    body: JSON.stringify({
-      cardImage: imageData,
-      name: name,
-      parent: parent,
-      email: email
-    }),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
+  document.getElementById('cardForm').submit(); // 🚀 sends without CORS
+  alert("تم إرسال البطاقة بالبريد، وسيتم حفظها في Google Drive.");
 });
 
   };
@@ -444,6 +438,14 @@ html2canvas(document.getElementById('card')).then(canvas => {
     <a href="https://tiktok.com/@kalbasc" target="_blank"><i class="fab fa-tiktok"></i></a>
   </div>
 </footer>
+  
+<form id="cardForm" action="https://script.google.com/macros/s/AKfycbz625-5ojcTbRM9J8xkqEN0EMbPQcBazkTCIDRDYuzERd1CDcK8uWyZZkBXRxncyGyE/exec" method="POST" target="hiddenIframe">
+  <input type="hidden" name="cardImage" id="cardImageField">
+  <input type="hidden" name="name" id="cardNameField">
+  <input type="hidden" name="email" id="cardEmailField">
+  <input type="hidden" name="parent" id="cardParentField">
+</form>
+<iframe name="hiddenIframe" style="display:none;"></iframe>
 
 </body>
 </html>
