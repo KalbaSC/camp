@@ -382,37 +382,39 @@ new QRCode(qrcodeContainer, {
   correctLevel: QRCode.CorrectLevel.H
 });
 
-// Send to Google Sheets
-fetch('https://script.google.com/macros/s/AKfycbzq7eWfMQ7YKaUEgq1IOrwlHY4043qhPyM6be1yZGergFNLkK8_-l_0qFFtMBRNFwZwzA/exec', {
-  method: 'POST',
-  mode: 'no-cors',
-  body: JSON.stringify({
-    id: uniqueId,
-    name,
-    age,
-    parent,
-    phone,
-    email,
-    altPhone
-  }),
-  headers: {
-    'Content-Type': 'application/json'
-      }
-    });
+setTimeout(() => {
+
+  fetch('https://script.google.com/macros/s/AKfycbzq7eWfMQ7YKaUEgq1IOrwlHY4043qhPyM6be1yZGergFNLkK8_-l_0qFFtMBRNFwZwzA/exec', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: JSON.stringify({
+      id: uniqueId,
+      name,
+      age,
+      parent,
+      phone,
+      email,
+      altPhone
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  html2canvas(document.getElementById('card')).then(canvas => {
+    const imageData = canvas.toDataURL('image/png');
     
-html2canvas(document.getElementById('card')).then(canvas => {
-  const imageData = canvas.toDataURL('image/png');
-  
-  document.getElementById('cardImageField').value = imageData;
-  document.getElementById('cardNameField').value = name;
-  document.getElementById('cardEmailField').value = email;
-  document.getElementById('cardParentField').value = parent;
+    document.getElementById('cardImageField').value = imageData;
+    document.getElementById('cardNameField').value = name;
+    document.getElementById('cardEmailField').value = email;
+    document.getElementById('cardParentField').value = parent;
 
-  document.getElementById('cardForm').submit(); // 🚀 sends without CORS
-  alert("تم إرسال البطاقة بالبريد، وسيتم حفظها في Google Drive.");
-});
+    document.getElementById('cardForm').submit();
+    alert("تم إرسال البطاقة بالبريد، وسيتم حفظها في Google Drive.");
+  });
 
-  };
+}, 500); 
+
 
   reader.readAsDataURL(photoFile);
 });
