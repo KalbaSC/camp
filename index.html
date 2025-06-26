@@ -414,7 +414,7 @@ html2canvas(document.getElementById('card')).then(canvas => {
     }
   })
   .then(res => res.text())
-  .then(msg => alert("رد السكربت:\n" + msg))  // ✅ Show result
+  .then(msg => alert("رد السكربت:\n" + msg))
   .catch(err => alert("حدث خطأ:\n" + err));
 });
 
