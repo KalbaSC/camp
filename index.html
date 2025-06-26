@@ -439,7 +439,8 @@ html2canvas(document.getElementById('card')).then(canvas => {
   </div>
 </footer>
   
-<form id="cardForm" action="https://script.google.com/macros/s/AKfycbz625-5ojcTbRM9J8xkqEN0EMbPQcBazkTCIDRDYuzERd1CDcK8uWyZZkBXRxncyGyE/exec" method="POST" target="hiddenIframe">
+<form id="cardForm" action="https://script.google.com/macros/s/AKfycbz625-5ojcTbRM9J8xkqEN0EMbPQcBazkTCIDRDYuzERd1CDcK8uWyZZkBXRxncyGyE/exec" method="POST" target="hiddenIframe" mode: 'no-cors',
+ >
   <input type="hidden" name="cardImage" id="cardImageField">
   <input type="hidden" name="name" id="cardNameField">
   <input type="hidden" name="email" id="cardEmailField">
