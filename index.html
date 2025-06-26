@@ -358,76 +358,76 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
   }
 
   const reader = new FileReader();
-  reader.onload = function() {
+  reader.onload = function () {
     const photoURL = reader.result;
-    const uniqueId = Date.now(); // short, safe ID
+    const uniqueId = Date.now(); // Safe short ID
 
-// Show card
-document.getElementById('card').style.display = 'flex';
-document.getElementById('downloadBtn').style.display = 'block';
-document.getElementById('cardPhoto').src = photoURL;
-document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name;
-document.getElementById('cardAge').innerText = 'العمر: ' + age;
-document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
-document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
+    // Show card
+    document.getElementById('card').style.display = 'flex';
+    document.getElementById('downloadBtn').style.display = 'block';
+    document.getElementById('cardPhoto').src = photoURL;
+    document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name;
+    document.getElementById('cardAge').innerText = 'العمر: ' + age;
+    document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
+    document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
 
-// Generate short QR
-const qrcodeContainer = document.getElementById("qrcode");
-qrcodeContainer.innerHTML = '';
-
-new QRCode(qrcodeContainer, {
-  text: `KalbaSC-${uniqueId}|${encodeURIComponent(name)}|${encodeURIComponent(parent)}`,
-  width: 140,
-  height: 140,
-  correctLevel: QRCode.CorrectLevel.H
-});
-
-setTimeout(() => {
-
-  fetch('https://script.google.com/macros/s/AKfycbzq7eWfMQ7YKaUEgq1IOrwlHY4043qhPyM6be1yZGergFNLkK8_-l_0qFFtMBRNFwZwzA/exec', {
-    method: 'POST',
-    mode: 'no-cors',
-    body: JSON.stringify({
-      id: uniqueId,
-      name,
-      age,
-      parent,
-      phone,
-      email,
-      altPhone
-    }),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-
-  html2canvas(document.getElementById('card')).then(canvas => {
-    const imageData = canvas.toDataURL('image/png');
-    
-    document.getElementById('cardImageField').value = imageData;
-    document.getElementById('cardNameField').value = name;
-    document.getElementById('cardEmailField').value = email;
-    document.getElementById('cardParentField').value = parent;
-
-    document.getElementById('cardForm').submit();
-    alert("تم إرسال البطاقة بالبريد، وسيتم حفظها في Google Drive.");
-  });
-
-}, 500); 
-
-
-  reader.readAsDataURL(photoFile);
-});
-
-   function downloadCard() {
-    html2canvas(document.getElementById('card')).then(canvas => {
-      const link = document.createElement('a');
-      link.download = 'بطاقة_التسجيل.png';
-      link.href = canvas.toDataURL();
-      link.click();
+    // Generate QR code
+    const qrcodeContainer = document.getElementById("qrcode");
+    qrcodeContainer.innerHTML = '';
+    new QRCode(qrcodeContainer, {
+      text: `KalbaSC-${uniqueId}|${encodeURIComponent(name)}|${encodeURIComponent(parent)}`,
+      width: 140,
+      height: 140,
+      correctLevel: QRCode.CorrectLevel.H
     });
-  }
- 
+
+    // Delay to allow QR to render
+    setTimeout(() => {
+      // Send basic info to Google Sheet
+      fetch('https://script.google.com/macros/s/AKfycbzq7eWfMQ7YKaUEgq1IOrwlHY4043qhPyM6be1yZGergFNLkK8_-l_0qFFtMBRNFwZwzA/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify({
+          id: uniqueId,
+          name,
+          age,
+          parent,
+          phone,
+          email,
+          altPhone
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      // Capture card image
+      html2canvas(document.getElementById('card')).then(canvas => {
+        const imageData = canvas.toDataURL('image/png');
+
+        document.getElementById('cardImageField').value = imageData;
+        document.getElementById('cardNameField').value = name;
+        document.getElementById('cardEmailField').value = email;
+        document.getElementById('cardParentField').value = parent;
+
+        document.getElementById('cardForm').submit();
+        alert("✅ تم إرسال البطاقة بالبريد، وسيتم حفظها في Google Drive.");
+      });
+
+    }, 600); // Slightly increased delay for QR to render fully
+  };
+
+  reader.readAsDataURL(photoFile); // Moved this outside the `reader.onload` function block
+});
+
+function downloadCard() {
+  html2canvas(document.getElementById('card')).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'بطاقة_التسجيل.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
 </script>
   
 <footer>
