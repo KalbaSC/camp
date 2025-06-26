@@ -400,23 +400,23 @@ fetch('https://script.google.com/macros/s/AKfycbzq7eWfMQ7YKaUEgq1IOrwlHY4043qhPy
       }
     });
     
-      html2canvas(document.getElementById('card')).then(canvas => {
-    const imageData = canvas.toDataURL('image/png');
+html2canvas(document.getElementById('card')).then(canvas => {
+  const imageData = canvas.toDataURL('image/png');
 
-    fetch('https://script.google.com/macros/s/AKfycbz625-5ojcTbRM9J8xkqEN0EMbPQcBazkTCIDRDYuzERd1CDcK8uWyZZkBXRxncyGyE/exec', {
-      method: 'POST',
-      mode: 'no-cors',
-      body: JSON.stringify({
-        email: email,
-        name: name,
-        parent: parent,
-        cardImage: imageData
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-        }
-      });
-    });
+  fetch('https://script.google.com/macros/s/AKfycbz625-5ojcTbRM9J8xkqEN0EMbPQcBazkTCIDRDYuzERd1CDcK8uWyZZkBXRxncyGyE/exec', {
+    method: 'POST',
+    body: JSON.stringify({
+      cardImage: imageData
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res => res.text())
+  .then(msg => alert("رد السكربت:\n" + msg))  // ✅ Show result
+  .catch(err => alert("حدث خطأ:\n" + err));
+});
+
   };
 
   reader.readAsDataURL(photoFile);
