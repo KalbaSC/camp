@@ -537,6 +537,9 @@ setTimeout(() => {
     const parentName = parent.split(' ')[0];
     const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
     document.getElementById('cardFilenameField').value = fileName;
+    console.log("📧 Email:", document.getElementById('cardEmailField').value);
+    console.log("📎 Filename:", document.getElementById('cardFilenameField').value);
+
     document.getElementById('cardForm').submit(); 
     document.getElementById('statusMessage').style.display = 'block';
     document.getElementById('statusMessage').style.color = '#f4e733';
