@@ -402,7 +402,7 @@ document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + 
     const qrcodeContainer = document.getElementById("qrcode");
     qrcodeContainer.innerHTML = '';
     new QRCode(qrcodeContainer, {
-    text: `KalbaSC-${uniqueId}|${name.split(' ')[0]}|${parent.split(' ')[0]}`,
+    text: `KalbaSC-${uniqueId}|${encodeURIComponent(name.split(' ')[0])}|${encodeURIComponent(parent.split(' ')[0])}`,
       width: 120,
       height: 120,
       correctLevel: QRCode.CorrectLevel.M
