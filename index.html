@@ -473,6 +473,27 @@ function downloadCard() {
     link.click();
   });
 }
+
+  document.getElementById('idnum').addEventListener('change', function() {
+  const id = this.value;
+  if (!id) return;
+
+  fetch(`https://script.google.com/macros/s/AKfycbxOErD3JhH16kPFrw-Fb03KXGb_n6SqvBvhmGQ1n_l6Su4jVjAYyRoPWiSO0AVFBgSsBQ/exec`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        alert("لم يتم العثور على البيانات لهذا الرقم.");
+        return;
+      }
+
+      document.getElementById('name').value = data.name || '';
+      document.getElementById('age').value = data.age || '';
+      document.getElementById('phone').value = data.phone || '';
+      document.getElementById('altPhone').value = data.parentPhone || '';
+    })
+    .catch(err => console.error("Fetch error:", err));
+});
+
 </script>
   
 <footer>
