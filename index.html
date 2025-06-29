@@ -364,7 +364,7 @@ fetch("https://docs.google.com/spreadsheets/d/1YGE3uTOpyZOFzWNBAP5eOTeIyEpJy5huA
       const cols = row.split(',');
       const fullName = (cols[1] || "").trim();  
       const parentName = (cols[3] || "").trim(); 
-      return ${fullName}|${parentName};
+      return `${fullName}|${parentName}`; 
     });
   })
   .catch(err => console.error("❌ Failed to fetch existing names:", err));
@@ -465,7 +465,7 @@ document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + 
     const qrcodeContainer = document.getElementById("qrcode");
     qrcodeContainer.innerHTML = '';
     new QRCode(qrcodeContainer, {
-    text: KalbaSC-${uniqueId}|${encodeURIComponent(name.split(' ')[0])}|${encodeURIComponent(parent.split(' ')[0])},
+    text: `KalbaSC-${uniqueId}|${encodeURIComponent(name.split(' ')[0])}|${encodeURIComponent(parent.split(' ')[0])}`,
       width: 120,
       height: 120,
       colorDark: "#000000",
@@ -535,7 +535,7 @@ setTimeout(() => {
     
     const firstName = name.split(' ')[0];
     const parentName = parent.split(' ')[0];
-    const fileName = ${firstName}_${parentName}_KalbaSC-${uniqueId}.png;
+    const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
     document.getElementById('cardFilenameField').value = fileName;
     document.getElementById('cardForm').submit(); 
     document.getElementById('statusMessage').style.display = 'block';
