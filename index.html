@@ -530,6 +530,10 @@ function downloadCard() {
         alert("لم يتم العثور على البيانات لهذا الرقم.");
         return;
       }
+        if (data.registered) {
+    alert("⚠️ هذا الرقم مسجل مسبقًا، لا يمكن التسجيل مرة أخرى.");
+    return;
+  }
 
       document.getElementById('name').value = data.name || '';
       document.getElementById('age').value = String(data.age || '').replace(/[^\d]/g, '');
