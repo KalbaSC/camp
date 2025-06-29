@@ -353,6 +353,23 @@ footer p {
 </div>
 
 <script>
+  
+let existingNames = [];
+
+fetch("https://docs.google.com/spreadsheets/d/1YGE3uTOpyZOFzWNBAP5eOTeIyEpJy5huAPsYjRGxqb4/gviz/tq?tqx=out:csv")
+  .then(res => res.text())
+  .then(csv => {
+    const rows = csv.split('\n').slice(1); // skip header
+    existingNames = rows.map(row => {
+      const cols = row.split(',');
+      const fullName = (cols[1] || "").trim();  
+      const parentName = (cols[3] || "").trim(); 
+      return `${fullName}|${parentName}`;
+    });
+  })
+  .catch(err => console.error("❌ Failed to fetch existing names:", err));
+
+
 document.getElementById('campForm').addEventListener('submit', function(e) {
 
   function isValidEmail(email) {
@@ -361,6 +378,29 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
 }
 
   e.preventDefault();
+  const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMGF6fpsHFjsVTcW_4JymiwU3jkylllEDa0S0mg-3FeiHfNwWuWZ1U6JVtr2aocoTvVyce_vAtmIrD/pub?output=csv";
+
+const name = document.getElementById('name').value.trim();
+const parent = document.getElementById('parent').value.trim();
+
+// 🛑 Check duplicate (name + parent) in CSV sheet
+try {
+  const res = await fetch(SHEET_URL);
+  const csv = await res.text();
+  const rows = csv.split('\n').slice(1).map(r => r.split(','));
+
+  const alreadyExists = rows.some(row =>
+    row[2].trim() === name && row[4].trim() === parent
+  );
+
+  if (alreadyExists) {
+    alert("❌ هذا الطفل مسجل بالفعل باسم ولي الأمر. لا يمكن التسجيل مرتين.");
+    return;
+  }
+} catch (err) {
+  console.error("❌ مشكلة في قراءة البيانات:", err);
+}
+
 
   const name = document.getElementById('name').value;
   const age = document.getElementById('age').value;
@@ -370,6 +410,7 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
   const altPhone = document.getElementById('altPhone').value;
   const idnum = document.getElementById('idnum').value;
   const photoFile = document.getElementById('photo').files[0];
+
 
   if (!isValidEmail(email)) {
   document.getElementById('statusMessage').style.display = 'block';
@@ -496,9 +537,7 @@ setTimeout(() => {
     const parentName = parent.split(' ')[0];
     const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
     document.getElementById('cardFilenameField').value = fileName;
-
     document.getElementById('cardForm').submit(); 
-
     document.getElementById('statusMessage').style.display = 'block';
     document.getElementById('statusMessage').style.color = '#f4e733';
     document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
@@ -530,10 +569,6 @@ function downloadCard() {
         alert("لم يتم العثور على البيانات لهذا الرقم.");
         return;
       }
-        if (data.registered) {
-    alert("⚠️ هذا الرقم مسجل مسبقًا، لا يمكن التسجيل مرة أخرى.");
-    return;
-  }
 
       document.getElementById('name').value = data.name || '';
       document.getElementById('age').value = String(data.age || '').replace(/[^\d]/g, '');
