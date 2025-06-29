@@ -435,7 +435,7 @@ setTimeout(() => {
   reader2.onload = function (e) {
     const base64Data = e.target.result.split(',')[1]; // remove base64 prefix
 
-    fetch('https://script.google.com/macros/s/AKfycbxFGWUcIk6TNIF8yb1clBsW2DZ-mLMDibStpuzL5m-CywbPp2Id5vp86aLA8p1sWtVaMw/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbyju28FbRe9WeLRmUcG-UR1aKzm9y9S-lPKyRhGgiqy9St68a9PmFt27CSSbiDKEvt4/exec', {
       method: 'POST',
       body: new URLSearchParams({
         filename: `تعهد_${uniqueId}.pdf`,
