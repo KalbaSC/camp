@@ -404,17 +404,6 @@ msgBox.innerText = "❌ هذا الطفل مسجل بالفعل باسم ولي 
   console.error("❌ مشكلة في قراءة البيانات:", err);
 }
 
-
-  const name = document.getElementById('name').value;
-  const age = document.getElementById('age').value;
-  const parent = document.getElementById('parent').value;
-  const phone = document.getElementById('phone').value;
-  const email = document.getElementById('email').value;
-  const altPhone = document.getElementById('altPhone').value;
-  const idnum = document.getElementById('idnum').value;
-  const photoFile = document.getElementById('photo').files[0];
-
-
   if (!isValidEmail(email)) {
   document.getElementById('statusMessage').style.display = 'block';
   document.getElementById('statusMessage').style.color = 'red';
