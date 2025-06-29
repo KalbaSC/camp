@@ -487,7 +487,7 @@ function downloadCard() {
       }
 
       document.getElementById('name').value = data.name || '';
-      document.getElementById('age').value = (data.age || '').replace(/[^\d]/g, '');
+      document.getElementById('age').value = String(data.age || '').replace(/[^\d]/g, '');
       document.getElementById('phone').value = data.phone || '';
       document.getElementById('altPhone').value = data.parentPhone || '';
       document.getElementById('parent').value = data.parent || '';
