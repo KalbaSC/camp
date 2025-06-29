@@ -467,8 +467,13 @@ setTimeout(() => {
     document.getElementById('cardNameField').value = name;
     document.getElementById('cardEmailField').value = email;
     document.getElementById('cardParentField').value = parent;
+    
+    const firstName = name.split(' ')[0];
+    const parentName = parent.split(' ')[0];
+    const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
+    document.getElementById('cardFilenameField').value = fileName;
 
-    document.getElementById('cardForm').submit();
+    document.getElementById('cardForm').submit(); 
 
     document.getElementById('statusMessage').style.display = 'block';
     document.getElementById('statusMessage').style.color = '#f4e733';
@@ -535,6 +540,7 @@ document.getElementById('parent').value = trimmedParent;
   <input type="hidden" name="name" id="cardNameField">
   <input type="hidden" name="email" id="cardEmailField">
  <input type="hidden" name="parent" id="cardParentField">
+ <input type="hidden" name="filename" id="cardFilenameField"> <!-- ✅ NEW -->
 </form>
  
 <iframe name="hiddenIframe" style="display:none;"></iframe>
