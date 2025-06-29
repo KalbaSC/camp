@@ -284,6 +284,9 @@ footer p {
     <label>البريد الإلكتروني: <input type="email" id="email" required></label>
     <label>رقم بديل: <input type="tel" id="altPhone" required></label>
     <label>الصورة الشخصية: <input type="file" id="photo" accept="image/*" required></label>
+    <label> التعهد (PDF فقط): 
+    <input type="file" id="commitmentFile" accept="application/pdf" required>
+    </label>
     <button type="submit">تسجيل وإنشاء البطاقة</button>
   </form>
    <div id="statusMessage" style="display:none; text-align:center; margin: 20px; color: #f4e733; font-weight: bold;"></div>
@@ -406,24 +409,50 @@ document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + 
     });
 
     // Delay to allow QR to render
-    setTimeout(() => {
-      // Send basic info to Google Sheet
-      fetch('https://script.google.com/macros/s/AKfycbzq7eWfMQ7YKaUEgq1IOrwlHY4043qhPyM6be1yZGergFNLkK8_-l_0qFFtMBRNFwZwzA/exec', {
-        method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify({
-          id: uniqueId,
-          name,
-          age,
-          parent,
-          phone,
-          email,
-          altPhone
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+setTimeout(() => {
+  // 1. Send form info to Google Sheet
+  fetch('https://script.google.com/macros/s/AKfycbzq7eWfMQ7YKaUEgq1IOrwlHY4043qhPyM6be1yZGergFNLkK8_-l_0qFFtMBRNFwZwzA/exec', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: JSON.stringify({
+      id: uniqueId,
+      name,
+      age,
+      parent,
+      phone,
+      email,
+      altPhone
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  // 2. Upload commitment file to Google Drive
+  const commitmentFile = document.getElementById('commitmentFile').files[0];
+  const reader2 = new FileReader();
+
+  reader2.onload = function (e) {
+    const base64Data = e.target.result.split(',')[1]; // Strip base64 prefix
+
+    fetch('https://script.google.com/macros/s/AKfycbxFGWUcIk6TNIF8yb1clBsW2DZ-mLMDibStpuzL5m-CywbPp2Id5vp86aLA8p1sWtVaMw/exec', { 
+      method: 'POST',
+      body: new URLSearchParams({
+        filename: `تعهد_${uniqueId}.pdf`,
+        filedata: base64Data
+      })
+    })
+    .then(res => console.log("✅ Commitment file uploaded."))
+    .catch(err => console.error("❌ Upload error:", err));
+  };
+
+  if (commitmentFile) {
+    reader2.readAsDataURL(commitmentFile);
+  }
+
+  // 3. Continue with your card image logic here...
+
+}, 600); // QR rendering delay
 
       // Capture card image
 html2canvas(document.getElementById('card'), {
