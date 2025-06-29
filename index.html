@@ -404,7 +404,7 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
       });
 
       // Capture card image
-html2canvas(document.getElementById('card')).then(canvas => {
+html2canvas(document.getElementById('card'), {scale: 2}).then(canvas => {
   const imageData = canvas.toDataURL('image/png');
 
   document.getElementById('cardImageField').value = imageData;
