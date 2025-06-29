@@ -533,8 +533,8 @@ setTimeout(() => {
     document.getElementById('cardEmailField').value = email;
     document.getElementById('cardParentField').value = parent;
 
-    const firstName = name.split(' ')[0];
-    const parentName = parent.split(' ')[0];
+    const firstName = name.split(' ')[0].slice(0, 10);
+    const parentName = parent.split(' ')[0].slice(0, 10);
     const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
     document.getElementById('cardFilenameField').value = fileName;
     document.getElementById('cardForm').submit(); 
