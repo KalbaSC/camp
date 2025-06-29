@@ -291,7 +291,7 @@ footer p {
       </main>
 
 <div id="card" class="card" style="width: 500px; height: 280px; flex-direction: column; align-items: center; position: absolute; top: -9999px; left: -9999px;">
-  <div class="header-right" style="background:#000; max-width:100%; padding:8px 17px; gap:13px; border-bottom: 1px solid #f4e733;">
+  <div class="header-right" style="background:#000; max-width:100%; padding:10px 17px; gap:13px; border-bottom: 1px solid #f4e733;">
 <img src="Picture3.png" style="width: 50px; height: 50px; border: none; box-shadow: none; background: transparent;" />
     <div class="divider" style="height: 43px;"></div>
   <img src="logo.png" style="width: 50px; height: 50px; border: none; box-shadow: none; background: transparent;" />
@@ -301,17 +301,17 @@ footer p {
     </div>
   </div>
 
-<div style="display: flex; align-items: flex-start; justify-content: space-between; width: 100%; gap: 10px;">
+<div style="display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 15px;">
   <img id="cardPhoto" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #f4e733;">
 
-  <div class="info" style="flex: 1; text-align: right; padding: 0 20px;">
+  <div class="info" style="flex: 1; text-align: right; padding: 0 15px;">
     <p id="cardName"></p>
     <p id="cardAge"></p>
     <p id="cardPhone"></p>
     <p id="cardId"></p>
   </div>
 
-  <div id="qrcode" style="width: 190px; height: 190px;"></div>
+  <div id="qrcode" style="width: 120px; height: 120px;"></div>
 </div>
 
   <div style="margin-top: 15px; display: flex; justify-content: center; gap: 24px;">
@@ -412,7 +412,6 @@ html2canvas(document.getElementById('card')).then(canvas => {
   document.getElementById('cardNameField').value = name;
   document.getElementById('cardEmailField').value = email;
   document.getElementById('cardParentField').value = parent;
-  document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + uniqueId;
 
   document.getElementById('cardForm').submit();
 
