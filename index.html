@@ -404,6 +404,8 @@ msgBox.innerText = "❌ هذا الطفل مسجل بالفعل. لا يمكن �
   console.error("❌ مشكلة في قراءة البيانات:", err);
 }
 
+  const email = document.getElementById('email').value.trim();
+
   if (!isValidEmail(email)) {
   document.getElementById('statusMessage').style.display = 'block';
   document.getElementById('statusMessage').style.color = 'red';
@@ -421,9 +423,6 @@ const photoFile = document.getElementById('photo').files[0];
     alert("يرجى تعبئة جميع الحقول وتحميل الملفات المطلوبة.");
     return;
   }
-  
-  const email = document.getElementById('email').value.trim();
-
 
   const reader = new FileReader();
   reader.onload = function () {
