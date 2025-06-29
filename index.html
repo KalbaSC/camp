@@ -307,6 +307,9 @@ footer p {
     <label> التعهد (PDF فقط): 
     <input type="file" id="commitmentFile" accept="application/pdf" required>
     </label>
+    <label>صورة بطاقة الهوية (PDF فقط):
+  <input type="file" id="idCardFile" accept="application/pdf" required>
+   </label>
     <button type="submit">تسجيل وإنشاء البطاقة</button>
   </form>
    <div id="statusMessage" style="display:none; text-align:center; margin: 20px; color: #f4e733; font-weight: bold;"></div>
@@ -497,6 +500,8 @@ setTimeout(() => {
   const commitmentFile = document.getElementById('commitmentFile').files[0];
   const reader2 = new FileReader();
 
+  
+
   reader2.onload = function (e) {
     const base64Data = e.target.result.split(',')[1]; // remove base64 prefix
 
@@ -514,6 +519,28 @@ setTimeout(() => {
   if (commitmentFile) {
     reader2.readAsDataURL(commitmentFile);
   }
+
+  // 📄 Upload صورة بطاقة الهوية
+const idCardFile = document.getElementById('idCardFile').files[0];
+const reader3 = new FileReader();
+
+reader3.onload = function (e) {
+  const base64Data = e.target.result.split(',')[1]; // remove base64 prefix
+
+  fetch('https://script.google.com/macros/s/AKfycbw6xOLzylqZMn_ZIW2jpmVCQNkKABPXFEcN8FTwhzbm-WAVAg2N0JMU9x7kD5tuk0Rb/exec', {
+    method: 'POST',
+    body: new URLSearchParams({
+      filename: `IDCard_${uniqueId}.pdf`,
+      filedata: base64Data
+    })
+  })
+  .then(() => console.log("✅ ID Card uploaded."))
+  .catch(err => console.error("❌ ID Card upload error:", err));
+};
+
+if (idCardFile) {
+  reader3.readAsDataURL(idCardFile);
+}
 
   // 3. Capture and submit card image
   html2canvas(document.getElementById('card'), {
