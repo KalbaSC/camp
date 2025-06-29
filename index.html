@@ -377,7 +377,7 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
   const phone = document.getElementById('phone').value;
   const email = document.getElementById('email').value;
   const altPhone = document.getElementById('altPhone').value;
-  const idnum = document.getElementById('idnum').files[0];
+  const idnum = document.getElementById('idnum').value;
   const photoFile = document.getElementById('photo').files[0];
 
   if (!isValidEmail(email)) {
