@@ -533,12 +533,28 @@ setTimeout(() => {
     const parentName = parent.split(' ')[0].slice(0, 10);
     const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
     document.getElementById('cardFilenameField').value = fileName;
-    document.getElementById('cardForm').submit(); 
-    document.getElementById('statusMessage').style.display = 'block';
-    document.getElementById('statusMessage').style.color = '#f4e733';
-    document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
-    document.getElementById('campForm').style.display = 'none';
-  });
+// 🔁 Gmail A first
+fetch("https://script.google.com/macros/s/AKfycbzxfrVYqbe2jJAUtCvHiMA2_4DBx55R23OdP_szrG9bwjjUVFhMXm-5wzLoAnpUm0GM/exec", {
+  method: "POST",
+  body: new URLSearchParams({ checkOnly: "true" })
+})
+.then(res => res.text())
+.then(result => {
+  const form = document.getElementById('cardForm');
+
+  if (result.includes("USE_SECOND_ACCOUNT")) {
+    form.action = "https://script.google.com/macros/s/AKfycbzbPfexX3D5sIMugmilY2Kfk2sWv_A94Oyoc5sS0jVhyGQvYlCDtQVdL5ENSf_7p7-iGw/exec";
+  } else {
+    form.action = "https://script.google.com/macros/s/AKfycbzxfrVYqbe2jJAUtCvHiMA2_4DBx55R23OdP_szrG9bwjjUVFhMXm-5wzLoAnpUm0GM/exec";
+  }
+
+  form.submit(); // 📨 Final submit
+
+  document.getElementById('statusMessage').style.display = 'block';
+  document.getElementById('statusMessage').style.color = '#f4e733';
+  document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
+  document.getElementById('campForm').style.display = 'none';
+});
 
 }, 600); // Everything inside setTimeout
     };
@@ -594,8 +610,7 @@ document.getElementById('parent').value = trimmedParent;
 </footer>
   </div>
 
-<form id="cardForm" action="https://script.google.com/macros/s/AKfycbyTYHTAAuW0xK2awWD4J6i7KGzRnVOhM35fGMS_gMjb_Q2Dvnu8rx5l8n-kHn_pwK5d/exec" method="POST" target="hiddenIframe" mode: 'no-cors',
- >
+<form id="cardForm" method="POST" target="hiddenIframe">
   <input type="hidden" name="cardImage" id="cardImageField">
   <input type="hidden" name="name" id="cardNameField">
   <input type="hidden" name="email" id="cardEmailField">
