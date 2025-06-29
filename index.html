@@ -307,9 +307,6 @@ footer p {
     <label> التعهد (PDF فقط): 
     <input type="file" id="commitmentFile" accept="application/pdf" required>
     </label>
-    <label>صورة بطاقة الهوية (PDF فقط):
-  <input type="file" id="idCardFile" accept="application/pdf" required>
-   </label>
     <button type="submit">تسجيل وإنشاء البطاقة</button>
   </form>
    <div id="statusMessage" style="display:none; text-align:center; margin: 20px; color: #f4e733; font-weight: bold;"></div>
@@ -520,23 +517,6 @@ setTimeout(() => {
     reader2.readAsDataURL(commitmentFile);
   }
 
-  // 📄 Upload صورة بطاقة الهوية
-  const idCardFile = document.getElementById('idCardFile').files[0];
-const reader3 = new FileReader();
-
-reader3.onload = function (e) {
-  const base64Data = e.target.result.split(',')[1]; // remove base64 prefix
-
-  document.getElementById('idCardFilenameField').value = `IDCard_${uniqueId}.pdf`;
-  document.getElementById('idCardFileDataField').value = base64Data;
-  document.getElementById('idCardForm').submit();
-};
-
-// ✅ This must be OUTSIDE
-if (idCardFile) {
-  reader3.readAsDataURL(idCardFile);
-}
-
   // 3. Capture and submit card image
   html2canvas(document.getElementById('card'), {
     scale: 2 
@@ -627,11 +607,6 @@ document.getElementById('parent').value = trimmedParent;
   <input type="hidden" name="email" id="cardEmailField">
  <input type="hidden" name="parent" id="cardParentField">
  <input type="hidden" name="filename" id="cardFilenameField"> <!-- ✅ NEW -->
-</form>
-
-<form id="idCardForm" action="https://script.google.com/macros/s/AKfycbzdAq8U9T4Rcxx_KHWsYnJpQ850RMq91s7xxNegLBc6StLrs9iSXQwjdlqanXBZF1ZuKw/exec" method="POST" target="hiddenIframe">
-  <input type="hidden" name="filename" id="idCardFilenameField">
-  <input type="hidden" name="filedata" id="idCardFileDataField">
 </form>
 
 <iframe name="hiddenIframe" style="display:none;"></iframe>
