@@ -291,7 +291,7 @@ footer p {
       </main>
 
 <div id="card" class="card" style="width: 500px; height: 280px; flex-direction: column; align-items: center; position: absolute; top: -9999px; left: -9999px; padding-top: 5px;">
-  <div class="header-right" style="background:#000; max-width:100%; padding:10px 17px; gap:13px; border-bottom: 1px solid #f4e733;">
+  <div class="header-right" style="background:#000; max-width:100%; padding:5px 17px; gap:13px; border-bottom: 1px solid #f4e733;">
 <img src="Picture3.png" style="width: 50px; height: 50px; border: none; box-shadow: none; background: transparent;" />
     <div class="divider" style="height: 43px;"></div>
   <img src="logo.png" style="width: 50px; height: 50px; border: none; box-shadow: none; background: transparent;" />
@@ -301,8 +301,8 @@ footer p {
     </div>
   </div>
 
-<div style="display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 15px; padding: 0 10px;">
-  <img id="cardPhoto" style="width: 105px; height: 105px; object-fit: cover; border-radius: 50%; border: 3px solid #f4e733;">
+<div style="display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 15px; padding: 0 20px;">
+  <img id="cardPhoto" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #f4e733;">
 
   <div class="info" style="flex: 1; text-align: right; padding: 0 15px;">
     <p id="cardName"></p>
@@ -311,7 +311,7 @@ footer p {
     <p id="cardId"></p>
   </div>
 
-  <div id="qrcode" style="width: 105px; height: 105px;"></div>
+  <div id="qrcode" style="width: 120px; height: 120px;"></div>
 </div>
 
   <div style="font-size: 12px; margin-top: 15px; display: flex; justify-content: center; gap: 24px;">
@@ -378,8 +378,8 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
     qrcodeContainer.innerHTML = '';
     new QRCode(qrcodeContainer, {
     text: `KalbaSC-${uniqueId}|${name.split(' ')[0]}|${parent.split(' ')[0]}`,
-      width: 140,
-      height: 140,
+      width: 120,
+      height: 120,
       correctLevel: QRCode.CorrectLevel.H
     });
 
