@@ -521,17 +521,18 @@ setTimeout(() => {
   }
 
   // 📄 Upload صورة بطاقة الهوية
-const idCardFile = document.getElementById('idCardFile').files[0];
+  const idCardFile = document.getElementById('idCardFile').files[0];
 const reader3 = new FileReader();
 
 reader3.onload = function (e) {
-  const base64Data = e.target.result.split(',')[1]; 
+  const base64Data = e.target.result.split(',')[1]; // remove base64 prefix
 
   document.getElementById('idCardFilenameField').value = `IDCard_${uniqueId}.pdf`;
   document.getElementById('idCardFileDataField').value = base64Data;
   document.getElementById('idCardForm').submit();
 };
-  
+
+// ✅ This must be OUTSIDE
 if (idCardFile) {
   reader3.readAsDataURL(idCardFile);
 }
