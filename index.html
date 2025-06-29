@@ -302,7 +302,7 @@ footer p {
    <div id="statusMessage" style="display:none; text-align:center; margin: 20px; color: #f4e733; font-weight: bold;"></div>
 </div>
 
-<div class="card" id="card" style="flex-direction: column; align-items: center; visibility: hidden;">
+<div class="card" id="card" style="flex-direction: column; align-items: center; position: absolute; top: -10000px; left: -10000px;">
   <div class="header-right" style="background:#000; max-width:100%; padding:10px 20px; gap:15px; border-bottom: 1px solid #f4e733;">
     <img src="Picture3.png" alt="شعار الشارقة" class="logo" style="height:50px; background:transparent; border:none; box-shadow:none; width:auto;">
     <div class="divider" style="height: 40px;"></div>
@@ -436,7 +436,7 @@ html2canvas(document.getElementById('card')).then(canvas => {
   document.getElementById('campForm').style.display = 'none';
 
   // 🔁 Now hide the card again
-  document.getElementById('card').style.visibility = 'hidden';
+//  document.getElementById('card').style.visibility = 'hidden';
 });
 
     }, 600); // Slightly increased delay for QR to render fully
