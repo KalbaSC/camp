@@ -299,6 +299,7 @@ footer p {
     <label>الصورة الشخصية: <input type="file" id="photo" accept="image/*" required></label>
     <button type="submit">تسجيل وإنشاء البطاقة</button>
   </form>
+   <div id="statusMessage" style="display:none; text-align:center; margin: 20px; color: #f4e733; font-weight: bold;"></div>
 </div>
 
 <div class="card" id="card" style="display:none; flex-direction: column; align-items: center;">
@@ -468,7 +469,7 @@ function downloadCard() {
   <input type="hidden" name="email" id="cardEmailField">
   <input type="hidden" name="parent" id="cardParentField">
 </form>
-  <div id="statusMessage" style="display:none; text-align:center; margin: 20px; color: #f4e733; font-weight: bold;"></div>
+ 
 <iframe name="hiddenIframe" style="display:none;"></iframe>
 
 </body>
