@@ -360,18 +360,40 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
 
   const reader = new FileReader();
   reader.onload = function () {
-    const photoURL = reader.result;
-    const uniqueId = Date.now(); // Safe short ID
+const photoURL = reader.result;
+const uniqueId = Date.now(); // Safe short ID
 
-    // Show card
-   // document.getElementById('card').style.display = 'flex';
-   // document.getElementById('downloadBtn').style.display = 'block';
-    document.getElementById('cardPhoto').src = photoURL;
-    document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name + ' ' + parent;
-    document.getElementById('cardAge').innerText = 'العمر: ' + age;
-    //document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
-    document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
-    document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + uniqueId;
+// Resize & crop photo to 120x120 circle
+const img = new Image();
+img.onload = function () {
+  const canvas = document.createElement('canvas');
+  const size = 120;
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  // Square center crop
+  const minSize = Math.min(img.width, img.height);
+  const sx = (img.width - minSize) / 2;
+  const sy = (img.height - minSize) / 2;
+
+  ctx.beginPath();
+  ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.clip();
+
+  ctx.drawImage(img, sx, sy, minSize, minSize, 0, 0, size, size);
+
+  document.getElementById('cardPhoto').src = canvas.toDataURL();
+};
+img.src = photoURL;
+
+// Fill in other info
+document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name + ' ' + parent;
+document.getElementById('cardAge').innerText = 'العمر: ' + age;
+document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
+document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + uniqueId;
+
 
     // Generate QR code
     const qrcodeContainer = document.getElementById("qrcode");
