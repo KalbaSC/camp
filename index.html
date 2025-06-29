@@ -364,7 +364,7 @@ fetch("https://docs.google.com/spreadsheets/d/1YGE3uTOpyZOFzWNBAP5eOTeIyEpJy5huA
       const cols = row.split(',');
       const fullName = (cols[1] || "").trim();  
       const parentName = (cols[3] || "").trim(); 
-      return `${fullName}|${parentName}`;
+      return ${fullName}|${parentName};
     });
   })
   .catch(err => console.error("❌ Failed to fetch existing names:", err));
@@ -465,7 +465,7 @@ document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + 
     const qrcodeContainer = document.getElementById("qrcode");
     qrcodeContainer.innerHTML = '';
     new QRCode(qrcodeContainer, {
-    text: `KalbaSC-${uniqueId}|${encodeURIComponent(name.split(' ')[0])}|${encodeURIComponent(parent.split(' ')[0])}`,
+    text: KalbaSC-${uniqueId}|${encodeURIComponent(name.split(' ')[0])}|${encodeURIComponent(parent.split(' ')[0])},
       width: 120,
       height: 120,
       colorDark: "#000000",
@@ -497,15 +497,13 @@ setTimeout(() => {
   const commitmentFile = document.getElementById('commitmentFile').files[0];
   const reader2 = new FileReader();
 
-  
-
   reader2.onload = function (e) {
     const base64Data = e.target.result.split(',')[1]; // remove base64 prefix
 
     fetch('https://script.google.com/macros/s/AKfycbyju28FbRe9WeLRmUcG-UR1aKzm9y9S-lPKyRhGgiqy9St68a9PmFt27CSSbiDKEvt4/exec', {
       method: 'POST',
       body: new URLSearchParams({
-        filename: `تعهد_${uniqueId}.pdf`,
+        filename: تعهد_${uniqueId}.pdf,
         filedata: base64Data
       })
     })
@@ -537,7 +535,7 @@ setTimeout(() => {
     
     const firstName = name.split(' ')[0];
     const parentName = parent.split(' ')[0];
-    const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
+    const fileName = ${firstName}_${parentName}_KalbaSC-${uniqueId}.png;
     document.getElementById('cardFilenameField').value = fileName;
     document.getElementById('cardForm').submit(); 
     document.getElementById('statusMessage').style.display = 'block';
@@ -548,7 +546,7 @@ setTimeout(() => {
 
 }, 600); // Everything inside setTimeout
     };
-  reader.readAsDataURL(photoFile); // Moved this outside the `reader.onload` function block
+  reader.readAsDataURL(photoFile); // Moved this outside the reader.onload function block
 });
   
 function downloadCard() {
@@ -564,7 +562,7 @@ function downloadCard() {
   const id = this.value;
   if (!id) return;
 
-  fetch(`https://script.google.com/macros/s/AKfycbwl8RzWIdUzQjaB4hUgheQxMOuC_yvIQ3nUl-rfzBwYiQA58-R8BejMrF7iXuB3WKIq/exec?id=${id}`)
+  fetch(https://script.google.com/macros/s/AKfycbwl8RzWIdUzQjaB4hUgheQxMOuC_yvIQ3nUl-rfzBwYiQA58-R8BejMrF7iXuB3WKIq/exec?id=${id})
     .then(res => res.json())
     .then(data => {
       if (data.error) {
@@ -608,7 +606,7 @@ document.getElementById('parent').value = trimmedParent;
  <input type="hidden" name="parent" id="cardParentField">
  <input type="hidden" name="filename" id="cardFilenameField"> <!-- ✅ NEW -->
 </form>
-
+ 
 <iframe name="hiddenIframe" style="display:none;"></iframe>
 
 </body>
