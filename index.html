@@ -302,7 +302,7 @@ footer p {
    <div id="statusMessage" style="display:none; text-align:center; margin: 20px; color: #f4e733; font-weight: bold;"></div>
 </div>
 
-<div class="card" id="card" style="opacity: 0; position: absolute; left: -9999px; top: -9999px;">
+<div class="card" id="card" style="flex-direction: column; align-items: center; visibility: hidden;">
   <div class="header-right" style="background:#000; max-width:100%; padding:10px 20px; gap:15px; border-bottom: 1px solid #f4e733;">
     <img src="Picture3.png" alt="شعار الشارقة" class="logo" style="height:50px; background:transparent; border:none; box-shadow:none; width:auto;">
     <div class="divider" style="height: 40px;"></div>
@@ -418,22 +418,26 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
       });
 
       // Capture card image
-      html2canvas(document.getElementById('card')).then(canvas => {
-        const imageData = canvas.toDataURL('image/png');
+html2canvas(document.getElementById('card')).then(canvas => {
+  const imageData = canvas.toDataURL('image/png');
 
-        document.getElementById('cardImageField').value = imageData;
-        document.getElementById('cardNameField').value = name;
-        document.getElementById('cardEmailField').value = email;
-        document.getElementById('cardParentField').value = parent;
+  document.getElementById('cardImageField').value = imageData;
+  document.getElementById('cardNameField').value = name;
+  document.getElementById('cardEmailField').value = email;
+  document.getElementById('cardParentField').value = parent;
+  document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + uniqueId;
 
-        document.getElementById('cardForm').submit();
-        document.getElementById('statusMessage').style.display = 'block';
-        document.getElementById('statusMessage').style.color = '#f4e733';
-        document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
-        document.getElementById('campForm').style.display = 'none';
+  document.getElementById('cardForm').submit();
 
-       // alert("✅ تم إرسال البطاقة بالبريد، وسيتم حفظها في Google Drive.");
-      });
+  // ✅ Show success message
+  document.getElementById('statusMessage').style.display = 'block';
+  document.getElementById('statusMessage').style.color = '#f4e733';
+  document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
+  document.getElementById('campForm').style.display = 'none';
+
+  // 🔁 Now hide the card again
+  document.getElementById('card').style.visibility = 'hidden';
+});
 
     }, 600); // Slightly increased delay for QR to render fully
   };
