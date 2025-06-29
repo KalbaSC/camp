@@ -10,7 +10,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
- 
+
   <style>
     html, body {
   height: 100%;
@@ -333,11 +333,10 @@ footer p {
     <p id="cardPhone"></p>
     <p id="cardId"></p>
   </div>
-  
-<div style="background: white; padding: 5px; border-radius: 10px; display: flex; align-items: center; justify-content: center; width: 120px; height: 120px;">
-  <div id="qrcode" style="width: 105px; height: 105px;"></div>
-</div>
 
+<div style="background: white; padding: 5px; border-radius: 8px;">
+  <div id="qrcode" style="width: 120px; height: 120px;"></div>
+</div>
 </div>
 
   <div style="font-size: 12px; margin-top: 15px; display: flex; justify-content: center; gap: 24px;">
@@ -350,11 +349,11 @@ footer p {
     <span>info@ksc.shj.ae</span>
   </div>
 </div>
-  
+
 </div>
 
 <script>
-  
+
 let existingNames = [];
 
 fetch("https://docs.google.com/spreadsheets/d/1YGE3uTOpyZOFzWNBAP5eOTeIyEpJy5huAPsYjRGxqb4/gviz/tq?tqx=out:csv")
@@ -365,7 +364,7 @@ fetch("https://docs.google.com/spreadsheets/d/1YGE3uTOpyZOFzWNBAP5eOTeIyEpJy5huA
       const cols = row.split(',');
       const fullName = (cols[1] || "").trim();  
       const parentName = (cols[3] || "").trim(); 
-      return `${fullName}|${parentName}`; 
+      return `${fullName}|${parentName}`;
     });
   })
   .catch(err => console.error("❌ Failed to fetch existing names:", err));
@@ -398,14 +397,23 @@ try {
 const msgBox = document.getElementById('statusMessage');
 msgBox.style.display = 'block';
 msgBox.style.color = 'red';
-msgBox.innerText = "❌ هذا الطفل مسجل بالفعل. لا يمكن التسجيل مرتين.";
+msgBox.innerText = "❌ هذا الطفل مسجل بالفعل باسم ولي الأمر. لا يمكن التسجيل مرتين.";
     return;
   }
 } catch (err) {
   console.error("❌ مشكلة في قراءة البيانات:", err);
 }
 
-  const email = document.getElementById('email').value.trim();
+
+  const name = document.getElementById('name').value;
+  const age = document.getElementById('age').value;
+  const parent = document.getElementById('parent').value;
+  const phone = document.getElementById('phone').value;
+  const email = document.getElementById('email').value;
+  const altPhone = document.getElementById('altPhone').value;
+  const idnum = document.getElementById('idnum').value;
+  const photoFile = document.getElementById('photo').files[0];
+
 
   if (!isValidEmail(email)) {
   document.getElementById('statusMessage').style.display = 'block';
@@ -413,12 +421,6 @@ msgBox.innerText = "❌ هذا الطفل مسجل بالفعل. لا يمكن �
   document.getElementById('statusMessage').innerText = "❌ البريد الإلكتروني غير صالح. يرجى التحقق.";
   return;
 }
-  
-const age = document.getElementById('age').value.trim();
-const phone = document.getElementById('phone').value.trim();
-const altPhone = document.getElementById('altPhone').value.trim();
-const idnum = document.getElementById('idnum').value.trim();
-const photoFile = document.getElementById('photo').files[0];
 
   if (!name || !age || !parent || !phone || !email || !altPhone || !idnum || !photoFile) {
     alert("يرجى تعبئة جميع الحقول وتحميل الملفات المطلوبة.");
@@ -504,7 +506,7 @@ setTimeout(() => {
     fetch('https://script.google.com/macros/s/AKfycbyju28FbRe9WeLRmUcG-UR1aKzm9y9S-lPKyRhGgiqy9St68a9PmFt27CSSbiDKEvt4/exec', {
       method: 'POST',
       body: new URLSearchParams({
-      filename: `تعهد_${uniqueId}.pdf`,
+        filename: `تعهد_${uniqueId}.pdf`,
         filedata: base64Data
       })
     })
@@ -533,14 +535,11 @@ setTimeout(() => {
     document.getElementById('cardNameField').value = name;
     document.getElementById('cardEmailField').value = email;
     document.getElementById('cardParentField').value = parent;
-    
+
     const firstName = name.split(' ')[0];
     const parentName = parent.split(' ')[0];
     const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
     document.getElementById('cardFilenameField').value = fileName;
-    console.log("📧 Email:", document.getElementById('cardEmailField').value);
-    console.log("📎 Filename:", document.getElementById('cardFilenameField').value);
-
     document.getElementById('cardForm').submit(); 
     document.getElementById('statusMessage').style.display = 'block';
     document.getElementById('statusMessage').style.color = '#f4e733';
@@ -550,9 +549,9 @@ setTimeout(() => {
 
 }, 600); // Everything inside setTimeout
     };
-  reader.readAsDataURL(photoFile); // Moved this outside the reader.onload function block
+  reader.readAsDataURL(photoFile); // Moved this outside the `reader.onload` function block
 });
-  
+
 function downloadCard() {
   html2canvas(document.getElementById('card')).then(canvas => {
     const link = document.createElement('a');
@@ -582,13 +581,13 @@ function downloadCard() {
 const fullParent = data.parent || '';
 const trimmedParent = fullParent.trim().split(' ').slice(0, 2).join(' ');
 document.getElementById('parent').value = trimmedParent;
-      
+
     })
     .catch(err => console.error("Fetch error:", err));
 });
 
 </script>
-  
+
 <footer>
   <p>© 2025 نادي كلباء الرياضي الثقافي - جميع الحقوق محفوظة</p>
     <p style="font-size: 14px; color: #aaa; margin-top: -10px;">تم التطوير بواسطة روند أحمد الضمور</p>
@@ -601,7 +600,7 @@ document.getElementById('parent').value = trimmedParent;
   </div>
 </footer>
   </div>
-  
+
 <form id="cardForm" action="https://script.google.com/macros/s/AKfycby7_O-sZ8yIn3PrCqFAeK08xjABQTNzpaQB6phK_kcTxK3LKKdFBD5weYZebBLdsHdj3A/exec" method="POST" target="hiddenIframe" mode: 'no-cors',
  >
   <input type="hidden" name="cardImage" id="cardImageField">
@@ -610,7 +609,7 @@ document.getElementById('parent').value = trimmedParent;
  <input type="hidden" name="parent" id="cardParentField">
  <input type="hidden" name="filename" id="cardFilenameField"> <!-- ✅ NEW -->
 </form>
- 
+
 <iframe name="hiddenIframe" style="display:none;"></iframe>
 
 </body>
