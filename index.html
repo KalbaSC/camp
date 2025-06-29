@@ -370,7 +370,7 @@ fetch("https://docs.google.com/spreadsheets/d/1YGE3uTOpyZOFzWNBAP5eOTeIyEpJy5huA
   .catch(err => console.error("❌ Failed to fetch existing names:", err));
 
 
-document.getElementById('campForm').addEventListener('submit', function(e) {
+document.getElementById('campForm').addEventListener('submit', async function(e) {
 
   function isValidEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -394,7 +394,10 @@ try {
   );
 
   if (alreadyExists) {
-    alert("❌ هذا الطفل مسجل بالفعل باسم ولي الأمر. لا يمكن التسجيل مرتين.");
+const msgBox = document.getElementById('statusMessage');
+msgBox.style.display = 'block';
+msgBox.style.color = 'red';
+msgBox.innerText = "❌ هذا الطفل مسجل بالفعل باسم ولي الأمر. لا يمكن التسجيل مرتين.";
     return;
   }
 } catch (err) {
