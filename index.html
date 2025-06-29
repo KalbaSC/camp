@@ -549,24 +549,16 @@ fetch("https://script.google.com/macros/s/AKfycbzxfrVYqbe2jJAUtCvHiMA2_4DBx55R23
   }
 
   form.submit(); // 📨 Final submit
-
+}); // End of html2canvas().then
   document.getElementById('statusMessage').style.display = 'block';
   document.getElementById('statusMessage').style.color = '#f4e733';
   document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
   document.getElementById('campForm').style.display = 'none';
-
+});
     }, 600);
+    };
   reader.readAsDataURL(photoFile); // Moved this outside the `reader.onload` function block
 });
-
-function downloadCard() {
-  html2canvas(document.getElementById('card')).then(canvas => {
-    const link = document.createElement('a');
-    link.download = 'بطاقة_التسجيل.png';
-    link.href = canvas.toDataURL();
-    link.click();
-  });
-}
 
   document.getElementById('idnum').addEventListener('change', function() {
   const id = this.value;
