@@ -411,7 +411,7 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
     const qrcodeContainer = document.getElementById("qrcode");
     qrcodeContainer.innerHTML = '';
     new QRCode(qrcodeContainer, {
-      text: `KalbaSC-${uniqueId}|${encodeURIComponent(name)}|${encodeURIComponent(parent)}`,
+    text: `KalbaSC-${uniqueId}|${name.split(' ')[0]}|${parent.split(' ')[0]}`,
       width: 140,
       height: 140,
       correctLevel: QRCode.CorrectLevel.H
