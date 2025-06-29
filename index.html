@@ -428,21 +428,21 @@ setTimeout(() => {
     }
   });
 
-  // 2. Upload commitment file to Google Drive
+  // 2. Upload التعهد (Commitment File) to Google Drive
   const commitmentFile = document.getElementById('commitmentFile').files[0];
   const reader2 = new FileReader();
 
   reader2.onload = function (e) {
-    const base64Data = e.target.result.split(',')[1]; // Strip base64 prefix
+    const base64Data = e.target.result.split(',')[1]; // remove base64 prefix
 
-    fetch('https://script.google.com/macros/s/AKfycbxFGWUcIk6TNIF8yb1clBsW2DZ-mLMDibStpuzL5m-CywbPp2Id5vp86aLA8p1sWtVaMw/exec', { 
+    fetch('https://script.google.com/macros/s/AKfycbxFGWUcIk6TNIF8yb1clBsW2DZ-mLMDibStpuzL5m-CywbPp2Id5vp86aLA8p1sWtVaMw/exec', {
       method: 'POST',
       body: new URLSearchParams({
         filename: `تعهد_${uniqueId}.pdf`,
         filedata: base64Data
       })
     })
-    .then(res => console.log("✅ Commitment file uploaded."))
+    .then(() => console.log("✅ Commitment file uploaded."))
     .catch(err => console.error("❌ Upload error:", err));
   };
 
@@ -450,42 +450,34 @@ setTimeout(() => {
     reader2.readAsDataURL(commitmentFile);
   }
 
-  // 3. Continue with your card image logic here...
+  // 3. Capture and submit card image
+  html2canvas(document.getElementById('card'), {
+    scale: 2 
+  }).then(canvas => {
+    const fixedCanvas = document.createElement('canvas');
+    fixedCanvas.width = 625;
+    fixedCanvas.height = 350;
+    const ctx = fixedCanvas.getContext('2d');
 
-}, 600); // QR rendering delay
+    ctx.drawImage(canvas, 0, 0, fixedCanvas.width, fixedCanvas.height);
 
-      // Capture card image
-html2canvas(document.getElementById('card'), {
-  scale: 2 
-}).then(canvas => {
-  // Step 1: Create a fixed-size canvas
-  const fixedCanvas = document.createElement('canvas');
-  fixedCanvas.width = 625;
-  fixedCanvas.height = 350;
-  const ctx = fixedCanvas.getContext('2d');
+    const imageData = fixedCanvas.toDataURL('image/png');
 
-  ctx.drawImage(canvas, 0, 0, fixedCanvas.width, fixedCanvas.height);
+    document.getElementById('cardImageField').value = imageData;
+    document.getElementById('cardNameField').value = name;
+    document.getElementById('cardEmailField').value = email;
+    document.getElementById('cardParentField').value = parent;
 
-  const imageData = fixedCanvas.toDataURL('image/png');
+    document.getElementById('cardForm').submit();
 
-  document.getElementById('cardImageField').value = imageData;
-  document.getElementById('cardNameField').value = name;
-  document.getElementById('cardEmailField').value = email;
-  document.getElementById('cardParentField').value = parent;
+    document.getElementById('statusMessage').style.display = 'block';
+    document.getElementById('statusMessage').style.color = '#f4e733';
+    document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
+    document.getElementById('campForm').style.display = 'none';
+  });
 
-  document.getElementById('cardForm').submit();
-
-  document.getElementById('statusMessage').style.display = 'block';
-  document.getElementById('statusMessage').style.color = '#f4e733';
-  document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
-  document.getElementById('campForm').style.display = 'none';
-});
-
-    }, 600); // Slightly increased delay for QR to render fully
-  };
-
+}, 600); // Everything inside setTimeout
   reader.readAsDataURL(photoFile); // Moved this outside the `reader.onload` function block
-});
 
 function downloadCard() {
   html2canvas(document.getElementById('card')).then(canvas => {
