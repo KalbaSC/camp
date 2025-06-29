@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>More actions
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -397,23 +397,14 @@ try {
 const msgBox = document.getElementById('statusMessage');
 msgBox.style.display = 'block';
 msgBox.style.color = 'red';
-msgBox.innerText = "❌ هذا الطفل مسجل بالفعل باسم ولي الأمر. لا يمكن التسجيل مرتين.";
+msgBox.innerText = "❌ هذا الطفل مسجل بالفعل. لا يمكن التسجيل مرتين.";
     return;
   }
 } catch (err) {
   console.error("❌ مشكلة في قراءة البيانات:", err);
 }
 
-
-  const name = document.getElementById('name').value;
-  const age = document.getElementById('age').value;
-  const parent = document.getElementById('parent').value;
-  const phone = document.getElementById('phone').value;
-  const email = document.getElementById('email').value;
-  const altPhone = document.getElementById('altPhone').value;
-  const idnum = document.getElementById('idnum').value;
-  const photoFile = document.getElementById('photo').files[0];
-
+  const email = document.getElementById('email').value.trim();
 
   if (!isValidEmail(email)) {
   document.getElementById('statusMessage').style.display = 'block';
@@ -421,6 +412,12 @@ msgBox.innerText = "❌ هذا الطفل مسجل بالفعل باسم ولي 
   document.getElementById('statusMessage').innerText = "❌ البريد الإلكتروني غير صالح. يرجى التحقق.";
   return;
 }
+
+const age = document.getElementById('age').value.trim();
+const phone = document.getElementById('phone').value.trim();
+const altPhone = document.getElementById('altPhone').value.trim();
+const idnum = document.getElementById('idnum').value.trim();
+const photoFile = document.getElementById('photo').files[0];
 
   if (!name || !age || !parent || !phone || !email || !altPhone || !idnum || !photoFile) {
     alert("يرجى تعبئة جميع الحقول وتحميل الملفات المطلوبة.");
