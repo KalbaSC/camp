@@ -314,7 +314,7 @@ footer p {
     <label>رقم الهاتف: <input type="tel" id="phone" required></label>
     <label>البريد الإلكتروني: <input type="email" id="email" required></label>
     <label>رقم بديل: <input type="tel" id="altPhone" required></label>
-    <label> الهوية: <input type="file" id="idnum" accept="image/*,.pdf" required></label>
+    <label> الهوية: <input type="number" id="idnum" required></label>
     <label>الصورة الشخصية: <input type="file" id="photo" accept="image/*" required></label>
     <button type="submit">تسجيل وإنشاء البطاقة</button>
   </form>
@@ -401,9 +401,9 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
    // document.getElementById('card').style.display = 'flex';
    // document.getElementById('downloadBtn').style.display = 'block';
     document.getElementById('cardPhoto').src = photoURL;
-    document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name + parent;
+    document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name + ' ' + parent;
     document.getElementById('cardAge').innerText = 'العمر: ' + age;
-    document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
+    //document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
     document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
     document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + uniqueId;
 
