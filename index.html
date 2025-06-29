@@ -359,7 +359,7 @@ footer p {
 </div>
   
 </div>
-<button class="download-btn" id="downloadBtn" style="display:none" onclick="downloadCard()">تحميل البطاقة</button>
+//<button class="download-btn" id="downloadBtn" style="display:none" onclick="downloadCard()">تحميل البطاقة</button>
 
 <script>
 document.getElementById('campForm').addEventListener('submit', function(e) {
@@ -401,9 +401,9 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
    // document.getElementById('card').style.display = 'flex';
    // document.getElementById('downloadBtn').style.display = 'block';
     document.getElementById('cardPhoto').src = photoURL;
-    document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name;
+    document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name + parent;
     document.getElementById('cardAge').innerText = 'العمر: ' + age;
-    document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
+   // document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
     document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
     document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + uniqueId;
 
@@ -444,7 +444,7 @@ html2canvas(document.getElementById('card')).then(canvas => {
   document.getElementById('cardImageField').value = imageData;
   document.getElementById('cardNameField').value = name;
   document.getElementById('cardEmailField').value = email;
-  document.getElementById('cardParentField').value = parent;
+  //document.getElementById('cardParentField').value = parent;
   document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + uniqueId;
 
   document.getElementById('cardForm').submit();
@@ -492,7 +492,7 @@ function downloadCard() {
   <input type="hidden" name="cardImage" id="cardImageField">
   <input type="hidden" name="name" id="cardNameField">
   <input type="hidden" name="email" id="cardEmailField">
-  <input type="hidden" name="parent" id="cardParentField">
+ <input type="hidden" name="parent" id="cardParentField">
 </form>
  
 <iframe name="hiddenIframe" style="display:none;"></iframe>
