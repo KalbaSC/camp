@@ -490,6 +490,8 @@ function downloadCard() {
       document.getElementById('age').value = data.age || '';
       document.getElementById('phone').value = data.phone || '';
       document.getElementById('altPhone').value = data.parentPhone || '';
+      document.getElementById('parent').value = data.parent || '';
+      
     })
     .catch(err => console.error("Fetch error:", err));
 });
