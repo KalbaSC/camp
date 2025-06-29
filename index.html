@@ -478,7 +478,7 @@ function downloadCard() {
   const id = this.value;
   if (!id) return;
 
-  fetch(`https://script.google.com/macros/s/AKfycbwz3i2qTylKMViXZBgzYQv7kfHhrx8dd4R-dLrKEDNVm2HRJzcHfQRJz_m83bt3GDPt/exec?id=${id}`)
+  fetch(`https://script.google.com/macros/s/AKfycbwl8RzWIdUzQjaB4hUgheQxMOuC_yvIQ3nUl-rfzBwYiQA58-R8BejMrF7iXuB3WKIq/exec?id=${id}`)
     .then(res => res.json())
     .then(data => {
       if (data.error) {
