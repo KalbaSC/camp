@@ -333,18 +333,18 @@ footer p {
     </div>
   </div>
 
-<div style="display: flex; flex-direction: row; gap: 20px; justify-content: space-between; align-items: center; flex-wrap: wrap; width: 100%; margin-top: 15px;">
-  <div id="qrcode" style="width: 140px; height: 140px;"></div>
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: nowrap; width: 100%; margin-top: 15px;">
+  <img id="cardPhoto" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #f4e733;">
 
-  <div class="info" style="min-width: 200px; flex: 1; text-align: right;">
+  <div class="info" style="flex: 1; text-align: right; padding: 0 20px;">
     <p id="cardName"></p>
-    <p id="cardParent"></p>
     <p id="cardAge"></p>
+    <p id="cardParent"></p>
     <p id="cardPhone"></p>
     <p id="cardId"></p>
   </div>
 
-  <img id="cardPhoto" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%; border: 3px solid #f4e733;">
+  <div id="qrcode" style="width: 140px; height: 140px;"></div>
 </div>
 
   <div style="margin-top: 15px; display: flex; justify-content: center; gap: 30px;">
