@@ -277,12 +277,12 @@ footer p {
   <h2>التسجيل في صيف الشارقة الرياضي (عطلتنا غير)</h2>
   <form id="campForm">
     <label> الهوية: (الرجاء إدخال رقم الهوية 784xxxxxxxxxxxx) <input type="number" id="idnum" required></label>
-    <label>اسم الطفل: <input type="text" id="name" required></label>
-    <label>العمر: <input type="number" id="age" required></label>
-    <label>اسم ولي الأمر: <input type="text" id="parent" required></label>
-    <label>رقم الهاتف: <input type="tel" id="phone" required></label>
+    <label>اسم الطفل: <input type="text" id="name" required readonly></label>
+    <label>العمر: <input type="number" id="age" required readonly></label>
+    <label>اسم ولي الأمر: <input type="text" id="parent" required readonly></label>
+    <label>رقم الهاتف: <input type="tel" id="phone" required readonly></label>
     <label>البريد الإلكتروني: <input type="email" id="email" required></label>
-    <label>رقم بديل: <input type="tel" id="altPhone" required></label>
+    <label>رقم بديل: <input type="tel" id="altPhone" required readonly></label>
     <label>الصورة الشخصية: <input type="file" id="photo" accept="image/*" required></label>
     <label> التعهد (PDF فقط): 
     <input type="file" id="commitmentFile" accept="application/pdf" required>
@@ -314,7 +314,9 @@ footer p {
     <p id="cardId"></p>
   </div>
 
+<div style="background: white; padding: 5px; border-radius: 8px;">
   <div id="qrcode" style="width: 120px; height: 120px;"></div>
+</div>
 </div>
 
   <div style="font-size: 12px; margin-top: 15px; display: flex; justify-content: center; gap: 24px;">
@@ -405,6 +407,8 @@ document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + 
     text: `KalbaSC-${uniqueId}|${encodeURIComponent(name.split(' ')[0])}|${encodeURIComponent(parent.split(' ')[0])}`,
       width: 120,
       height: 120,
+      colorDark: "#000000",
+      colorLight: "#ffffff", 
       correctLevel: QRCode.CorrectLevel.M
     });
 
