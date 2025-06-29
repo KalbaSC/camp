@@ -554,7 +554,8 @@ fetch("https://script.google.com/macros/s/AKfycbzxfrVYqbe2jJAUtCvHiMA2_4DBx55R23
   document.getElementById('statusMessage').style.color = '#f4e733';
   document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
   document.getElementById('campForm').style.display = 'none';
-});
+
+    }, 600);
   reader.readAsDataURL(photoFile); // Moved this outside the `reader.onload` function block
     };
 });
