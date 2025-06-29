@@ -342,6 +342,12 @@ footer p {
 
 <script>
 document.getElementById('campForm').addEventListener('submit', function(e) {
+
+  function isValidEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
   e.preventDefault();
 
   const name = document.getElementById('name').value;
@@ -352,6 +358,13 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
   const altPhone = document.getElementById('altPhone').value;
   const idnum = document.getElementById('idnum').files[0];
   const photoFile = document.getElementById('photo').files[0];
+
+  if (!isValidEmail(email)) {
+  document.getElementById('statusMessage').style.display = 'block';
+  document.getElementById('statusMessage').style.color = 'red';
+  document.getElementById('statusMessage').innerText = "❌ البريد الإلكتروني غير صالح. يرجى التحقق.";
+  return;
+}
 
   if (!name || !age || !parent || !phone || !email || !altPhone || !idnum || !photoFile) {
     alert("يرجى تعبئة جميع الحقول وتحميل الملفات المطلوبة.");
@@ -364,8 +377,8 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
     const uniqueId = Date.now(); // Safe short ID
 
     // Show card
-    document.getElementById('card').style.display = 'flex';
-    document.getElementById('downloadBtn').style.display = 'block';
+   // document.getElementById('card').style.display = 'flex';
+   // document.getElementById('downloadBtn').style.display = 'block';
     document.getElementById('cardPhoto').src = photoURL;
     document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name;
     document.getElementById('cardAge').innerText = 'العمر: ' + age;
@@ -413,6 +426,11 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
         document.getElementById('cardParentField').value = parent;
 
         document.getElementById('cardForm').submit();
+        document.getElementById('statusMessage').style.display = 'block';
+        document.getElementById('statusMessage').style.color = '#f4e733';
+        document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
+        document.getElementById('campForm').style.display = 'none';
+
        // alert("✅ تم إرسال البطاقة بالبريد، وسيتم حفظها في Google Drive.");
       });
 
@@ -450,6 +468,7 @@ function downloadCard() {
   <input type="hidden" name="email" id="cardEmailField">
   <input type="hidden" name="parent" id="cardParentField">
 </form>
+  <div id="statusMessage" style="display:none; text-align:center; margin: 20px; color: #f4e733; font-weight: bold;"></div>
 <iframe name="hiddenIframe" style="display:none;"></iframe>
 
 </body>
