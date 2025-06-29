@@ -479,7 +479,8 @@ setTimeout(() => {
 }, 600); // Everything inside setTimeout
     };
   reader.readAsDataURL(photoFile); // Moved this outside the `reader.onload` function block
-
+});
+  
 function downloadCard() {
   html2canvas(document.getElementById('card')).then(canvas => {
     const link = document.createElement('a');
