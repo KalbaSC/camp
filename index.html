@@ -320,6 +320,7 @@ footer p {
     <p id="cardAge"></p>
     <p id="cardParent"></p>
     <p id="cardPhone"></p>
+    <p id="cardId"></p>
   </div>
 
   <div id="qrcode" style="width: 140px; height: 140px;"></div>
@@ -370,6 +371,7 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
     document.getElementById('cardAge').innerText = 'العمر: ' + age;
     document.getElementById('cardParent').innerText = 'اسم ولي الأمر: ' + parent;
     document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
+    document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + uniqueId;
 
     // Generate QR code
     const qrcodeContainer = document.getElementById("qrcode");
