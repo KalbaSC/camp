@@ -536,8 +536,10 @@ setTimeout(() => {
 // 🔁 Gmail A first
 fetch("https://script.google.com/macros/s/AKfycbzxfrVYqbe2jJAUtCvHiMA2_4DBx55R23OdP_szrG9bwjjUVFhMXm-5wzLoAnpUm0GM/exec", {
   method: "POST",
-  body: new URLSearchParams({ checkOnly: "true" })
-})
+      body: new URLSearchParams({
+        filename: `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`,
+        filedata: base64Data
+      })})
 .then(res => res.text())
 .then(result => {
   const form = document.getElementById('cardForm');
