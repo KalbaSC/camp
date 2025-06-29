@@ -404,8 +404,18 @@ document.getElementById('campForm').addEventListener('submit', function(e) {
       });
 
       // Capture card image
-html2canvas(document.getElementById('card'), {scale: 2}).then(canvas => {
-  const imageData = canvas.toDataURL('image/png');
+html2canvas(document.getElementById('card'), {
+  scale: 2 
+}).then(canvas => {
+  // Step 1: Create a fixed-size canvas
+  const fixedCanvas = document.createElement('canvas');
+  fixedCanvas.width = 625;
+  fixedCanvas.height = 350;
+  const ctx = fixedCanvas.getContext('2d');
+
+  ctx.drawImage(canvas, 0, 0, fixedCanvas.width, fixedCanvas.height);
+
+  const imageData = fixedCanvas.toDataURL('image/png');
 
   document.getElementById('cardImageField').value = imageData;
   document.getElementById('cardNameField').value = name;
@@ -414,14 +424,10 @@ html2canvas(document.getElementById('card'), {scale: 2}).then(canvas => {
 
   document.getElementById('cardForm').submit();
 
-  // ✅ Show success message
   document.getElementById('statusMessage').style.display = 'block';
   document.getElementById('statusMessage').style.color = '#f4e733';
   document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
   document.getElementById('campForm').style.display = 'none';
-
-  // 🔁 Now hide the card again
-//  document.getElementById('card').style.visibility = 'hidden';
 });
 
     }, 600); // Slightly increased delay for QR to render fully
