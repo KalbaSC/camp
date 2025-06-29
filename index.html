@@ -412,11 +412,20 @@ msgBox.innerText = "❌ هذا الطفل مسجل بالفعل. لا يمكن �
   document.getElementById('statusMessage').innerText = "❌ البريد الإلكتروني غير صالح. يرجى التحقق.";
   return;
 }
+  
+const age = document.getElementById('age').value.trim();
+const phone = document.getElementById('phone').value.trim();
+const altPhone = document.getElementById('altPhone').value.trim();
+const idnum = document.getElementById('idnum').value.trim();
+const photoFile = document.getElementById('photo').files[0];
 
   if (!name || !age || !parent || !phone || !email || !altPhone || !idnum || !photoFile) {
     alert("يرجى تعبئة جميع الحقول وتحميل الملفات المطلوبة.");
     return;
   }
+  
+  const email = document.getElementById('email').value.trim();
+
 
   const reader = new FileReader();
   reader.onload = function () {
