@@ -527,16 +527,10 @@ const reader3 = new FileReader();
 reader3.onload = function (e) {
   const base64Data = e.target.result.split(',')[1]; // remove base64 prefix
 
-  fetch('https://script.google.com/macros/s/AKfycbw6xOLzylqZMn_ZIW2jpmVCQNkKABPXFEcN8FTwhzbm-WAVAg2N0JMU9x7kD5tuk0Rb/exec', {
-    method: 'POST',
-    body: new URLSearchParams({
-      filename: `IDCard_${uniqueId}.pdf`,
-      filedata: base64Data
-    })
-  })
-  .then(() => console.log("✅ ID Card uploaded."))
-  .catch(err => console.error("❌ ID Card upload error:", err));
-};
+document.getElementById('idCardFilenameField').value = `IDCard_${uniqueId}.pdf`;
+document.getElementById('idCardFileDataField').value = base64Data;
+document.getElementById('idCardForm').submit();
+
 
 if (idCardFile) {
   reader3.readAsDataURL(idCardFile);
@@ -633,7 +627,12 @@ document.getElementById('parent').value = trimmedParent;
  <input type="hidden" name="parent" id="cardParentField">
  <input type="hidden" name="filename" id="cardFilenameField"> <!-- ✅ NEW -->
 </form>
- 
+
+<form id="idCardForm" action="https://script.google.com/macros/s/AKfycbw6xOLzylqZMn_ZIW2jpmVCQNkKABPXFEcN8FTwhzbm-WAVAg2N0JMU9x7kD5tuk0Rb/exec" method="POST" target="hiddenIframe">
+  <input type="hidden" name="filename" id="idCardFilenameField">
+  <input type="hidden" name="filedata" id="idCardFileDataField">
+</form>
+
 <iframe name="hiddenIframe" style="display:none;"></iframe>
 
 </body>
