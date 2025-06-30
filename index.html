@@ -555,49 +555,40 @@ function downloadCard() {
   });
 }
 
-document.getElementById('idnum').addEventListener('change', function () {
-  const id = this.value.trim();
+document.getElementById('idnum').addEventListener('change', function() {
+  const id = this.value;
 
-  if (!id) return;
+      if (!id) return;
+    
+    const idPattern = /^784\d{12}$/;
+if (!idPattern.test(id)) {
+  alert("⚠️ رقم الهوية غير صحيح. يجب أن يبدأ بـ 784 ويتكون من 15 رقمًا.");
+  this.value = ''; // optional: clear input field
+  return;
+}
 
-  const idPattern = /^784\d{12}$/;
-  if (!idPattern.test(id)) {
-    alert("⚠️ رقم الهوية غير صحيح. يجب أن يبدأ بـ 784 ويتكون من 15 رقمًا.");
-    this.value = '';
-    return;
-  }
-
-  fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ6CkBzryrp5sLu4qPP4g5x_6FA3kDBHH4DtiY9sCL-k-kWQzGRjnjJi6_xRW5CFlMz5kv8jhaMUw4c/pub?output=csv')
-    .then(res => res.text())
-    .then(csv => {
-      const rows = csv.split('\n').map(row => row.split(','));
-      const headers = rows[0];
-      const dataRows = rows.slice(1);
-
-      const idIndex = headers.indexOf('ID');
-      const nameIndex = headers.indexOf('Name');
-      const ageIndex = headers.indexOf('Age');
-      const parentIndex = headers.indexOf('Parent');
-      const phoneIndex = headers.indexOf('Phone');
-      const altPhoneIndex = headers.indexOf('AltPhone');
-
-      const match = dataRows.find(row => row[idIndex]?.trim() === id);
-
-      if (match) {
-        document.getElementById('name').value = match[nameIndex] || '';
-        document.getElementById('age').value = match[ageIndex] || '';
-        document.getElementById('parent').value = match[parentIndex] || '';
-        document.getElementById('phone').value = match[phoneIndex] || '';
-        document.getElementById('altPhone').value = match[altPhoneIndex] || '';
-      } else {
-        alert("⚠️ لم يتم العثور على رقم الهوية.");
+  fetch(`https://script.google.com/macros/s/AKfycbwl8RzWIdUzQjaB4hUgheQxMOuC_yvIQ3nUl-rfzBwYiQA58-R8BejMrF7iXuB3WKIq/exec?id=${id}`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        alert("لم يتم العثور على البيانات لهذا الرقم.");
+        return;
       }
+
+      document.getElementById('name').value = data.name || '';
+      document.getElementById('age').value = String(data.age || '').replace(/[^\d]/g, '');
+      document.getElementById('phone').value = data.phone || '';
+      document.getElementById('altPhone').value = data.parentPhone || '';
+// Limit parent name to 2 words max
+const fullParent = data.parent || '';
+const trimmedParent = fullParent.trim().split(' ').slice(0, 2).join(' ');
+document.getElementById('parent').value = trimmedParent;
+
     })
-    .catch(err => {
-      console.error("❌ خطأ في تحميل البيانات:", err);
-      alert("⚠️ حدثت مشكلة في تحميل البيانات.");
-    });
+    .catch(err => console.error("Fetch error:", err));
 });
+
+
 
 </script>
 <footer>
