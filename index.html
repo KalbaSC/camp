@@ -555,7 +555,15 @@ function downloadCard() {
 
   document.getElementById('idnum').addEventListener('change', function() {
   const id = this.value;
-  if (!id) return;
+
+      if (!id) return;
+    
+    const idPattern = /^784\d{12}$/;
+if (!idPattern.test(id)) {
+  alert("⚠️ رقم الهوية غير صحيح. يجب أن يبدأ بـ 784 ويتكون من 15 رقمًا.");
+  this.value = ''; // optional: clear input field
+  return;
+}
 
   fetch(`https://script.google.com/macros/s/AKfycbwl8RzWIdUzQjaB4hUgheQxMOuC_yvIQ3nUl-rfzBwYiQA58-R8BejMrF7iXuB3WKIq/exec?id=${id}`)
     .then(res => res.json())
