@@ -533,14 +533,13 @@ setTimeout(() => {
     const parentName = parent.split(' ')[0].slice(0, 10);
     const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
     document.getElementById('cardFilenameField').value = fileName;
-    const base64Data = e.target.result.split(',')[1]; // remove base64 prefix
-// 🔁 Gmail A first
+
+    // 🔁 Gmail A first
 fetch("https://script.google.com/macros/s/AKfycbzxfrVYqbe2jJAUtCvHiMA2_4DBx55R23OdP_szrG9bwjjUVFhMXm-5wzLoAnpUm0GM/exec", {
   method: "POST",
       body: new URLSearchParams({
         filename: `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`,
-        filedata: base64Data
-      })})
+]      })})
 .then(res => res.text())
 .then(result => {
   const form = document.getElementById('cardForm');
