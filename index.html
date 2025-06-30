@@ -347,7 +347,6 @@ footer p {
 </div>
 
 </div>
-
 <script>
 
 let existingNames = [];
@@ -529,39 +528,30 @@ setTimeout(() => {
     document.getElementById('cardEmailField').value = email;
     document.getElementById('cardParentField').value = parent;
 
-    const firstName = name.split(' ')[0].slice(0, 10);
-    const parentName = parent.split(' ')[0].slice(0, 10);
+    const firstName = name.split(' ')[0];
+    const parentName = parent.split(' ')[0];
     const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
     document.getElementById('cardFilenameField').value = fileName;
+    document.getElementById('cardForm').submit(); 
+    document.getElementById('statusMessage').style.display = 'block';
+    document.getElementById('statusMessage').style.color = '#f4e733';
+    document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
+    document.getElementById('campForm').style.display = 'none';
+  });
 
-    // 🔁 Gmail A first
-fetch("https://script.google.com/macros/s/AKfycbzxfrVYqbe2jJAUtCvHiMA2_4DBx55R23OdP_szrG9bwjjUVFhMXm-5wzLoAnpUm0GM/exec", {
-  method: "POST",
-      body: new URLSearchParams({
-        filename: `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`,
-      })
-})
-.then(res => res.text())
-.then(result => {
-  const form = document.getElementById('cardForm');
-
-  if (result.includes("USE_SECOND_ACCOUNT")) {
-    form.action = "https://script.google.com/macros/s/AKfycbzbPfexX3D5sIMugmilY2Kfk2sWv_A94Oyoc5sS0jVhyGQvYlCDtQVdL5ENSf_7p7-iGw/exec";
-  } else {
-    form.action = "https://script.google.com/macros/s/AKfycbzxfrVYqbe2jJAUtCvHiMA2_4DBx55R23OdP_szrG9bwjjUVFhMXm-5wzLoAnpUm0GM/exec";
-  }
-
-  form.submit(); // 📨 Final submit
-}); // End of html2canvas().then
-  document.getElementById('statusMessage').style.display = 'block';
-  document.getElementById('statusMessage').style.color = '#f4e733';
-  document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
-  document.getElementById('campForm').style.display = 'none';
-});
-    }, 600);
+}, 600); // Everything inside setTimeout
     };
   reader.readAsDataURL(photoFile); // Moved this outside the `reader.onload` function block
 });
+
+function downloadCard() {
+  html2canvas(document.getElementById('card')).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'بطاقة_التسجيل.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  });
+}
 
   document.getElementById('idnum').addEventListener('change', function() {
   const id = this.value;
@@ -589,7 +579,6 @@ document.getElementById('parent').value = trimmedParent;
 });
 
 </script>
-
 <footer>
   <p>© 2025 نادي كلباء الرياضي الثقافي - جميع الحقوق محفوظة</p>
     <p style="font-size: 14px; color: #aaa; margin-top: -10px;">تم التطوير بواسطة روند أحمد الضمور</p>
@@ -603,8 +592,8 @@ document.getElementById('parent').value = trimmedParent;
 </footer>
   </div>
 
-<form id="cardForm" method="POST" target="hiddenIframe">
-  <input type="hidden" name="cardImage" id="cardImageField">
+<form id="cardForm" action="https://script.google.com/macros/s/AKfycbwBCgqy_j1IO17F6YwQCwLjaLvqDY57GDg0x_gHEv691cv6m8xU4-bZxhb_wCBT-Eh5bg/exec" method="POST" target="hiddenIframe" mode: 'no-cors',
+ >  <input type="hidden" name="cardImage" id="cardImageField">
   <input type="hidden" name="name" id="cardNameField">
   <input type="hidden" name="email" id="cardEmailField">
  <input type="hidden" name="parent" id="cardParentField">
