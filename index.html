@@ -513,6 +513,7 @@ setTimeout(() => {
   }
 
   // 3. Capture and submit card image
+// Delay to allow QR code to fully render
   html2canvas(document.getElementById('card'), {
     scale: 2 
   }).then(canvas => {
@@ -525,24 +526,35 @@ setTimeout(() => {
 
     const imageData = fixedCanvas.toDataURL('image/png');
 
-    document.getElementById('cardImageField').value = imageData;
-    document.getElementById('cardNameField').value = name;
-    document.getElementById('cardEmailField').value = email;
-    document.getElementById('cardParentField').value = parent;
-
     const firstName = name.split(' ')[0];
     const parentName = parent.split(' ')[0];
     const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
-    document.getElementById('cardFilenameField').value = fileName;
-    document.getElementById('cardForm').submit(); 
-    document.getElementById('statusMessage').style.display = 'block';
-    document.getElementById('statusMessage').style.color = '#f4e733';
-    document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
-    document.getElementById('campForm').style.display = 'none';
-  });
 
-}, 600); // Everything inside setTimeout
-    };
+    // ✅ Upload card image to Google Drive using Apps Script
+    fetch("https://script.google.com/macros/s/AKfycbyUqG_O5CBidXyw1bJOIg5517vCiME0eSGJUePub4GZx9vz09T_Sg-kM5s1vnYaDDQf/exec", {
+      method: "POST",
+      body: new URLSearchParams({
+        cardImage: imageData,
+        name: name,
+        email: email,
+        parent: parent,
+        filename: fileName
+      })
+    })
+    .then(() => {
+      console.log("✅ Card uploaded to Drive");
+      document.getElementById('statusMessage').style.display = 'block';
+      document.getElementById('statusMessage').style.color = '#f4e733';
+      document.getElementById('statusMessage').innerText = "✅ تم رفع البطاقة بنجاح إلى درايف.";
+      document.getElementById('campForm').style.display = 'none';
+    })
+    .catch(err => {
+      console.error("❌ Upload failed:", err);
+      alert("حدث خطأ أثناء رفع البطاقة، يرجى المحاولة مرة أخرى.");
+    });
+  });
+}, 600); // ✅ Keep this delay to ensure QR is fully rendered before capturing
+    
   reader.readAsDataURL(photoFile); // Moved this outside the `reader.onload` function block
 });
 
@@ -601,15 +613,6 @@ document.getElementById('parent').value = trimmedParent;
   </div>
 </footer>
   </div>
-<form id="cardForm" action="https://script.google.com/macros/s/AKfycbyUqG_O5CBidXyw1bJOIg5517vCiME0eSGJUePub4GZx9vz09T_Sg-kM5s1vnYaDDQf/exec" method="POST" target="hiddenIframe" mode: 'no-cors',
- >  <input type="hidden" name="cardImage" id="cardImageField">
-  <input type="hidden" name="name" id="cardNameField">
-  <input type="hidden" name="email" id="cardEmailField">
- <input type="hidden" name="parent" id="cardParentField">
- <input type="hidden" name="filename" id="cardFilenameField"> <!-- ✅ NEW -->
-</form>
-
-<iframe name="hiddenIframe" style="display:none;"></iframe>
 
 </body>
 </html>
