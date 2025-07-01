@@ -403,12 +403,12 @@ msgBox.innerText = "❌ هذا الطفل مسجل بالفعل. لا يمكن �
 
   const email = document.getElementById('email').value.trim();
 
-  if (!isValidEmail(email)) {
-  document.getElementById('statusMessage').style.display = 'block';
-  document.getElementById('statusMessage').style.color = 'red';
-  document.getElementById('statusMessage').innerText = "❌ البريد الإلكتروني غير صالح. يرجى التحقق.";
-  return;
-}
+//  if (!isValidEmail(email)) {
+//  document.getElementById('statusMessage').style.display = 'block';
+//  document.getElementById('statusMessage').style.color = 'red';
+//  document.getElementById('statusMessage').innerText = "❌ البريد الإلكتروني غير صالح. يرجى التحقق.";
+//  return;
+//}
 
 const age = document.getElementById('age').value.trim();
 const phone = document.getElementById('phone').value.trim();
@@ -534,7 +534,7 @@ setTimeout(() => {
     const parentName = parent.split(' ')[0];
     const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
     document.getElementById('cardFilenameField').value = fileName;
-  //  document.getElementById('cardForm').submit(); 
+    document.getElementById('cardForm').submit(); 
     document.getElementById('statusMessage').style.display = 'block';
     document.getElementById('statusMessage').style.color = '#f4e733';
     document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
