@@ -350,71 +350,59 @@ footer p {
 
 </div>
 <script>
-
 let existingNames = [];
 
 fetch("https://docs.google.com/spreadsheets/d/1YGE3uTOpyZOFzWNBAP5eOTeIyEpJy5huAPsYjRGxqb4/gviz/tq?tqx=out:csv")
   .then(res => res.text())
   .then(csv => {
-    const rows = csv.split('\n').slice(1); // skip header
+    const rows = csv.split('\n').slice(1);
     existingNames = rows.map(row => {
       const cols = row.split(',');
-      const fullName = (cols[1] || "").trim();  
-      const parentName = (cols[3] || "").trim(); 
+      const fullName = (cols[1] || "").trim();
+      const parentName = (cols[3] || "").trim();
       return `${fullName}|${parentName}`;
     });
   })
   .catch(err => console.error("❌ Failed to fetch existing names:", err));
 
-
-document.getElementById('campForm').addEventListener('submit', async function(e) {
+document.getElementById('campForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
 
   function isValidEmail(email) {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
-}
-
-  e.preventDefault();
-  const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMGF6fpsHFjsVTcW_4JymiwU3jkylllEDa0S0mg-3FeiHfNwWuWZ1U6JVtr2aocoTvVyce_vAtmIrD/pub?output=csv";
-
-const name = document.getElementById('name').value.trim();
-const parent = document.getElementById('parent').value.trim();
-
-// 🛑 Check duplicate (name + parent) in CSV sheet
-try {
-  const res = await fetch(SHEET_URL);
-  const csv = await res.text();
-  const rows = csv.split('\n').slice(1).map(r => r.split(','));
-
-  const alreadyExists = rows.some(row =>
-    row[2].trim() === name && row[4].trim() === parent
-  );
-
-  if (alreadyExists) {
-const msgBox = document.getElementById('statusMessage');
-msgBox.style.display = 'block';
-msgBox.style.color = 'red';
-msgBox.innerText = "❌ هذا الطفل مسجل بالفعل. لا يمكن التسجيل مرتين.";
-    return;
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
   }
-} catch (err) {
-  console.error("❌ مشكلة في قراءة البيانات:", err);
-}
+
+  const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMGF6fpsHFjsVTcW_4JymiwU3jkylllEDa0S0mg-3FeiHfNwWuWZ1U6JVtr2aocoTvVyce_vAtmIrD/pub?output=csv";
+  const name = document.getElementById('name').value.trim();
+  const parent = document.getElementById('parent').value.trim();
+
+  try {
+    const res = await fetch(SHEET_URL);
+    const csv = await res.text();
+    const rows = csv.split('\n').slice(1).map(r => r.split(','));
+
+    const alreadyExists = rows.some(row =>
+      row[2].trim() === name && row[4].trim() === parent
+    );
+
+    if (alreadyExists) {
+      const msgBox = document.getElementById('statusMessage');
+      msgBox.style.display = 'block';
+      msgBox.style.color = 'red';
+      msgBox.innerText = "❌ هذا الطفل مسجل بالفعل. لا يمكن التسجيل مرتين.";
+      return;
+    }
+  } catch (err) {
+    console.error("❌ مشكلة في قراءة البيانات:", err);
+  }
 
   const email = document.getElementById('email').value.trim();
-
-//  if (!isValidEmail(email)) {
-//  document.getElementById('statusMessage').style.display = 'block';
-//  document.getElementById('statusMessage').style.color = 'red';
-//  document.getElementById('statusMessage').innerText = "❌ البريد الإلكتروني غير صالح. يرجى التحقق.";
-//  return;
-//}
-
-const age = document.getElementById('age').value.trim();
-const phone = document.getElementById('phone').value.trim();
-const altPhone = document.getElementById('altPhone').value.trim();
-const idnum = document.getElementById('idnum').value.trim();
-const photoFile = document.getElementById('photo').files[0];
+  const age = document.getElementById('age').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const altPhone = document.getElementById('altPhone').value.trim();
+  const idnum = document.getElementById('idnum').value.trim();
+  const photoFile = document.getElementById('photo').files[0];
 
   if (!name || !age || !parent || !phone || !email || !altPhone || !idnum || !photoFile) {
     alert("يرجى تعبئة جميع الحقول وتحميل الملفات المطلوبة.");
@@ -423,139 +411,125 @@ const photoFile = document.getElementById('photo').files[0];
 
   const reader = new FileReader();
   reader.onload = function () {
-const photoURL = reader.result;
-const uniqueId = Date.now(); // Safe short ID
+    const photoURL = reader.result;
+    const uniqueId = Date.now();
 
-// Resize & crop photo to 120x120 circle
-const img = new Image();
-img.onload = function () {
-  const canvas = document.createElement('canvas');
-  const size = 120;
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.onload = function () {
+      const canvas = document.createElement('canvas');
+      const size = 120;
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
 
-  // Square center crop
-  const minSize = Math.min(img.width, img.height);
-  const sx = (img.width - minSize) / 2;
-  const sy = (img.height - minSize) / 2;
+      const minSize = Math.min(img.width, img.height);
+      const sx = (img.width - minSize) / 2;
+      const sy = (img.height - minSize) / 2;
 
-  ctx.beginPath();
-  ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
-  ctx.closePath();
-  ctx.clip();
+      ctx.beginPath();
+      ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(img, sx, sy, minSize, minSize, 0, 0, size, size);
 
-  ctx.drawImage(img, sx, sy, minSize, minSize, 0, 0, size, size);
+      document.getElementById('cardPhoto').src = canvas.toDataURL();
+    };
+    img.src = photoURL;
 
-  document.getElementById('cardPhoto').src = canvas.toDataURL();
-};
-img.src = photoURL;
+    document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name + ' ' + parent;
+    document.getElementById('cardAge').innerText = 'العمر: ' + age;
+    document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
+    document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + uniqueId;
 
-// Fill in other info
-document.getElementById('cardName').innerText = 'اسم اللاعب: ' + name + ' ' + parent;
-document.getElementById('cardAge').innerText = 'العمر: ' + age;
-document.getElementById('cardPhone').innerText = 'رقم الهاتف: ' + phone;
-document.getElementById('cardId').innerText = 'كود اللاعب: KalbaSC-' + uniqueId;
-
-
-    // Generate QR code
     const qrcodeContainer = document.getElementById("qrcode");
     qrcodeContainer.innerHTML = '';
     new QRCode(qrcodeContainer, {
-    text: `KalbaSC-${uniqueId}|${encodeURIComponent(name.split(' ')[0])}|${encodeURIComponent(parent.split(' ')[0])}`,
+      text: `KalbaSC-${uniqueId}|${encodeURIComponent(name.split(' ')[0])}|${encodeURIComponent(parent.split(' ')[0])}`,
       width: 120,
       height: 120,
       colorDark: "#000000",
-      colorLight: "#ffffff", 
+      colorLight: "#ffffff",
       correctLevel: QRCode.CorrectLevel.H
     });
 
-    // Delay to allow QR to render
-setTimeout(() => {
-  // 1. Send form info to Google Sheet
-  fetch('https://script.google.com/macros/s/AKfycbxICJXHWR_tF3WvHqKf6scNAsOEb8vSUwe2c45UYEZ_5PWUi2VcxkqL_vkkQcTgCH6XPw/exec', {
-    method: 'POST',
-    mode: 'no-cors',
-    body: JSON.stringify({
-      id: uniqueId,
-      name,
-      age,
-      parent,
-      phone,
-      email,
-      altPhone
-    }),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
+    setTimeout(() => {
+      fetch('https://script.google.com/macros/s/AKfycbxICJXHWR_tF3WvHqKf6scNAsOEb8vSUwe2c45UYEZ_5PWUi2VcxkqL_vkkQcTgCH6XPw/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify({
+          id: uniqueId,
+          name,
+          age,
+          parent,
+          phone,
+          email,
+          altPhone
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
-  // 2. Upload التعهد (Commitment File) to Google Drive
-  const commitmentFile = document.getElementById('commitmentFile').files[0];
-  const reader2 = new FileReader();
+      const commitmentFile = document.getElementById('commitmentFile').files[0];
+      const reader2 = new FileReader();
 
-  reader2.onload = function (e) {
-    const base64Data = e.target.result.split(',')[1]; // remove base64 prefix
+      reader2.onload = function (e) {
+        const base64Data = e.target.result.split(',')[1];
 
-    fetch('https://script.google.com/macros/s/AKfycbyju28FbRe9WeLRmUcG-UR1aKzm9y9S-lPKyRhGgiqy9St68a9PmFt27CSSbiDKEvt4/exec', {
-      method: 'POST',
-      body: new URLSearchParams({
-        filename: `تعهد_${uniqueId}.pdf`,
-        filedata: base64Data
-      })
-    })
-    .then(() => console.log("✅ Commitment file uploaded."))
-    .catch(err => console.error("❌ Upload error:", err));
+        fetch('https://script.google.com/macros/s/AKfycbyju28FbRe9WeLRmUcG-UR1aKzm9y9S-lPKyRhGgiqy9St68a9PmFt27CSSbiDKEvt4/exec', {
+          method: 'POST',
+          body: new URLSearchParams({
+            filename: `تعهد_${uniqueId}.pdf`,
+            filedata: base64Data
+          })
+        })
+          .then(() => console.log("✅ Commitment file uploaded."))
+          .catch(err => console.error("❌ Upload error:", err));
+      };
+
+      if (commitmentFile) {
+        reader2.readAsDataURL(commitmentFile);
+      }
+
+      html2canvas(document.getElementById('card'), {
+        scale: 2
+      }).then(canvas => {
+        const fixedCanvas = document.createElement('canvas');
+        fixedCanvas.width = 625;
+        fixedCanvas.height = 350;
+        const ctx = fixedCanvas.getContext('2d');
+        ctx.drawImage(canvas, 0, 0, fixedCanvas.width, fixedCanvas.height);
+
+        const imageData = fixedCanvas.toDataURL('image/png');
+        const firstName = name.split(' ')[0];
+        const parentName = parent.split(' ')[0];
+        const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
+
+        fetch("https://script.google.com/macros/s/AKfycbyUqG_O5CBidXyw1bJOIg5517vCiME0eSGJUePub4GZx9vz09T_Sg-kM5s1vnYaDDQf/exec", {
+          method: "POST",
+          body: new URLSearchParams({
+            cardImage: imageData,
+            name: name,
+            email: email,
+            parent: parent,
+            filename: fileName
+          })
+        })
+          .then(() => {
+            console.log("✅ Card uploaded to Drive");
+            document.getElementById('statusMessage').style.display = 'block';
+            document.getElementById('statusMessage').style.color = '#f4e733';
+            document.getElementById('statusMessage').innerText = "✅ تم رفع البطاقة بنجاح إلى درايف.";
+            document.getElementById('campForm').style.display = 'none';
+          })
+          .catch(err => {
+            console.error("❌ Upload failed:", err);
+            alert("حدث خطأ أثناء رفع البطاقة، يرجى المحاولة مرة أخرى.");
+          });
+      });
+    }, 600);
   };
-
-  if (commitmentFile) {
-    reader2.readAsDataURL(commitmentFile);
-  }
-
-  // 3. Capture and submit card image
-// Delay to allow QR code to fully render
-  html2canvas(document.getElementById('card'), {
-    scale: 2 
-  }).then(canvas => {
-    const fixedCanvas = document.createElement('canvas');
-    fixedCanvas.width = 625;
-    fixedCanvas.height = 350;
-    const ctx = fixedCanvas.getContext('2d');
-
-    ctx.drawImage(canvas, 0, 0, fixedCanvas.width, fixedCanvas.height);
-
-    const imageData = fixedCanvas.toDataURL('image/png');
-
-    const firstName = name.split(' ')[0];
-    const parentName = parent.split(' ')[0];
-    const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
-
-    // ✅ Upload card image to Google Drive using Apps Script
-    fetch("https://script.google.com/macros/s/AKfycbyUqG_O5CBidXyw1bJOIg5517vCiME0eSGJUePub4GZx9vz09T_Sg-kM5s1vnYaDDQf/exec", {
-      method: "POST",
-      body: new URLSearchParams({
-        cardImage: imageData,
-        name: name,
-        email: email,
-        parent: parent,
-        filename: fileName
-      })
-    })
-    .then(() => {
-      console.log("✅ Card uploaded to Drive");
-      document.getElementById('statusMessage').style.display = 'block';
-      document.getElementById('statusMessage').style.color = '#f4e733';
-      document.getElementById('statusMessage').innerText = "✅ تم رفع البطاقة بنجاح إلى درايف.";
-      document.getElementById('campForm').style.display = 'none';
-    })
-    .catch(err => {
-      console.error("❌ Upload failed:", err);
-      alert("حدث خطأ أثناء رفع البطاقة، يرجى المحاولة مرة أخرى.");
-    });
-  });
-}, 600); // ✅ Keep this delay to ensure QR is fully rendered before capturing
-    
-  reader.readAsDataURL(photoFile); // Moved this outside the `reader.onload` function block
+  reader.readAsDataURL(photoFile);
 });
 
 function downloadCard() {
@@ -567,17 +541,16 @@ function downloadCard() {
   });
 }
 
-  document.getElementById('idnum').addEventListener('change', function() {
+document.getElementById('idnum').addEventListener('change', function () {
   const id = this.value;
+  if (!id) return;
 
-      if (!id) return;
-    
-    const idPattern = /^784\d{12}$/;
-if (!idPattern.test(id)) {
-  alert("⚠️ رقم الهوية غير صحيح. يجب أن يبدأ بـ 784 ويتكون من 15 رقمًا.");
-  this.value = ''; // optional: clear input field
-  return;
-}
+  const idPattern = /^784\d{12}$/;
+  if (!idPattern.test(id)) {
+    alert("⚠️ رقم الهوية غير صحيح. يجب أن يبدأ بـ 784 ويتكون من 15 رقمًا.");
+    this.value = '';
+    return;
+  }
 
   fetch(`https://script.google.com/macros/s/AKfycbwl8RzWIdUzQjaB4hUgheQxMOuC_yvIQ3nUl-rfzBwYiQA58-R8BejMrF7iXuB3WKIq/exec?id=${id}`)
     .then(res => res.json())
@@ -591,16 +564,15 @@ if (!idPattern.test(id)) {
       document.getElementById('age').value = String(data.age || '').replace(/[^\d]/g, '');
       document.getElementById('phone').value = data.phone || '';
       document.getElementById('altPhone').value = data.parentPhone || '';
-// Limit parent name to 2 words max
-const fullParent = data.parent || '';
-const trimmedParent = fullParent.trim().split(' ').slice(0, 2).join(' ');
-document.getElementById('parent').value = trimmedParent;
 
+      const fullParent = data.parent || '';
+      const trimmedParent = fullParent.trim().split(' ').slice(0, 2).join(' ');
+      document.getElementById('parent').value = trimmedParent;
     })
     .catch(err => console.error("Fetch error:", err));
 });
-
 </script>
+
 <footer>
   <p>© 2025 نادي كلباء الرياضي الثقافي - جميع الحقوق محفوظة</p>
     <p style="font-size: 14px; color: #aaa; margin-top: -10px;">تم التطوير بواسطة روند أحمد الضمور</p>
