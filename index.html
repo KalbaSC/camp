@@ -443,14 +443,21 @@ document.getElementById('campForm').addEventListener('submit', async function (e
 
     const qrcodeContainer = document.getElementById("qrcode");
     qrcodeContainer.innerHTML = '';
+
+    const firstName = (name.trim().split(' ')[0] || 'Unknown').replace(/[^A-Za-zأ-ي0-9]/g, '');
+    const parentFirstName = (parent.trim().split(' ')[0] || 'Guardian').replace(/[^A-Za-zأ-ي0-9]/g, '');
+
+    const qrText = `KalbaSC-${uniqueId}|${encodeURIComponent(firstName)}|${encodeURIComponent(parentFirstName)}`;
+
     new QRCode(qrcodeContainer, {
-      text: `KalbaSC-${uniqueId}|${encodeURIComponent(name.split(' ')[0])}|${encodeURIComponent(parent.split(' ')[0])}`,
+      text: qrText,
       width: 120,
       height: 120,
       colorDark: "#000000",
       colorLight: "#ffffff",
       correctLevel: QRCode.CorrectLevel.H
     });
+
 
     setTimeout(() => {
       fetch('https://script.google.com/macros/s/AKfycbxICJXHWR_tF3WvHqKf6scNAsOEb8vSUwe2c45UYEZ_5PWUi2VcxkqL_vkkQcTgCH6XPw/exec', {
