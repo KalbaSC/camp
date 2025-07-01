@@ -295,7 +295,7 @@ footer p {
     <input type="tel" id="phone" autocomplete="off" required readonly>
     <span title="هذا الحقل لا يمكن تعديله"></span>
   </div></label>
-    <label>البريد الإلكتروني: <input type="email" id="email" autocomplete="off" required></label>
+    <label>البريد الإلكتروني: <input type="email" id="email" autocomplete="off" ></label>
     <label>رقم بديل:   
   <div style="display: flex; align-items: center; gap: 5px;">
     <input type="tel" id="altPhone" required readonly>
@@ -303,7 +303,7 @@ footer p {
   </div></label>
     <label>الصورة الشخصية: <input type="file" id="photo" accept="image/*" required></label>
     <label> التعهد (PDF فقط): 
-    <input type="file" id="commitmentFile" accept="application/pdf" required>
+    <input type="file" id="commitmentFile" accept="application/pdf" >
     </label>
     <button type="submit">تسجيل وإنشاء البطاقة</button>
   </form>
@@ -534,7 +534,7 @@ setTimeout(() => {
     const parentName = parent.split(' ')[0];
     const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
     document.getElementById('cardFilenameField').value = fileName;
-    document.getElementById('cardForm').submit(); 
+  //  document.getElementById('cardForm').submit(); 
     document.getElementById('statusMessage').style.display = 'block';
     document.getElementById('statusMessage').style.color = '#f4e733';
     document.getElementById('statusMessage').innerText = "✅ تم إرسال البطاقة إلى بريدك الإلكتروني، شكرًا لتسجيلك!";
