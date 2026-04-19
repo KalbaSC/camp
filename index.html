@@ -496,16 +496,17 @@ await new Promise(resolve => setTimeout(resolve, 1000));
         const parentName = parent.split(' ')[0];
         const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
 
-        fetch("https://script.google.com/macros/s/AKfycbyUqG_O5CBidXyw1bJOIg5517vCiME0eSGJUePub4GZx9vz09T_Sg-kM5s1vnYaDDQf/exec", {
-          method: "POST",
-          body: new URLSearchParams({
-            cardImage: imageData,
-            name: name,
-            email: email,
-            parent: parent,
-            filename: fileName
-          })
-        })
+const form = document.getElementById("cardUploadForm");
+
+form.action = "https://script.google.com/macros/s/AKfycbyUqG_O5CBidXyw1bJOIg5517vCiME0eSGJUePub4GZx9vz09T_Sg-kM5s1vnYaDDQf/exec";
+
+document.getElementById("cardImageField").value = imageData;
+document.getElementById("cardNameField").value = name;
+document.getElementById("cardEmailField").value = email;
+document.getElementById("cardParentField").value = parent;
+document.getElementById("cardFilenameField").value = fileName;
+
+form.submit();
           .then(() => {
             console.log("✅ Card uploaded to Drive");
             document.getElementById('statusMessage').style.display = 'block';
@@ -588,5 +589,14 @@ document.getElementById('idnum').addEventListener('change', function () {
   <input type="hidden" name="email" id="hidden_email">
   <input type="hidden" name="altPhone" id="hidden_altPhone">
 </form>
+
+<form id="cardUploadForm" target="hidden_iframe" method="POST" style="display:none;">
+  <input type="hidden" name="cardImage" id="cardImageField">
+  <input type="hidden" name="name" id="cardNameField">
+  <input type="hidden" name="email" id="cardEmailField">
+  <input type="hidden" name="parent" id="cardParentField">
+  <input type="hidden" name="filename" id="cardFilenameField">
+</form>
+  
 </body>
 </html>
