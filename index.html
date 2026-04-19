@@ -350,20 +350,7 @@ footer p {
 
 </div>
 <script>
-let existingNames = [];
 
-fetch("https://docs.google.com/spreadsheets/d/1YGE3uTOpyZOFzWNBAP5eOTeIyEpJy5huAPsYjRGxqb4/gviz/tq?tqx=out:csv")
-  .then(res => res.text())
-  .then(csv => {
-    const rows = csv.split('\n').slice(1);
-    existingNames = rows.map(row => {
-      const cols = row.split(',');
-      const fullName = (cols[1] || "").trim();
-      const parentName = (cols[3] || "").trim();
-      return `${fullName}|${parentName}`;
-    });
-  })
-  .catch(err => console.error("❌ Failed to fetch existing names:", err));
 
 document.getElementById('campForm').addEventListener('submit', async function (e) {
   e.preventDefault();
@@ -373,35 +360,35 @@ document.getElementById('campForm').addEventListener('submit', async function (e
     return re.test(email);
   }
 
-  const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMGF6fpsHFjsVTcW_4JymiwU3jkylllEDa0S0mg-3FeiHfNwWuWZ1U6JVtr2aocoTvVyce_vAtmIrD/pub?output=csv";
-  const name = document.getElementById('name').value.trim();
-  const parent = document.getElementById('parent').value.trim();
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMGF6fpsHFjsVTcW_4JymiwU3jkylllEDa0S0mg-3FeiHfNwWuWZ1U6JVtr2aocoTvVyce_vAtmIrD/pub?output=csv";
+const name = document.getElementById('name').value.trim();
+const parent = document.getElementById('parent').value.trim();
+const idnum = document.getElementById('idnum').value.trim();
 
-  try {
-    const res = await fetch(SHEET_URL);
-    const csv = await res.text();
-    const rows = csv.split('\n').slice(1).map(r => r.split(','));
+try {
+  const res = await fetch(SHEET_URL);
+  const csv = await res.text();
+  const rows = csv.split('\n').slice(1).map(r => r.split(','));
 
-    const alreadyExists = rows.some(row =>
-      row[2].trim() === name && row[4].trim() === parent
-    );
+  const alreadyExists = rows.some(row =>
+    String(row[2] || "").trim() === idnum
+  );
 
-    if (alreadyExists) {
-      const msgBox = document.getElementById('statusMessage');
-      msgBox.style.display = 'block';
-      msgBox.style.color = 'red';
-      msgBox.innerText = "❌ هذا الطفل مسجل بالفعل. لا يمكن التسجيل مرتين.";
-      return;
-    }
-  } catch (err) {
-    console.error("❌ مشكلة في قراءة البيانات:", err);
+  if (alreadyExists) {
+    const msgBox = document.getElementById('statusMessage');
+    msgBox.style.display = 'block';
+    msgBox.style.color = 'red';
+    msgBox.innerText = "❌ هذا الطفل مسجل بالفعل. لا يمكن التسجيل مرتين.";
+    return;
   }
+} catch (err) {
+  console.error("❌ مشكلة في قراءة البيانات:", err);
+}
 
   const email = document.getElementById('email').value.trim();
   const age = document.getElementById('age').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const altPhone = document.getElementById('altPhone').value.trim();
-  const idnum = document.getElementById('idnum').value.trim();
   const photoFile = document.getElementById('photo').files[0];
 
   if (!name || !age || !parent || !phone || !email || !altPhone || !idnum || !photoFile) {
@@ -460,23 +447,33 @@ document.getElementById('campForm').addEventListener('submit', async function (e
 
 
     setTimeout(() => {
-      fetch('https://script.google.com/macros/s/AKfycbxICJXHWR_tF3WvHqKf6scNAsOEb8vSUwe2c45UYEZ_5PWUi2VcxkqL_vkkQcTgCH6XPw/exec', {
-        method: 'POST',
+      const saveRes = await fetch('https://script.google.com/macros/s/AKfycbxICJXHWR_tF3WvHqKf6scNAsOEb8vSUwe2c45UYEZ_5PWUi2VcxkqL_vkkQcTgCH6XPw/exec', {
+  method: 'POST',
+  body: new URLSearchParams({
+    id: uniqueId,
+    emiratesId: idnum,
+    name: name,
+    age: age,
+    parent: parent,
+    phone: phone,
+    email: email,
+    altPhone: altPhone
+  })
+});
 
-        body: JSON.stringify({
-          id: uniqueId,
-          emiratesId: idnum,
-          name,
-          age,
-          parent,
-          phone,
-          email,
-          altPhone
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+const saveData = await saveRes.json();
+
+if (saveData.status === "exists") {
+  const msgBox = document.getElementById('statusMessage');
+  msgBox.style.display = 'block';
+  msgBox.style.color = 'red';
+  msgBox.innerText = "❌ هذا الطفل مسجل بالفعل. لا يمكن التسجيل مرتين.";
+  return;
+}
+
+if (saveData.status !== "success") {
+  throw new Error("Save failed");
+}
 
       const commitmentFile = document.getElementById('commitmentFile').files[0];
       const reader2 = new FileReader();
