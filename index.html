@@ -460,7 +460,7 @@ document.getElementById('hidden_email').value = email;
 document.getElementById('hidden_altPhone').value = altPhone;
 
 postForm.submit();
-
+await new Promise(resolve => setTimeout(resolve, 1000));
       const commitmentFile = document.getElementById('commitmentFile').files[0];
       const reader2 = new FileReader();
 
