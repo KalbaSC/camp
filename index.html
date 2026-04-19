@@ -447,33 +447,19 @@ try {
 
 
    setTimeout(async () => {
-      const saveRes = await fetch('https://script.google.com/macros/s/AKfycbxICJXHWR_tF3WvHqKf6scNAsOEb8vSUwe2c45UYEZ_5PWUi2VcxkqL_vkkQcTgCH6XPw/exec', {
-  method: 'POST',
-  body: new URLSearchParams({
-    id: uniqueId,
-    emiratesId: idnum,
-    name: name,
-    age: age,
-    parent: parent,
-    phone: phone,
-    email: email,
-    altPhone: altPhone
-  })
-});
+const postForm = document.getElementById('hiddenPostForm');
+postForm.action = 'https://script.google.com/macros/s/AKfycbxICJXHWR_tF3WvHqKf6scNAsOEb8vSUwe2c45UYEZ_5PWUi2VcxkqL_vkkQcTgCH6XPw/exec';
 
-const saveData = await saveRes.json();
+document.getElementById('hidden_id').value = uniqueId;
+document.getElementById('hidden_emiratesId').value = idnum;
+document.getElementById('hidden_name').value = name;
+document.getElementById('hidden_age').value = age;
+document.getElementById('hidden_parent').value = parent;
+document.getElementById('hidden_phone').value = phone;
+document.getElementById('hidden_email').value = email;
+document.getElementById('hidden_altPhone').value = altPhone;
 
-if (saveData.status === "exists") {
-  const msgBox = document.getElementById('statusMessage');
-  msgBox.style.display = 'block';
-  msgBox.style.color = 'red';
-  msgBox.innerText = "❌ هذا الطفل مسجل بالفعل. لا يمكن التسجيل مرتين.";
-  return;
-}
-
-if (saveData.status !== "success") {
-  throw new Error("Save failed");
-}
+postForm.submit();
 
       const commitmentFile = document.getElementById('commitmentFile').files[0];
       const reader2 = new FileReader();
@@ -590,6 +576,17 @@ document.getElementById('idnum').addEventListener('change', function () {
   </div>
 </footer>
   </div>
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
+<form id="hiddenPostForm" target="hidden_iframe" method="POST" style="display:none;">
+  <input type="hidden" name="id" id="hidden_id">
+  <input type="hidden" name="emiratesId" id="hidden_emiratesId">
+  <input type="hidden" name="name" id="hidden_name">
+  <input type="hidden" name="age" id="hidden_age">
+  <input type="hidden" name="parent" id="hidden_parent">
+  <input type="hidden" name="phone" id="hidden_phone">
+  <input type="hidden" name="email" id="hidden_email">
+  <input type="hidden" name="altPhone" id="hidden_altPhone">
+</form>
 </body>
 </html>
