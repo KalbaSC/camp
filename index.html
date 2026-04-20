@@ -499,9 +499,9 @@ if (regData.status !== "success") {
         reader2.readAsDataURL(commitmentFile);
       }
 */
-      html2canvas(document.getElementById('card'), {
-        scale: 2
-      }).then(canvas => {
+html2canvas(document.getElementById('card'), {
+  scale: 2
+}).then(async (canvas) => {
         const fixedCanvas = document.createElement('canvas');
         fixedCanvas.width = 625;
         fixedCanvas.height = 350;
