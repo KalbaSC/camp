@@ -549,14 +549,13 @@ document.getElementById('idnum').addEventListener('change', function () {
         return;
       }
 
-      document.getElementById('name').value = data.name || '';
-      document.getElementById('age').value = String(data.age || '').replace(/[^\d]/g, '');
-      document.getElementById('phone').value = data.phone || '';
-      document.getElementById('altPhone').value = data.parentPhone || '';
+document.getElementById('name').value = data.name || '';
+document.getElementById('age').value = String(data.age || '').replace(/[^\d]/g, '');
+document.getElementById('phone').value = data.phone || '';
+document.getElementById('altPhone').value = data.parentPhone || '';
+document.getElementById('parent').value = data.parent || '';
 
-      const fullParent = data.parent || '';
-      const trimmedParent = fullParent.trim().split(' ').slice(0, 2).join(' ');
-      document.getElementById('parent').value = trimmedParent;
+
     })
     .catch(err => console.error("Fetch error:", err));
 });
