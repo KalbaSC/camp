@@ -363,8 +363,8 @@ document.getElementById('campForm').addEventListener('submit', async function (e
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSMGF6fpsHFjsVTcW_4JymiwU3jkylllEDa0S0mg-3FeiHfNwWuWZ1U6JVtr2aocoTvVyce_vAtmIrD/pub?output=csv";
 const name = document.getElementById('name').value.trim();
 const parent = document.getElementById('parent').value.trim();
-const idnum = document.getElementById('idnum').value.trim();
-
+const idnum = String(document.getElementById('idnum').value || '').replace(/\D/g, '').trim();
+  
 try {
   const res = await fetch(SHEET_URL);
   const csv = await res.text();
@@ -459,8 +459,15 @@ document.getElementById('hidden_phone').value = phone;
 document.getElementById('hidden_email').value = email;
 document.getElementById('hidden_altPhone').value = altPhone;
 
+console.log("Submitting registration with Emirates ID:", idnum);
+
+if (!idnum || idnum.length !== 15) {
+  alert("رقم الهوية غير موجود أو غير صحيح.");
+  return;
+}
+     
 postForm.submit();
-await new Promise(resolve => setTimeout(resolve, 2000));
+await new Promise(resolve => setTimeout(resolve, 3000));
      
       const commitmentFile = document.getElementById('commitmentFile').files[0];
       const reader2 = new FileReader();
@@ -573,9 +580,11 @@ document.getElementById('parent').value = data.parent || '';
   </div>
 </footer>
   </div>
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
-<form id="hiddenPostForm" method="POST" target="hidden_iframe"
+<iframe name="registration_iframe" id="registration_iframe" style="display:none;"></iframe>
+<iframe name="card_iframe" id="card_iframe" style="display:none;"></iframe>
+
+<form id="hiddenPostForm" method="POST" target="registration_iframe"
       action="https://script.google.com/macros/s/AKfycbxICJXHWR_tF3WvHqKf6scNAsOEb8vSUwe2c45UYEZ_5PWUi2VcxkqL_vkkQcTgCH6XPw/exec">
   <input type="hidden" name="id" id="hidden_id">
   <input type="hidden" name="emiratesId" id="hidden_emiratesId">
@@ -587,7 +596,7 @@ document.getElementById('parent').value = data.parent || '';
   <input type="hidden" name="altPhone" id="hidden_altPhone">
 </form>
 
-<form id="cardUploadForm" target="hidden_iframe" method="POST" style="display:none;">
+<form id="cardUploadForm" target="card_iframe" method="POST" style="display:none;">
   <input type="hidden" name="cardImage" id="cardImageField">
   <input type="hidden" name="name" id="cardNameField">
   <input type="hidden" name="email" id="cardEmailField">
