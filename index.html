@@ -447,17 +447,7 @@ try {
 
 
    setTimeout(async () => {
-const postForm = document.getElementById('hiddenPostForm');
-postForm.action = 'https://script.google.com/macros/s/AKfycbxICJXHWR_tF3WvHqKf6scNAsOEb8vSUwe2c45UYEZ_5PWUi2VcxkqL_vkkQcTgCH6XPw/exec';
 
-document.getElementById('hidden_id').value = uniqueId;
-document.getElementById('hidden_emiratesId').value = idnum;
-document.getElementById('hidden_name').value = name;
-document.getElementById('hidden_age').value = age;
-document.getElementById('hidden_parent').value = parent;
-document.getElementById('hidden_phone').value = phone;
-document.getElementById('hidden_email').value = email;
-document.getElementById('hidden_altPhone').value = altPhone;
 
 console.log("Submitting registration with Emirates ID:", idnum);
 
@@ -466,7 +456,33 @@ if (!idnum || idnum.length !== 15) {
   return;
 }
      
-postForm.submit();
+const regResponse = await fetch('https://script.google.com/macros/s/AKfycbysWX_UMRpmi_wv316IUcihXjjDVE-bTNsXagOWCDF2EjM33VaFP5Ru9YZkhcdcyFhIZQ/exec', {
+  method: 'POST',
+  body: new URLSearchParams({
+    id: uniqueId,
+    emiratesId: String(idnum || '').replace(/\D/g, '').trim(),
+    name: name,
+    age: age,
+    parent: parent,
+    phone: phone,
+    email: email,
+    altPhone: altPhone
+  })
+});
+
+const regData = await regResponse.text();
+console.log("Registration response:", regData);
+
+if (!regResponse.ok) {
+  throw new Error("Registration request failed");
+}
+
+if (!regData.includes("success")) {
+  console.error("Registration script did not save correctly:", regData);
+  alert("فشل حفظ بيانات الطفل في الشيت");
+  return;
+}
+
 await new Promise(resolve => setTimeout(resolve, 3000));
      
       const commitmentFile = document.getElementById('commitmentFile').files[0];
