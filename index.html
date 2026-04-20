@@ -447,20 +447,37 @@ try {
 
 
    setTimeout(async () => {
-const postForm = document.getElementById('hiddenPostForm');
-postForm.action = 'https://script.google.com/macros/s/AKfycbxICJXHWR_tF3WvHqKf6scNAsOEb8vSUwe2c45UYEZ_5PWUi2VcxkqL_vkkQcTgCH6XPw/exec';
+const regRes = await fetch('https://script.google.com/macros/s/AKfycbxICJXHWR_tF3WvHqKf6scNAsOEb8vSUwe2c45UYEZ_5PWUi2VcxkqL_vkkQcTgCH6XPw/exec', {
+  method: 'POST',
+  body: new URLSearchParams({
+    id: uniqueId,
+    emiratesId: idnum,
+    name: name,
+    age: age,
+    parent: parent,
+    phone: phone,
+    email: email,
+    altPhone: altPhone
+  })
+});
 
-document.getElementById('hidden_id').value = uniqueId;
-document.getElementById('hidden_emiratesId').value = idnum;
-document.getElementById('hidden_name').value = name;
-document.getElementById('hidden_age').value = age;
-document.getElementById('hidden_parent').value = parent;
-document.getElementById('hidden_phone').value = phone;
-document.getElementById('hidden_email').value = email;
-document.getElementById('hidden_altPhone').value = altPhone;
+const regText = await regRes.text();
+console.log("Registration response:", regText);
 
-postForm.submit();
-await new Promise(resolve => setTimeout(resolve, 1000));
+let regData = {};
+try {
+  regData = JSON.parse(regText);
+} catch (e) {
+  throw new Error("Registration script did not return valid JSON: " + regText);
+}
+
+if (regData.status === "exists") {
+  throw new Error("هذا الرقم مسجل بالفعل");
+}
+
+if (regData.status !== "success") {
+  throw new Error("فشل حفظ التسجيل في الشيت");
+}
       const commitmentFile = document.getElementById('commitmentFile').files[0];
       const reader2 = new FileReader();
 
@@ -477,11 +494,11 @@ await new Promise(resolve => setTimeout(resolve, 1000));
           .then(() => console.log("✅ Commitment file uploaded."))
           .catch(err => console.error("❌ Upload error:", err));
       };
-
+/*
       if (commitmentFile) {
         reader2.readAsDataURL(commitmentFile);
       }
-
+*/
       html2canvas(document.getElementById('card'), {
         scale: 2
       }).then(canvas => {
@@ -496,17 +513,21 @@ await new Promise(resolve => setTimeout(resolve, 1000));
         const parentName = parent.split(' ')[0];
         const fileName = `${firstName}_${parentName}_KalbaSC-${uniqueId}.png`;
 
-const form = document.getElementById("cardUploadForm");
+const base64Image = imageData.split(',')[1];
 
-form.action = "https://script.google.com/macros/s/AKfycbyUqG_O5CBidXyw1bJOIg5517vCiME0eSGJUePub4GZx9vz09T_Sg-kM5s1vnYaDDQf/exec";
+const cardRes = await fetch("https://script.google.com/macros/s/AKfycbyUqG_O5CBidXyw1bJOIg5517vCiME0eSGJUePub4GZx9vz09T_Sg-kM5s1vnYaDDQf/exec", {
+  method: "POST",
+  body: new URLSearchParams({
+    filename: fileName,
+    filedata: base64Image,
+    name: name,
+    email: email,
+    parent: parent
+  })
+});
 
-document.getElementById("cardImageField").value = imageData;
-document.getElementById("cardNameField").value = name;
-document.getElementById("cardEmailField").value = email;
-document.getElementById("cardParentField").value = parent;
-document.getElementById("cardFilenameField").value = fileName;
-
-form.submit();
+const cardText = await cardRes.text();
+console.log("Card upload response:", cardText);
 
 setTimeout(() => {
   console.log("✅ Card uploaded to Drive");
