@@ -600,17 +600,6 @@ document.getElementById('parent').value = data.parent || '';
 <iframe name="registration_iframe" id="registration_iframe" style="display:none;"></iframe>
 <iframe name="card_iframe" id="card_iframe" style="display:none;"></iframe>
 
-<form id="hiddenPostForm" method="POST" target="registration_iframe"
-      action="https://script.google.com/macros/s/AKfycbxICJXHWR_tF3WvHqKf6scNAsOEb8vSUwe2c45UYEZ_5PWUi2VcxkqL_vkkQcTgCH6XPw/exec">
-  <input type="hidden" name="id" id="hidden_id">
-  <input type="hidden" name="emiratesId" id="hidden_emiratesId">
-  <input type="hidden" name="name" id="hidden_name">
-  <input type="hidden" name="age" id="hidden_age">
-  <input type="hidden" name="parent" id="hidden_parent">
-  <input type="hidden" name="phone" id="hidden_phone">
-  <input type="hidden" name="email" id="hidden_email">
-  <input type="hidden" name="altPhone" id="hidden_altPhone">
-</form>
 
 <form id="cardUploadForm" target="card_iframe" method="POST" style="display:none;">
   <input type="hidden" name="cardImage" id="cardImageField">
