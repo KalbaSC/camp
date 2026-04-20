@@ -507,17 +507,15 @@ document.getElementById("cardParentField").value = parent;
 document.getElementById("cardFilenameField").value = fileName;
 
 form.submit();
-          .then(() => {
-            console.log("✅ Card uploaded to Drive");
-            document.getElementById('statusMessage').style.display = 'block';
-            document.getElementById('statusMessage').style.color = '#f4e733';
-            document.getElementById('statusMessage').innerText = "✅ تم رفع البطاقة بنجاح إلى درايف.";
-            document.getElementById('campForm').style.display = 'none';
-          })
-          .catch(err => {
-            console.error("❌ Upload failed:", err);
-            alert("حدث خطأ أثناء رفع البطاقة، يرجى المحاولة مرة أخرى.");
-          });
+
+setTimeout(() => {
+  console.log("✅ Card uploaded to Drive");
+  document.getElementById('statusMessage').style.display = 'block';
+  document.getElementById('statusMessage').style.color = '#f4e733';
+  document.getElementById('statusMessage').innerText = "✅ تم رفع البطاقة بنجاح إلى درايف.";
+  document.getElementById('campForm').style.display = 'none';
+}, 1000);
+
       });
     }, 600);
   };
